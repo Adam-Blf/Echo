@@ -29,7 +29,7 @@ ECHO réinvente les applications de dating avec trois principes fondamentaux :
 - [x] Store Zustand pour l'onboarding
 - [x] Swipe cards avec drag gestures
 - [x] Super Like avec animation
-- [x] Limite quotidienne (50 swipes/jour, 1 Super Like)
+- [x] Limite quotidienne (20 swipes/jour, Super Like Premium only)
 - [x] Match popup avec timer 48h
 - [x] Modal Premium upsell
 - [x] Statistiques de swipe
@@ -89,7 +89,7 @@ src/
 ### 2026-01-20 (v0.3.0)
 - Système de swipe complet avec drag gestures
 - Super Like avec animation et limite quotidienne
-- Limite de 50 swipes/jour pour utilisateurs gratuits
+- Limite de 20 swipes/jour pour utilisateurs gratuits (0 Super Like)
 - Match popup avec timer 48h et confettis
 - Modal Premium upsell avec features list
 - Store swipe avec statistiques et historique

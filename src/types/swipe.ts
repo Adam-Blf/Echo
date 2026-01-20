@@ -49,8 +49,8 @@ export interface PremiumFeatures {
 
 // Default limits for free users
 export const FREE_LIMITS = {
-  dailySwipes: 50,
-  dailySuperLikes: 1,
+  dailySwipes: 20,
+  dailySuperLikes: 0,
 } as const
 
 // Premium limits
