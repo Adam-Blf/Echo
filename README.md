@@ -1,9 +1,10 @@
 # ECHO - Dating Authentique
 
 ![Status](https://img.shields.io/badge/status-in%20development-yellow)
-![Version](https://img.shields.io/badge/version-0.5.0--beta-blue)
+![Version](https://img.shields.io/badge/version-0.6.0--beta-blue)
 ![PWA](https://img.shields.io/badge/PWA-ready-green)
-![Progress](https://img.shields.io/badge/progress-87%25-brightgreen)
+![Progress](https://img.shields.io/badge/progress-93%25-brightgreen)
+![Supabase](https://img.shields.io/badge/Supabase-ready-3FCF8E)
 
 > Rencontres authentiques avec validation par un ami
 
@@ -49,14 +50,18 @@ ECHO réinvente les applications de dating avec trois principes fondamentaux :
 - [x] EchoTimerWave (waveform animé)
 - [x] User store avec persistance
 
-### Phase VI - Match & Chat (En cours 🟡)
+### Phase VI - Match & Chat (Complété ✅)
 - [x] Match list avec timer 48h
 - [x] Waveform timer UI
 - [x] Chat UI avec messages
 - [x] Typing indicator
 - [x] Résonance badge (match permanent)
-- [ ] Chat temps réel (Backend requis)
-- [ ] Appels vidéo WebRTC (Backend requis)
+- [x] Supabase backend integration
+- [x] AuthContext avec authentification
+- [x] Chat service temps réel
+- [x] Géolocalisation avec Haversine
+- [x] Résonance check-in (200m)
+- [ ] Appels vidéo WebRTC (Phase VII)
 
 ### Phase VII - Finalisation (À venir 🔲)
 - [ ] Splash screen
@@ -87,7 +92,7 @@ npm run dev
 - **Forms**: React Hook Form + Zod
 - **Icons**: Lucide React
 - **PWA**: Vite Plugin PWA + Workbox
-- **Backend**: Supabase (à venir)
+- **Backend**: Supabase (Auth, Database, Realtime, Storage)
 
 ## Sécurité
 
@@ -128,8 +133,10 @@ src/
 │       ├── ExpirationBanner.tsx
 │       ├── CountdownTimer.tsx
 │       └── EchoTimerWave.tsx
-├── hooks/           # Custom hooks (useCamera, useAudioRecorder)
-├── lib/             # Utilitaires (cn, utils, security)
+├── contexts/        # React contexts (AuthContext)
+├── hooks/           # Custom hooks (useCamera, useAudioRecorder, useLocation)
+├── lib/             # Utilitaires (cn, utils, security, supabase)
+├── services/        # Services (chatService)
 ├── pages/           # Pages de l'application
 │   ├── Home.tsx
 │   ├── Discover.tsx
@@ -142,11 +149,14 @@ src/
 │   ├── onboardingStore.ts
 │   ├── swipeStore.ts
 │   └── userStore.ts
-└── types/           # Types TypeScript
-    ├── onboarding.ts
-    ├── swipe.ts
-    ├── user.ts
-    └── wingman.ts
+├── types/           # Types TypeScript
+│   ├── database.ts
+│   ├── onboarding.ts
+│   ├── swipe.ts
+│   ├── user.ts
+│   └── wingman.ts
+└── supabase/        # Supabase configuration
+    └── schema.sql
 ```
 
 ## Limites
@@ -159,6 +169,15 @@ src/
 | Voir qui t'a liké | ❌ | ✅ |
 
 ## Changelog
+
+### 2026-01-20 (v0.6.0)
+- Supabase backend integration complète
+- AuthContext pour authentification
+- ChatService temps réel avec rate limiting
+- useLocation hook avec formule Haversine
+- useResonanceCheckIn pour check-in 200m
+- Schema SQL complet avec RLS policies
+- Types database TypeScript
 
 ### 2026-01-20 (v0.5.0)
 - Phase V Echo TTL complète
