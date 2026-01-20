@@ -33,7 +33,10 @@ ECHO réinvente les applications de dating avec trois principes fondamentaux :
 - [x] Match popup avec timer 48h
 - [x] Modal Premium upsell
 - [x] Statistiques de swipe
-- [ ] Système Wingman (validation par ami)
+- [x] Système Wingman complet
+- [x] Page publique /wingman/:token
+- [x] Enregistrement vocal avec visualizer
+- [x] Sélection qualités/défauts
 - [ ] Chat temps réel
 - [ ] Appels vidéo WebRTC
 
@@ -86,10 +89,17 @@ src/
 
 ## Changelog
 
+### 2026-01-20 (v0.4.0)
+- Système Wingman complet avec page publique
+- Enregistrement audio avec visualizer temps réel
+- Sélection qualités/défauts pour le profil
+- Animation de succès après validation
+- Limites : 20 swipes/jour, 0 Super Like gratuit, 5/semaine Premium
+
 ### 2026-01-20 (v0.3.0)
 - Système de swipe complet avec drag gestures
-- Super Like avec animation et limite quotidienne
-- Limite de 20 swipes/jour pour utilisateurs gratuits (0 Super Like)
+- Super Like avec animation (Premium only - 5/semaine)
+- Limite de 20 swipes/jour pour utilisateurs gratuits
 - Match popup avec timer 48h et confettis
 - Modal Premium upsell avec features list
 - Store swipe avec statistiques et historique

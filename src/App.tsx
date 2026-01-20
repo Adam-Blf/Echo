@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { MainLayout } from '@/components/layout'
-import { HomePage, DiscoverPage, MatchesPage, ProfilePage, OnboardingPage } from '@/pages'
+import { HomePage, DiscoverPage, MatchesPage, ProfilePage, OnboardingPage, WingmanPage } from '@/pages'
 
 function App() {
   return (
@@ -18,7 +18,7 @@ function App() {
         <Route path="/onboarding" element={<OnboardingPage />} />
 
         {/* Wingman validation page (public) */}
-        {/* <Route path="/wingman/:token" element={<WingmanPage />} /> */}
+        <Route path="/wingman/:token" element={<WingmanPage />} />
       </Routes>
     </BrowserRouter>
   )

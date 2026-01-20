@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import type { SwipeAction, DiscoveryProfile, Match, SwipeLimits } from '@/types/swipe'
-import { FREE_LIMITS } from '@/types/swipe'
+import { FREE_LIMITS, PREMIUM_LIMITS } from '@/types/swipe'
 
 interface SwipeState {
   // Discovery profiles
@@ -48,19 +48,30 @@ interface SwipeState {
   }
 }
 
-const getResetTime = () => {
+const getDailyResetTime = () => {
   const now = new Date()
   const reset = new Date(now)
   reset.setHours(24, 0, 0, 0) // Midnight tonight
   return reset
 }
 
+const getWeeklyResetTime = () => {
+  const now = new Date()
+  const reset = new Date(now)
+  // Next Monday at midnight
+  const daysUntilMonday = (8 - now.getDay()) % 7 || 7
+  reset.setDate(reset.getDate() + daysUntilMonday)
+  reset.setHours(0, 0, 0, 0)
+  return reset
+}
+
 const initialLimits: SwipeLimits = {
   dailySwipes: FREE_LIMITS.dailySwipes,
-  dailySuperLikes: FREE_LIMITS.dailySuperLikes,
+  weeklySuperLikes: FREE_LIMITS.dailySuperLikes, // 0 for free
   swipesUsed: 0,
   superLikesUsed: 0,
-  resetAt: getResetTime(),
+  resetAt: getDailyResetTime(),
+  superLikeResetAt: getWeeklyResetTime(),
 }
 
 export const useSwipeStore = create<SwipeState>()(
@@ -84,8 +95,10 @@ export const useSwipeStore = create<SwipeState>()(
       canSuperLike: () => {
         const { limits, isPremium } = get()
         get().resetLimitsIfNeeded()
-        if (isPremium) return limits.superLikesUsed < 5 // Premium gets 5/day
-        return limits.superLikesUsed < limits.dailySuperLikes
+        // Only Premium users can Super Like (5 per week)
+        if (isPremium) return limits.superLikesUsed < PREMIUM_LIMITS.weeklySuperLikes
+        // Free users: 0 Super Likes
+        return false
       },
 
       useSwipe: () => {
@@ -109,15 +122,25 @@ export const useSwipeStore = create<SwipeState>()(
       resetLimitsIfNeeded: () => {
         const { limits } = get()
         const now = new Date()
+        let newLimits = { ...limits }
+        let hasChanges = false
+
+        // Reset daily swipes
         if (now >= new Date(limits.resetAt)) {
-          set({
-            limits: {
-              ...limits,
-              swipesUsed: 0,
-              superLikesUsed: 0,
-              resetAt: getResetTime(),
-            },
-          })
+          newLimits.swipesUsed = 0
+          newLimits.resetAt = getDailyResetTime()
+          hasChanges = true
+        }
+
+        // Reset weekly super likes
+        if (now >= new Date(limits.superLikeResetAt)) {
+          newLimits.superLikesUsed = 0
+          newLimits.superLikeResetAt = getWeeklyResetTime()
+          hasChanges = true
+        }
+
+        if (hasChanges) {
+          set({ limits: newLimits })
         }
       },
 

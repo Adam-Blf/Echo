@@ -32,10 +32,11 @@ export interface Match {
 // Swipe limits configuration
 export interface SwipeLimits {
   dailySwipes: number
-  dailySuperLikes: number
+  weeklySuperLikes: number
   swipesUsed: number
   superLikesUsed: number
-  resetAt: Date // Next reset time
+  resetAt: Date // Daily reset for swipes
+  superLikeResetAt: Date // Weekly reset for super likes
 }
 
 // Premium features
@@ -56,5 +57,5 @@ export const FREE_LIMITS = {
 // Premium limits
 export const PREMIUM_LIMITS = {
   dailySwipes: Infinity,
-  dailySuperLikes: 5,
+  weeklySuperLikes: 5, // 5 per week, not per day
 } as const

@@ -126,7 +126,8 @@ export function DiscoverPage() {
   }
 
   const remainingSwipes = FREE_LIMITS.dailySwipes - limits.swipesUsed
-  const remainingSuperLikes = FREE_LIMITS.dailySuperLikes - limits.superLikesUsed
+  // Super Likes: 0 for free, 5/week for premium
+  const remainingSuperLikes = isPremium ? 5 - limits.superLikesUsed : 0
 
   const visibleProfiles = profiles.slice(currentIndex, currentIndex + 2)
   const hasMoreProfiles = currentIndex < profiles.length
