@@ -13,9 +13,9 @@ export const onboardingSchema = z.object({
     .max(99, 'Âge invalide'),
   bio: z
     .string()
-    .min(10, 'Minimum 10 caractères')
     .max(300, 'Maximum 300 caractères')
-    .optional(),
+    .optional()
+    .or(z.literal('')),
   interests: z
     .array(z.string())
     .min(1, 'Sélectionne au moins un intérêt')
