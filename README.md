@@ -24,7 +24,9 @@ ECHO réinvente les applications de dating avec trois principes fondamentaux :
 - [x] Navigation bottom mobile-first
 - [x] Pages principales (Home, Discover, Matches, Profile)
 - [x] Animations Framer Motion
-- [ ] Système d'onboarding avec caméra
+- [x] Système d'onboarding avec caméra temps réel
+- [x] Validation de formulaire avec Zod
+- [x] Store Zustand pour l'onboarding
 - [ ] Système Wingman (validation par ami)
 - [ ] Système de match avec timer 48h
 - [ ] Chat temps réel
@@ -79,7 +81,14 @@ src/
 
 ## Changelog
 
-### 2026-01-20
+### 2026-01-20 (v0.2.0)
+- Module Onboarding complet avec 5 étapes
+- CameraView avec capture photo temps réel
+- Validation formulaire avec Zod + React Hook Form
+- Store Zustand avec persistance
+- Génération code Wingman et partage natif
+
+### 2026-01-20 (v0.1.0)
 - Setup PWA avec manifest ECHO
 - Navigation bottom avec animations
 - Pages principales (Home, Discover, Matches, Profile)

@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { MainLayout } from '@/components/layout'
-import { HomePage, DiscoverPage, MatchesPage, ProfilePage } from '@/pages'
+import { HomePage, DiscoverPage, MatchesPage, ProfilePage, OnboardingPage } from '@/pages'
 
 function App() {
   return (
@@ -14,8 +14,10 @@ function App() {
           <Route path="/profile" element={<ProfilePage />} />
         </Route>
 
-        {/* Routes without navigation (will be added later) */}
-        {/* <Route path="/onboarding" element={<OnboardingPage />} /> */}
+        {/* Routes without navigation */}
+        <Route path="/onboarding" element={<OnboardingPage />} />
+
+        {/* Wingman validation page (public) */}
         {/* <Route path="/wingman/:token" element={<WingmanPage />} /> */}
       </Routes>
     </BrowserRouter>
