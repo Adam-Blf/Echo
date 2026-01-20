@@ -1,1 +1,5 @@
 export { CameraView } from './CameraView'
+export { SwipeCard } from './SwipeCard'
+export { SwipeActions } from './SwipeActions'
+export { MatchPopup } from './MatchPopup'
+export { LimitReachedModal } from './LimitReachedModal'

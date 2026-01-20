@@ -27,8 +27,13 @@ ECHO réinvente les applications de dating avec trois principes fondamentaux :
 - [x] Système d'onboarding avec caméra temps réel
 - [x] Validation de formulaire avec Zod
 - [x] Store Zustand pour l'onboarding
+- [x] Swipe cards avec drag gestures
+- [x] Super Like avec animation
+- [x] Limite quotidienne (50 swipes/jour, 1 Super Like)
+- [x] Match popup avec timer 48h
+- [x] Modal Premium upsell
+- [x] Statistiques de swipe
 - [ ] Système Wingman (validation par ami)
-- [ ] Système de match avec timer 48h
 - [ ] Chat temps réel
 - [ ] Appels vidéo WebRTC
 
@@ -80,6 +85,15 @@ src/
 ```
 
 ## Changelog
+
+### 2026-01-20 (v0.3.0)
+- Système de swipe complet avec drag gestures
+- Super Like avec animation et limite quotidienne
+- Limite de 50 swipes/jour pour utilisateurs gratuits
+- Match popup avec timer 48h et confettis
+- Modal Premium upsell avec features list
+- Store swipe avec statistiques et historique
+- Rewind pour utilisateurs Premium
 
 ### 2026-01-20 (v0.2.0)
 - Module Onboarding complet avec 5 étapes
