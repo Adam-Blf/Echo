@@ -1,9 +1,24 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { MainLayout } from '@/components/layout'
+import { HomePage, DiscoverPage, MatchesPage, ProfilePage } from '@/pages'
+
 function App() {
   return (
-    <div className="min-h-screen bg-black text-white">
-      <h1 className="text-4xl font-bold text-center pt-20">ECHO</h1>
-      <p className="text-center text-gray-400 mt-4">Dating reinvented</p>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        {/* Main app routes with bottom navigation */}
+        <Route element={<MainLayout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/discover" element={<DiscoverPage />} />
+          <Route path="/matches" element={<MatchesPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+        </Route>
+
+        {/* Routes without navigation (will be added later) */}
+        {/* <Route path="/onboarding" element={<OnboardingPage />} /> */}
+        {/* <Route path="/wingman/:token" element={<WingmanPage />} /> */}
+      </Routes>
+    </BrowserRouter>
   )
 }
 

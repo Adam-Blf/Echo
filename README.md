@@ -1,73 +1,94 @@
-# React + TypeScript + Vite
+# ECHO - Dating Authentique
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Status](https://img.shields.io/badge/status-in%20development-yellow)
+![Version](https://img.shields.io/badge/version-1.0.0--beta-blue)
+![PWA](https://img.shields.io/badge/PWA-ready-green)
 
-Currently, two official plugins are available:
+> Rencontres authentiques avec validation par un ami
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Concept
 
-## React Compiler
+ECHO réinvente les applications de dating avec trois principes fondamentaux :
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. **Photos en temps réel** - Pas de vieilles photos ou de filtres trompeurs. Seules les photos prises dans l'instant sont acceptées.
 
-## Expanding the ESLint configuration
+2. **Validation Wingman** - Ton profil doit être validé par un ami qui témoigne de ta personnalité.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+3. **Matchs éphémères** - Les matchs expirent en 48h. Pas de temps à perdre, agis vite !
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Features
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- [x] Structure projet Vite + React + TypeScript
+- [x] Configuration Tailwind CSS avec thème neon dark
+- [x] PWA ready (manifest, service worker)
+- [x] Navigation bottom mobile-first
+- [x] Pages principales (Home, Discover, Matches, Profile)
+- [x] Animations Framer Motion
+- [ ] Système d'onboarding avec caméra
+- [ ] Système Wingman (validation par ami)
+- [ ] Système de match avec timer 48h
+- [ ] Chat temps réel
+- [ ] Appels vidéo WebRTC
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Installation
+
+```bash
+# Clone le repo
+git clone https://github.com/Adam-Blf/Echo.git
+cd Echo
+
+# Installe les dépendances
+npm install
+
+# Lance le serveur de développement
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Tech Stack
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **Frontend**: React 19 + TypeScript
+- **Styling**: Tailwind CSS + Framer Motion
+- **State**: Zustand
+- **Routing**: React Router DOM
+- **Icons**: Lucide React
+- **PWA**: Vite Plugin PWA + Workbox
+- **Backend**: Supabase (à venir)
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Scripts
+
+```bash
+npm run dev      # Serveur de développement
+npm run build    # Build de production
+npm run preview  # Preview du build
+npm run lint     # Linting ESLint
 ```
+
+## Structure du Projet
+
+```
+src/
+├── components/
+│   ├── layout/      # MainLayout, BottomNavigation
+│   └── ui/          # Composants réutilisables
+├── hooks/           # Custom hooks
+├── lib/             # Utilitaires (cn, utils)
+├── pages/           # Pages de l'application
+├── stores/          # Zustand stores
+└── types/           # Types TypeScript
+```
+
+## Changelog
+
+### 2026-01-20
+- Setup PWA avec manifest ECHO
+- Navigation bottom avec animations
+- Pages principales (Home, Discover, Matches, Profile)
+- Thème neon dark avec glassmorphism
+- Configuration Tailwind CSS personnalisée
+
+### Initial
+- Init projet Vite + React + TypeScript
+
+---
+
+Made with love by Adam Beloucif
