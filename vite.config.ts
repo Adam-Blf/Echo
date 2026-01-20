@@ -78,5 +78,21 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, './src')
     }
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          // Vendor chunks
+          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+          'vendor-motion': ['framer-motion'],
+          'vendor-supabase': ['@supabase/supabase-js'],
+          'vendor-forms': ['react-hook-form', '@hookform/resolvers', 'zod'],
+          'vendor-utils': ['zustand', 'lucide-react', 'clsx', 'tailwind-merge'],
+        }
+      }
+    },
+    // Increase chunk size warning limit since we're code splitting
+    chunkSizeWarningLimit: 600,
   }
 })
