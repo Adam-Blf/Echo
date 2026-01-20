@@ -59,7 +59,11 @@ export const useOnboardingStore = create<OnboardingState>()(
       name: 'echo-onboarding',
       partialize: (state) => ({
         step: state.step,
-        formData: state.formData,
+        // Don't persist password for security
+        formData: {
+          ...state.formData,
+          password: undefined,
+        },
         wingmanCode: state.wingmanCode,
       }),
     }

@@ -47,11 +47,20 @@ export function useCamera(options: UseCameraOptions = {}): UseCameraReturn {
         stream.getTracks().forEach(track => track.stop())
       }
 
+      // Detect iOS for optimized constraints
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
+
       const constraints: MediaStreamConstraints = {
         video: {
           facingMode: facing,
-          width: { ideal: width },
-          height: { ideal: height },
+          // Lower resolution for iOS to prevent zoom issues
+          width: { ideal: isIOS ? 640 : width },
+          height: { ideal: isIOS ? 480 : height },
+          // Prevent iOS zoom
+          ...(isIOS && {
+            zoom: 1.0,
+            aspectRatio: { ideal: 1 },
+          } as MediaTrackConstraints),
         },
         audio: false,
       }

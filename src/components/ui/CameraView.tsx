@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { RefreshCw, X, Check, AlertCircle, Loader2 } from 'lucide-react'
+import { RefreshCw, X, Check, AlertCircle, Loader2, UserX } from 'lucide-react'
 import { useCamera } from '@/hooks/useCamera'
 import { cn } from '@/lib/utils'
+import { detectFace } from '@/lib/faceDetection'
 
 interface CameraViewProps {
   onCapture: (blob: Blob) => void
@@ -26,6 +27,8 @@ export function CameraView({ onCapture, onCancel }: CameraViewProps) {
   const [capturedBlob, setCapturedBlob] = useState<Blob | null>(null)
   const [isCapturing, setIsCapturing] = useState(false)
   const [showFlash, setShowFlash] = useState(false)
+  const [faceError, setFaceError] = useState<string | null>(null)
+  const [isDetectingFace, setIsDetectingFace] = useState(false)
 
   // Start camera on mount
   useEffect(() => {
@@ -37,6 +40,7 @@ export function CameraView({ onCapture, onCancel }: CameraViewProps) {
   const handleCapture = async () => {
     setIsCapturing(true)
     setShowFlash(true)
+    setFaceError(null)
 
     // Vibration feedback
     if ('vibrate' in navigator) {
@@ -46,6 +50,18 @@ export function CameraView({ onCapture, onCancel }: CameraViewProps) {
     const blob = await takePhoto()
 
     if (blob) {
+      // Detect face
+      setIsDetectingFace(true)
+      const result = await detectFace(blob)
+      setIsDetectingFace(false)
+
+      if (!result.hasFace) {
+        setFaceError('Aucun visage détecté. Assure-toi que ton visage est visible.')
+        setIsCapturing(false)
+        setTimeout(() => setShowFlash(false), 100)
+        return
+      }
+
       const url = URL.createObjectURL(blob)
       setCapturedPhoto(url)
       setCapturedBlob(blob)
@@ -207,16 +223,31 @@ export function CameraView({ onCapture, onCancel }: CameraViewProps) {
             </motion.button>
           </div>
         ) : (
-          <div className="flex items-center justify-center">
+          <div className="flex flex-col items-center justify-center">
+            {/* Face detection error */}
+            <AnimatePresence>
+              {faceError && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  className="flex items-center gap-2 mb-4 px-4 py-2 rounded-full bg-red-500/20 backdrop-blur-sm"
+                >
+                  <UserX className="w-4 h-4 text-red-400" />
+                  <span className="text-red-400 text-sm">{faceError}</span>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             {/* Capture button */}
             <motion.button
               whileTap={{ scale: 0.9 }}
               onClick={handleCapture}
-              disabled={isLoading || isCapturing}
+              disabled={isLoading || isCapturing || isDetectingFace}
               className="relative w-20 h-20 rounded-full bg-white disabled:opacity-50"
             >
               <div className="absolute inset-2 rounded-full border-4 border-black/10" />
-              {isCapturing && (
+              {(isCapturing || isDetectingFace) && (
                 <Loader2 className="absolute inset-0 m-auto w-8 h-8 text-black/50 animate-spin" />
               )}
             </motion.button>
@@ -225,7 +256,11 @@ export function CameraView({ onCapture, onCancel }: CameraViewProps) {
 
         {/* Helper text */}
         <p className="text-center text-white/50 text-sm mt-4">
-          {capturedPhoto ? 'Confirme ou reprends la photo' : 'Prends une photo en temps réel'}
+          {capturedPhoto
+            ? 'Confirme ou reprends la photo'
+            : isDetectingFace
+            ? 'Détection du visage...'
+            : 'Prends une photo en temps réel'}
         </p>
       </div>
     </div>

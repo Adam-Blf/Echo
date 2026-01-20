@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowRight, ArrowLeft, Camera, User, Heart, Share2, Sparkles, Check } from 'lucide-react'
+import { ArrowRight, ArrowLeft, Camera, User, Heart, Share2, Sparkles, Check, Mail, Lock, Loader2 } from 'lucide-react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useOnboardingStore } from '@/stores'
 import { CameraView } from '@/components/ui'
 import { onboardingSchema, type OnboardingFormData, type OnboardingStep } from '@/types/onboarding'
 import { cn, generateUUID } from '@/lib/utils'
+import { useAuth } from '@/contexts/AuthContext'
 
 const INTERESTS = [
   'Musique', 'Sport', 'Voyage', 'Cinéma', 'Cuisine',
@@ -32,10 +33,13 @@ const slideVariants = {
 
 export function OnboardingPage() {
   const navigate = useNavigate()
+  const { signUp } = useAuth()
   const { step, setStep, formData, updateFormData, photo, setPhoto, wingmanCode, setWingmanCode } = useOnboardingStore()
 
   const [direction, setDirection] = useState(0)
   const [showCamera, setShowCamera] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [authError, setAuthError] = useState<string | null>(null)
 
   const {
     register,
@@ -46,6 +50,8 @@ export function OnboardingPage() {
   } = useForm<OnboardingFormData>({
     resolver: zodResolver(onboardingSchema),
     defaultValues: {
+      email: formData.email || '',
+      password: formData.password || '',
       firstName: formData.firstName || '',
       age: formData.age || 18,
       bio: formData.bio || '',
@@ -86,16 +92,46 @@ export function OnboardingPage() {
   }
 
   const handleInfoSubmit = (data: Partial<OnboardingFormData>) => {
-    updateFormData({ firstName: data.firstName, age: data.age, bio: data.bio })
+    updateFormData({
+      email: data.email,
+      password: data.password,
+      firstName: data.firstName,
+      age: data.age,
+      bio: data.bio
+    })
     nextStep()
   }
 
-  const handleInterestsSubmit = () => {
-    updateFormData({ interests: selectedInterests })
-    // Generate wingman code
-    const code = generateUUID().slice(0, 8).toUpperCase()
-    setWingmanCode(code)
-    nextStep()
+  const handleInterestsSubmit = async () => {
+    setIsSubmitting(true)
+    setAuthError(null)
+
+    try {
+      updateFormData({ interests: selectedInterests })
+
+      // Create account in Supabase
+      const { error } = await signUp(
+        formData.email || '',
+        formData.password || '',
+        formData.firstName || '',
+        formData.age || 18
+      )
+
+      if (error) {
+        setAuthError(error.message)
+        setIsSubmitting(false)
+        return
+      }
+
+      // Generate wingman code
+      const code = generateUUID().slice(0, 8).toUpperCase()
+      setWingmanCode(code)
+      nextStep()
+    } catch (err) {
+      setAuthError('Erreur lors de la création du compte')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const toggleInterest = (interest: string) => {
@@ -250,15 +286,57 @@ export function OnboardingPage() {
 
             {/* Info Step */}
             {step === 'info' && (
-              <div className="flex-1 flex flex-col">
+              <div className="flex-1 flex flex-col overflow-y-auto">
                 <h1 className="text-2xl font-bold text-white mb-2">
-                  Parle-nous de toi
+                  Crée ton compte
                 </h1>
-                <p className="text-white/60 mb-8">
-                  Quelques infos pour te présenter
+                <p className="text-white/60 mb-6">
+                  Quelques infos pour commencer
                 </p>
 
-                <form onSubmit={handleSubmit(handleInfoSubmit)} className="space-y-6 flex-1">
+                <form onSubmit={handleSubmit(handleInfoSubmit)} className="space-y-4 flex-1">
+                  {/* Email */}
+                  <div>
+                    <label className="block text-sm text-white/70 mb-2">Email</label>
+                    <div className="relative">
+                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/30" />
+                      <input
+                        {...register('email')}
+                        type="email"
+                        placeholder="ton@email.com"
+                        className={cn(
+                          'w-full h-14 pl-12 pr-4 rounded-2xl bg-surface-card border text-white placeholder:text-white/30',
+                          'focus:outline-none focus:border-neon-cyan/50 transition-colors',
+                          errors.email ? 'border-red-500' : 'border-white/10'
+                        )}
+                      />
+                    </div>
+                    {errors.email && (
+                      <p className="text-red-400 text-sm mt-1">{errors.email.message}</p>
+                    )}
+                  </div>
+
+                  {/* Password */}
+                  <div>
+                    <label className="block text-sm text-white/70 mb-2">Mot de passe</label>
+                    <div className="relative">
+                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/30" />
+                      <input
+                        {...register('password')}
+                        type="password"
+                        placeholder="••••••"
+                        className={cn(
+                          'w-full h-14 pl-12 pr-4 rounded-2xl bg-surface-card border text-white placeholder:text-white/30',
+                          'focus:outline-none focus:border-neon-cyan/50 transition-colors',
+                          errors.password ? 'border-red-500' : 'border-white/10'
+                        )}
+                      />
+                    </div>
+                    {errors.password && (
+                      <p className="text-red-400 text-sm mt-1">{errors.password.message}</p>
+                    )}
+                  </div>
+
                   {/* First Name */}
                   <div>
                     <label className="block text-sm text-white/70 mb-2">Prénom</label>
@@ -361,12 +439,23 @@ export function OnboardingPage() {
 
                 <div className="flex-1" />
 
+                {authError && (
+                  <p className="text-red-400 text-sm mb-4 text-center">{authError}</p>
+                )}
+
                 <button
                   onClick={handleInterestsSubmit}
-                  disabled={selectedInterests.length === 0}
-                  className="w-full btn-primary disabled:opacity-50"
+                  disabled={selectedInterests.length === 0 || isSubmitting}
+                  className="w-full btn-primary disabled:opacity-50 flex items-center justify-center gap-2"
                 >
-                  Continuer
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      Création du compte...
+                    </>
+                  ) : (
+                    'Créer mon compte'
+                  )}
                 </button>
               </div>
             )}
