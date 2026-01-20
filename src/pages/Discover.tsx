@@ -6,67 +6,74 @@ import { SwipeCard, SwipeActions, MatchPopup, LimitReachedModal } from '@/compon
 import { useSwipeStore } from '@/stores'
 import type { DiscoveryProfile, SwipeAction } from '@/types/swipe'
 import { FREE_LIMITS } from '@/types/swipe'
+import { getEchoStatus, isProfileActive } from '@/types/user'
 
-// Mock profiles for demo
-const MOCK_PROFILES: DiscoveryProfile[] = [
-  {
-    id: '1',
-    firstName: 'Sophie',
-    age: 24,
-    bio: 'Passionnée de voyages et de photographie. Toujours partante pour une nouvelle aventure !',
-    interests: ['Voyage', 'Photo', 'Musique', 'Cuisine'],
-    photoUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800',
-    distance: 3,
-    isActive: true,
-    lastPhotoAt: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2h ago
-    wingmanQuote: 'La plus drôle de toutes mes amies, elle illumine chaque soirée !',
-  },
-  {
-    id: '2',
-    firstName: 'Emma',
-    age: 26,
-    bio: 'Développeuse le jour, DJ la nuit. Je cherche quelqu\'un qui aime autant le code que la musique.',
-    interests: ['Tech', 'Musique', 'Gaming', 'Fitness'],
-    photoUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800',
-    distance: 7,
-    isActive: true,
-    lastPhotoAt: new Date(Date.now() - 30 * 60 * 1000), // 30min ago
-  },
-  {
-    id: '3',
-    firstName: 'Léa',
-    age: 23,
-    bio: 'Étudiante en médecine, fan de Netflix et de bonnes pizzas.',
-    interests: ['Cinéma', 'Lecture', 'Cuisine', 'Art'],
-    photoUrl: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800',
-    distance: 12,
-    isActive: false,
-    lastPhotoAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), // 5 days ago
-  },
-  {
-    id: '4',
-    firstName: 'Chloé',
-    age: 25,
-    bio: 'Coach sportive et amoureuse de la nature. Randonnée le dimanche ?',
-    interests: ['Sport', 'Nature', 'Fitness', 'Animaux'],
-    photoUrl: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800',
-    distance: 5,
-    isActive: true,
-    lastPhotoAt: new Date(Date.now() - 1 * 60 * 60 * 1000), // 1h ago
-    wingmanQuote: 'La personne la plus authentique que je connaisse.',
-  },
-  {
-    id: '5',
-    firstName: 'Marie',
-    age: 27,
-    bio: 'Architecte d\'intérieur, je transforme les espaces et les cœurs ✨',
-    interests: ['Art', 'Mode', 'Voyage', 'Photo'],
-    photoUrl: 'https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=800',
-    distance: 8,
-    isActive: true,
-    lastPhotoAt: new Date(Date.now() - 4 * 60 * 60 * 1000), // 4h ago
-  },
-]
+// Mock profiles for demo with echoStatus
+const createMockProfiles = (): DiscoveryProfile[] => {
+  const profiles = [
+    {
+      id: '1',
+      firstName: 'Sophie',
+      age: 24,
+      bio: 'Passionnée de voyages et de photographie. Toujours partante pour une nouvelle aventure !',
+      interests: ['Voyage', 'Photo', 'Musique', 'Cuisine'],
+      photoUrl: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=800',
+      distance: 3,
+      lastPhotoAt: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2h ago - ACTIVE
+      wingmanQuote: 'La plus drôle de toutes mes amies, elle illumine chaque soirée !',
+    },
+    {
+      id: '2',
+      firstName: 'Emma',
+      age: 26,
+      bio: 'Développeuse le jour, DJ la nuit. Je cherche quelqu\'un qui aime autant le code que la musique.',
+      interests: ['Tech', 'Musique', 'Gaming', 'Fitness'],
+      photoUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800',
+      distance: 7,
+      lastPhotoAt: new Date(Date.now() - 30 * 60 * 1000), // 30min ago - ACTIVE
+    },
+    {
+      id: '3',
+      firstName: 'Léa',
+      age: 23,
+      bio: 'Étudiante en médecine, fan de Netflix et de bonnes pizzas.',
+      interests: ['Cinéma', 'Lecture', 'Cuisine', 'Art'],
+      photoUrl: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800',
+      distance: 12,
+      lastPhotoAt: new Date(Date.now() - 6.5 * 24 * 60 * 60 * 1000), // 6.5 days ago - EXPIRING
+    },
+    {
+      id: '4',
+      firstName: 'Chloé',
+      age: 25,
+      bio: 'Coach sportive et amoureuse de la nature. Randonnée le dimanche ?',
+      interests: ['Sport', 'Nature', 'Fitness', 'Animaux'],
+      photoUrl: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=800',
+      distance: 5,
+      lastPhotoAt: new Date(Date.now() - 1 * 60 * 60 * 1000), // 1h ago - ACTIVE
+      wingmanQuote: 'La personne la plus authentique que je connaisse.',
+    },
+    {
+      id: '5',
+      firstName: 'Marie',
+      age: 27,
+      bio: 'Architecte d\'intérieur, je transforme les espaces et les cœurs',
+      interests: ['Art', 'Mode', 'Voyage', 'Photo'],
+      photoUrl: 'https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=800',
+      distance: 8,
+      lastPhotoAt: new Date(Date.now() - 8 * 24 * 60 * 60 * 1000), // 8 days ago - SILENCE
+    },
+  ]
+
+  // Add computed echoStatus and isActive
+  return profiles.map(p => ({
+    ...p,
+    echoStatus: getEchoStatus(p.lastPhotoAt),
+    isActive: isProfileActive(p.lastPhotoAt),
+  }))
+}
+
+const MOCK_PROFILES = createMockProfiles()
 
 export function DiscoverPage() {
   const navigate = useNavigate()

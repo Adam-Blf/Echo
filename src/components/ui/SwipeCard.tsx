@@ -3,6 +3,7 @@ import { motion, useMotionValue, useTransform, type PanInfo } from 'framer-motio
 import { MapPin, Clock, Star, Sparkles } from 'lucide-react'
 import type { DiscoveryProfile, SwipeAction } from '@/types/swipe'
 import { cn, formatRelativeTime } from '@/lib/utils'
+import { StatusBadge } from './StatusBadge'
 
 interface SwipeCardProps {
   profile: DiscoveryProfile
@@ -96,7 +97,11 @@ export function SwipeCard({ profile, onSwipe, isTop = false }: SwipeCardProps) {
         <img
           src={profile.photoUrl}
           alt={profile.firstName}
-          className="w-full h-full object-cover"
+          className={cn(
+            'w-full h-full object-cover transition-all duration-500',
+            profile.echoStatus === 'SILENCE' && 'grayscale opacity-70',
+            profile.echoStatus === 'EXPIRING' && 'saturate-75'
+          )}
           draggable={false}
         />
         {/* Gradient overlay */}
@@ -133,13 +138,10 @@ export function SwipeCard({ profile, onSwipe, isTop = false }: SwipeCardProps) {
         </>
       )}
 
-      {/* Echo active indicator */}
-      {profile.isActive && (
-        <div className="absolute top-4 right-4 z-20 flex items-center gap-2 px-3 py-1.5 rounded-full bg-neon-green/20 border border-neon-green/50">
-          <div className="w-2 h-2 rounded-full bg-neon-green animate-pulse" />
-          <span className="text-xs font-medium text-neon-green">Actif</span>
-        </div>
-      )}
+      {/* Echo status indicator */}
+      <div className="absolute top-4 right-4 z-20">
+        <StatusBadge status={profile.echoStatus} size="sm" />
+      </div>
 
       {/* Profile info */}
       <div className="absolute bottom-0 left-0 right-0 p-6 z-20">

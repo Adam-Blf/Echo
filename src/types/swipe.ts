@@ -1,3 +1,5 @@
+import type { EchoStatus } from './user'
+
 // Swipe action types
 export type SwipeAction = 'like' | 'nope' | 'superlike'
 
@@ -11,6 +13,7 @@ export interface DiscoveryProfile {
   photoUrl: string
   distance?: number // in km
   isActive: boolean // Echo still alive
+  echoStatus: EchoStatus // ACTIVE, EXPIRING, SILENCE
   lastPhotoAt: Date
   wingmanQuote?: string
 }
