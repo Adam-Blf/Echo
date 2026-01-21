@@ -97,6 +97,34 @@ npm run dev
 - **PWA**: Vite Plugin PWA + Workbox
 - **Backend**: Supabase (Auth, Database, Realtime, Storage)
 
+## Design System
+
+Echo utilise un **design system neon cohérent** avec composants réutilisables et accessibles.
+
+### Composants UI Disponibles
+
+1. **RangeSlider** - Sélecteur de plage double (âge, distance)
+2. **Toggle** - Switch on/off élégant avec animations
+3. **CardSection** - Container réutilisable avec variantes
+4. **ProfileGridItem** - Carte profil pour grille avec badges
+5. **PremiumBanner** - Bannière promotionnelle animée
+
+### Showcase & Documentation
+
+- **Showcase interactif** : `/components/showcase`
+- **Documentation complète** : `docs/COMPONENTS.md`
+- **Galerie de stories** : `docs/COMPONENT_STORIES.md`
+- **Cheat sheet** : `docs/COMPONENTS_CHEATSHEET.md`
+
+### Couleurs Neon
+
+```
+Cyan:   #00f5ff  | Purple: #bf00ff  | Pink: #ff006e
+Green:  #39ff14  | Dark:   #0a0a0f  | Card: #12121a
+```
+
+---
+
 ## Sécurité
 
 Score audit frontend: **8/10**
@@ -125,6 +153,11 @@ src/
 ├── components/
 │   ├── layout/      # MainLayout, BottomNavigation
 │   └── ui/          # Composants réutilisables
+│       ├── RangeSlider.tsx          # Sélecteur de plage
+│       ├── Toggle.tsx               # Switch on/off
+│       ├── CardSection.tsx          # Container avec variantes
+│       ├── ProfileGridItem.tsx      # Carte profil
+│       ├── PremiumBanner.tsx        # Bannière promo
 │       ├── CameraView.tsx
 │       ├── SwipeCard.tsx
 │       ├── SwipeActions.tsx
@@ -137,7 +170,8 @@ src/
 │       ├── CountdownTimer.tsx
 │       ├── EchoTimerWave.tsx
 │       ├── SplashScreen.tsx
-│       └── LanguageSelector.tsx
+│       ├── LanguageSelector.tsx
+│       └── index.ts                 # Exports
 ├── contexts/        # React contexts (AuthContext)
 ├── hooks/           # Custom hooks (useCamera, useAudioRecorder, useLocation)
 ├── lib/             # Utilitaires (cn, utils, security, supabase, i18n)
