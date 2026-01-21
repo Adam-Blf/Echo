@@ -104,10 +104,8 @@ export function OnboardingPage() {
   const [bio, setBio] = useState(formData.bio || '')
   const [selectedInterests, setSelectedInterests] = useState<string[]>(formData.interests || [])
 
-  // Date picker states
-  const [birthDay, setBirthDay] = useState<number | null>(null)
-  const [birthMonth, setBirthMonth] = useState<number | null>(null)
-  const [birthYear, setBirthYear] = useState<number | null>(null)
+  // Date picker state (DD/MM/YYYY format)
+  const [birthDateInput, setBirthDateInput] = useState('')
 
   // Gender & preference states
   const [gender, setGender] = useState<Gender | null>(formData.gender || null)
@@ -210,19 +208,56 @@ export function OnboardingPage() {
     removePhoto(index)
   }
 
+  // Format birthdate input with auto-slashes
+  const handleBirthDateChange = (value: string) => {
+    // Remove non-digits
+    const digits = value.replace(/\D/g, '')
+
+    // Format as DD/MM/YYYY
+    let formatted = ''
+    if (digits.length > 0) {
+      formatted = digits.slice(0, 2)
+    }
+    if (digits.length > 2) {
+      formatted += '/' + digits.slice(2, 4)
+    }
+    if (digits.length > 4) {
+      formatted += '/' + digits.slice(4, 8)
+    }
+
+    setBirthDateInput(formatted)
+  }
+
   const handleBirthdateSubmit = () => {
-    if (!birthDay || !birthMonth || !birthYear) {
-      setBirthError('Entre ta date de naissance complète')
+    // Parse DD/MM/YYYY
+    const parts = birthDateInput.split('/')
+    if (parts.length !== 3 || birthDateInput.length !== 10) {
+      setBirthError('Format invalide (JJ/MM/AAAA)')
       return
     }
 
-    const age = calculateAge(birthDay, birthMonth, birthYear)
+    const day = parseInt(parts[0], 10)
+    const month = parseInt(parts[1], 10)
+    const year = parseInt(parts[2], 10)
+
+    // Validate values
+    if (isNaN(day) || isNaN(month) || isNaN(year)) {
+      setBirthError('Date invalide')
+      return
+    }
+
+    if (day < 1 || day > 31 || month < 1 || month > 12 || year < 1920 || year > new Date().getFullYear() - 18) {
+      setBirthError('Date invalide')
+      return
+    }
+
+    const age = calculateAge(day, month, year)
     if (age < 18) {
       setBirthError('Tu dois avoir au moins 18 ans')
       return
     }
 
-    const birthDate = new Date(birthYear, birthMonth - 1, birthDay)
+    const birthDate = new Date(year, month - 1, day)
     updateFormData({ birthDate })
     setBirthError('')
     nextStep()
@@ -674,48 +709,20 @@ export function OnboardingPage() {
                   transition={{ delay: 0.2 }}
                   className="w-full max-w-sm bg-white/5 backdrop-blur-xl rounded-3xl p-6 border border-white/10 shadow-2xl mb-6"
                 >
-                  <div className="grid grid-cols-3 gap-3">
-                    <div className="relative">
-                      <select
-                        value={birthDay || ''}
-                        onChange={(e) => setBirthDay(Number(e.target.value))}
-                        className="w-full h-14 px-4 rounded-2xl bg-black/30 border border-white/10 text-white appearance-none focus:outline-none focus:border-amber-500/50 transition-colors"
-                      >
-                        <option value="">Jour</option>
-                        {days.map(d => (
-                          <option key={d} value={d}>{d}</option>
-                        ))}
-                      </select>
-                      <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40 pointer-events-none" />
-                    </div>
-
-                    <div className="relative">
-                      <select
-                        value={birthMonth || ''}
-                        onChange={(e) => setBirthMonth(Number(e.target.value))}
-                        className="w-full h-14 px-4 rounded-2xl bg-black/30 border border-white/10 text-white appearance-none focus:outline-none focus:border-amber-500/50 transition-colors"
-                      >
-                        <option value="">Mois</option>
-                        {MONTHS.map((m, i) => (
-                          <option key={m} value={i + 1}>{m.slice(0, 3)}</option>
-                        ))}
-                      </select>
-                      <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40 pointer-events-none" />
-                    </div>
-
-                    <div className="relative">
-                      <select
-                        value={birthYear || ''}
-                        onChange={(e) => setBirthYear(Number(e.target.value))}
-                        className="w-full h-14 px-4 rounded-2xl bg-black/30 border border-white/10 text-white appearance-none focus:outline-none focus:border-amber-500/50 transition-colors"
-                      >
-                        <option value="">Année</option>
-                        {years.map(y => (
-                          <option key={y} value={y}>{y}</option>
-                        ))}
-                      </select>
-                      <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40 pointer-events-none" />
-                    </div>
+                  <div className={cn(
+                    'flex items-center gap-3 h-16 px-5 rounded-2xl bg-black/30 border transition-all',
+                    birthError ? 'border-red-500/50' : 'border-white/10 focus-within:border-amber-500/50'
+                  )}>
+                    <Calendar className="w-6 h-6 text-white/40" />
+                    <input
+                      type="text"
+                      inputMode="numeric"
+                      value={birthDateInput}
+                      onChange={(e) => handleBirthDateChange(e.target.value)}
+                      placeholder="JJ/MM/AAAA"
+                      maxLength={10}
+                      className="flex-1 bg-transparent text-white text-xl font-medium tracking-wider placeholder:text-white/30 focus:outline-none text-center"
+                    />
                   </div>
 
                   {birthError && (
@@ -730,7 +737,7 @@ export function OnboardingPage() {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={handleBirthdateSubmit}
-                  disabled={!birthDay || !birthMonth || !birthYear}
+                  disabled={birthDateInput.length !== 10}
                   className="h-14 px-8 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 text-white font-semibold shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 transition-shadow disabled:opacity-50"
                 >
                   Continuer
