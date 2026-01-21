@@ -1,0 +1,10 @@
+# Playwright artifacts
+test-results/
+playwright-report/
+
+# Traces and videos
+**/*.trace
+**/*.webm
+
+# Browser caches
+/browsers/

@@ -1,0 +1,136 @@
+name: E2E Tests
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps ${{ matrix.browser }}
+
+      - name: Build application
+        run: npm run build
+
+      - name: Run E2E tests (${{ matrix.browser }})
+        run: npm run test:e2e -- --project=${{ matrix.browser }}
+        env:
+          CI: true
+          PLAYWRIGHT_JUNIT_OUTPUT_NAME: results-${{ matrix.browser }}.xml
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-${{ matrix.browser }}
+          path: playwright-report/
+          retention-days: 30
+
+      - name: Upload test results XML
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-${{ matrix.browser }}
+          path: test-results/
+          retention-days: 30
+
+      - name: Publish test results
+        if: always()
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        with:
+          files: test-results/results-${{ matrix.browser }}.xml
+          check_name: E2E Test Results - ${{ matrix.browser }}
+          comment_mode: always
+
+  mobile-test:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Build application
+        run: npm run build
+
+      - name: Run mobile E2E tests
+        run: npm run test:e2e:mobile
+        env:
+          CI: true
+
+      - name: Upload mobile test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-mobile
+          path: playwright-report/
+          retention-days: 30
+
+  test-summary:
+    needs: [test, mobile-test]
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+
+      - name: Comment PR with results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const artifacts = fs.readdirSync('.');
+            let message = '## E2E Test Results\n\n';
+
+            if (artifacts.length > 0) {
+              message += '✅ Test reports uploaded as artifacts\n\n';
+              message += '**Browsers tested:**\n';
+              message += '- Chromium\n';
+              message += '- Firefox\n';
+              message += '- WebKit\n';
+              message += '- Mobile Chrome\n';
+            }
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: message
+            });
