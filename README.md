@@ -1,7 +1,7 @@
 # ECHO - Dating Authentique
 
 ![Status](https://img.shields.io/badge/status-production%20ready-brightgreen)
-![Version](https://img.shields.io/badge/version-1.0.0-blue)
+![Version](https://img.shields.io/badge/version-1.2.0-blue)
 ![PWA](https://img.shields.io/badge/PWA-ready-green)
 ![Progress](https://img.shields.io/badge/progress-100%25-brightgreen)
 ![Supabase](https://img.shields.io/badge/Supabase-connected-3FCF8E)
@@ -95,7 +95,7 @@ npm run dev
 - **Forms**: React Hook Form + Zod
 - **Icons**: Lucide React
 - **PWA**: Vite Plugin PWA + Workbox
-- **Backend**: Supabase (Auth, Database, Realtime, Storage)
+- **Backend**: Supabase (Auth, Database, Realtime, Storage, PostGIS)
 
 ## Design System
 
@@ -176,7 +176,11 @@ src/
 ├── contexts/        # React contexts (AuthContext)
 ├── hooks/           # Custom hooks (useCamera, useAudioRecorder, useLocation)
 ├── lib/             # Utilitaires (cn, utils, security, supabase, i18n)
-├── services/        # Services (chatService)
+├── services/        # Services backend
+│   ├── blockService.ts       # Block/Report avec RLS
+│   ├── discoveryService.ts   # Discovery + PostGIS geolocation
+│   ├── premiumService.ts     # Premium features + subscriptions
+│   └── chatService.ts        # Messages temps réel
 ├── pages/           # Pages de l'application
 │   ├── Home.tsx
 │   ├── Discover.tsx
@@ -200,8 +204,17 @@ src/
 │   ├── swipe.ts
 │   ├── user.ts
 │   └── wingman.ts
-└── supabase/        # Supabase configuration
-    └── schema.sql
+├── supabase/        # Supabase configuration
+│   ├── schema.sql
+│   └── migrations/
+│       ├── 001_add_blocks_reports.sql
+│       ├── 002_add_premium_subscriptions.sql
+│       └── 003_add_geolocation.sql
+└── docs/            # Documentation
+    ├── COMPONENTS.md
+    ├── COMPONENT_STORIES.md
+    ├── COMPONENTS_CHEATSHEET.md
+    └── BACKEND_SERVICES.md
 ```
 
 ## Limites
@@ -213,7 +226,51 @@ src/
 | Rewind | ❌ | ✅ |
 | Voir qui t'a liké | ❌ | ✅ |
 
+## Backend Services
+
+Echo utilise Supabase avec des migrations SQL avancées pour les fonctionnalités backend.
+
+### Services Disponibles
+
+1. **Block Service** - Blocage et signalement d'utilisateurs
+   - Rate limiting (20 blocks/h, 5 reports/24h)
+   - RPC functions avec RLS policies
+   - Cleanup automatique des matches
+
+2. **Discovery Service** - Discovery avec géolocalisation
+   - PostGIS pour calculs de distance optimisés
+   - Filtres avancés (âge, distance, validation)
+   - Index spatial GiST pour performance
+
+3. **Premium Service** - Gestion des abonnements
+   - Sync temps réel avec Supabase Realtime
+   - Features premium (see likes, rewind, invisible mode)
+   - Tables denormalisées pour cache rapide
+
+**Documentation complète** : [docs/BACKEND_SERVICES.md](docs/BACKEND_SERVICES.md)
+
+### Migrations SQL
+
+```bash
+# Appliquer les migrations
+supabase db push
+
+# Migrations incluses:
+# - 001: Blocks & Reports avec RLS
+# - 002: Premium & Subscriptions
+# - 003: PostGIS Geolocation
+```
+
+---
+
 ## Changelog
+
+### 2026-01-21 (v1.2.0) - Backend Services
+- Services Supabase complets (block, discovery, premium)
+- Intégration PostGIS pour géolocalisation
+- RPC functions avec Row Level Security
+- Stores Zustand étendus avec synchro backend
+- Documentation complète des services
 
 ### 2026-01-21 (v1.1.0) - Core Pages Enhancement
 - FiltersModal avec double range slider (age, distance) et selection genre
