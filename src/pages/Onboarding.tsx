@@ -894,37 +894,39 @@ export function OnboardingPage() {
 
             {/* Info Step */}
             {step === 'info' && (
-              <div className="flex-1 flex flex-col items-center justify-center">
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  className="w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-500 flex items-center justify-center mb-6 shadow-lg shadow-violet-500/25"
-                >
-                  <Users className="w-8 h-8 text-white" />
-                </motion.div>
+              <div className="flex-1 flex flex-col overflow-hidden">
+                <div className="text-center mb-4 flex-shrink-0">
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    className="w-14 h-14 mx-auto mb-3 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-500 flex items-center justify-center shadow-lg shadow-violet-500/25"
+                  >
+                    <Users className="w-7 h-7 text-white" />
+                  </motion.div>
 
-                <motion.h1
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="text-2xl font-bold text-white mb-2 text-center"
-                >
-                  {isOAuthUser ? 'Complète ton profil' : 'Crée ton compte'}
-                </motion.h1>
+                  <motion.h1
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="text-xl font-bold text-white mb-1 text-center"
+                  >
+                    {isOAuthUser ? 'Complète ton profil' : 'Crée ton compte'}
+                  </motion.h1>
 
-                <motion.p
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 }}
-                  className="text-white/50 max-w-xs mb-8 text-center"
-                >
-                  {isOAuthUser ? 'Dis-nous en plus sur toi' : 'Plus que quelques infos'}
-                </motion.p>
+                  <motion.p
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 }}
+                    className="text-white/50 text-sm text-center"
+                  >
+                    {isOAuthUser ? 'Dis-nous en plus sur toi' : 'Plus que quelques infos'}
+                  </motion.p>
+                </div>
 
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="w-full max-w-sm bg-white/5 backdrop-blur-xl rounded-3xl p-5 border border-white/10 shadow-2xl"
+                  className="flex-1 w-full max-w-sm mx-auto bg-white/5 backdrop-blur-xl rounded-3xl p-4 border border-white/10 shadow-2xl overflow-y-auto min-h-0"
                 >
                   <div className="space-y-4">
                     {/* Show email/password only for non-OAuth users */}
@@ -1025,17 +1027,23 @@ export function OnboardingPage() {
                         className="w-full px-4 py-3 rounded-2xl bg-black/30 border border-white/10 text-white placeholder:text-white/30 focus:outline-none focus:border-violet-500/50 transition-all resize-none"
                       />
                     </div>
-
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={handleInfoSubmit}
-                      className="w-full h-14 rounded-2xl bg-gradient-to-r from-violet-500 to-purple-500 text-white font-semibold shadow-lg shadow-violet-500/25"
-                    >
-                      Continuer
-                    </motion.button>
                   </div>
                 </motion.div>
+
+                {/* Button - always visible */}
+                <div className="flex-shrink-0 pt-4 w-full max-w-sm mx-auto">
+                  <motion.button
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={handleInfoSubmit}
+                    className="w-full h-14 rounded-2xl bg-gradient-to-r from-violet-500 to-purple-500 text-white font-semibold shadow-lg shadow-violet-500/25"
+                  >
+                    Continuer
+                  </motion.button>
+                </div>
               </div>
             )}
 
