@@ -5,15 +5,6 @@ import { Sparkles, Mail, Lock, Loader2, Eye, EyeOff } from 'lucide-react'
 import { useAuth } from '@/contexts/AuthContext'
 import { cn } from '@/lib/utils'
 
-// Apple icon component
-function AppleIcon({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-      <path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09l.01-.01zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/>
-    </svg>
-  )
-}
-
 // Google icon component
 function GoogleIcon({ className }: { className?: string }) {
   return (
@@ -28,13 +19,13 @@ function GoogleIcon({ className }: { className?: string }) {
 
 export function AuthPage() {
   const navigate = useNavigate()
-  const { signIn, signInWithGoogle, signInWithApple } = useAuth()
+  const { signIn, signInWithGoogle } = useAuth()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const [oauthLoading, setOauthLoading] = useState<'google' | 'apple' | null>(null)
+  const [oauthLoading, setOauthLoading] = useState<'google' | null>(null)
   const [error, setError] = useState<string | null>(null)
 
   const handleEmailLogin = async (e: React.FormEvent) => {
@@ -58,17 +49,6 @@ export function AuthPage() {
     setOauthLoading('google')
     setError(null)
     const { error } = await signInWithGoogle()
-    if (error) {
-      setError(error.message)
-      setOauthLoading(null)
-    }
-    // Redirect will happen via OAuth flow
-  }
-
-  const handleAppleSignIn = async () => {
-    setOauthLoading('apple')
-    setError(null)
-    const { error } = await signInWithApple()
     if (error) {
       setError(error.message)
       setOauthLoading(null)
@@ -136,24 +116,6 @@ export function AuthPage() {
               <>
                 <GoogleIcon className="w-5 h-5" />
                 Continuer avec Google
-              </>
-            )}
-          </motion.button>
-
-          {/* Apple */}
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={handleAppleSignIn}
-            disabled={oauthLoading !== null}
-            className="w-full h-14 rounded-2xl bg-black text-white font-semibold flex items-center justify-center gap-3 border border-white/20 hover:bg-gray-900 transition-colors disabled:opacity-50"
-          >
-            {oauthLoading === 'apple' ? (
-              <Loader2 className="w-5 h-5 animate-spin" />
-            ) : (
-              <>
-                <AppleIcon className="w-5 h-5" />
-                Continuer avec Apple
               </>
             )}
           </motion.button>
