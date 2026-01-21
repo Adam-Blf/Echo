@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { SlidersHorizontal, Zap } from 'lucide-react'
-import { SwipeCard, SwipeActions, MatchPopup, LimitReachedModal } from '@/components/ui'
-import { useSwipeStore } from '@/stores'
+import { SwipeCard, SwipeActions, MatchPopup, LimitReachedModal, FiltersModal } from '@/components/ui'
+import { useSwipeStore, useFiltersStore } from '@/stores'
 import type { DiscoveryProfile, SwipeAction } from '@/types/swipe'
 import { FREE_LIMITS } from '@/types/swipe'
 import { getEchoStatus, isProfileActive } from '@/types/user'
@@ -95,6 +95,10 @@ export function DiscoverPage() {
 
   const [showLimitModal, setShowLimitModal] = useState(false)
   const [limitType, setLimitType] = useState<'swipes' | 'superlikes'>('swipes')
+  const [showFilters, setShowFilters] = useState(false)
+
+  // Get current filter values for display
+  const { ageRange, maxDistance, genderPreference } = useFiltersStore()
 
   // Load mock profiles on mount
   useEffect(() => {
@@ -152,8 +156,13 @@ export function DiscoverPage() {
             </div>
           )}
         </div>
-        <button className="p-2 rounded-xl bg-white/5 hover:bg-white/10 transition-colors">
+        <button
+          onClick={() => setShowFilters(true)}
+          className="p-2 rounded-xl bg-white/5 hover:bg-white/10 transition-colors relative"
+        >
           <SlidersHorizontal className="w-5 h-5 text-white/70" />
+          {/* Filter indicator dot */}
+          <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-neon-cyan" />
         </button>
       </div>
 
@@ -229,6 +238,12 @@ export function DiscoverPage() {
         onUpgrade={handleUpgrade}
         type={limitType}
         resetTime={new Date(limits.resetAt)}
+      />
+
+      {/* Filters modal */}
+      <FiltersModal
+        isOpen={showFilters}
+        onClose={() => setShowFilters(false)}
       />
     </div>
   )
