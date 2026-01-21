@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import { motion } from 'framer-motion'
 import { Crown, X } from 'lucide-react'
 import { cn } from '@/lib/utils'

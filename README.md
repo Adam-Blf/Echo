@@ -103,11 +103,12 @@ Echo utilise un **design system neon cohérent** avec composants réutilisables 
 
 ### Composants UI Disponibles
 
-1. **RangeSlider** - Sélecteur de plage double (âge, distance)
-2. **Toggle** - Switch on/off élégant avec animations
-3. **CardSection** - Container réutilisable avec variantes
+1. **RangeSlider** - Selecteur de plage double (age, distance)
+2. **Toggle** - Switch on/off elegant avec animations
+3. **CardSection** - Container reutilisable avec variantes
 4. **ProfileGridItem** - Carte profil pour grille avec badges
-5. **PremiumBanner** - Bannière promotionnelle animée
+5. **PremiumBanner** - Banniere promotionnelle animee
+6. **FiltersModal** - Modale de filtres (age, distance, genre) avec sliders
 
 ### Showcase & Documentation
 
@@ -183,11 +184,16 @@ src/
 │   ├── Profile.tsx
 │   ├── Onboarding.tsx
 │   ├── Wingman.tsx
-│   └── Chat.tsx
+│   ├── Chat.tsx
+│   ├── Settings.tsx       # Parametres avec card-style UI
+│   ├── Likes.tsx          # Page "Qui m'a like" avec overlay premium
+│   └── EditProfile.tsx
 ├── stores/          # Zustand stores
 │   ├── onboardingStore.ts
 │   ├── swipeStore.ts
-│   └── userStore.ts
+│   ├── userStore.ts
+│   ├── settingsStore.ts
+│   └── filtersStore.ts    # Store des filtres de recherche
 ├── types/           # Types TypeScript
 │   ├── database.ts
 │   ├── onboarding.ts
@@ -208,6 +214,16 @@ src/
 | Voir qui t'a liké | ❌ | ✅ |
 
 ## Changelog
+
+### 2026-01-21 (v1.1.0) - Core Pages Enhancement
+- FiltersModal avec double range slider (age, distance) et selection genre
+- filtersStore Zustand avec persistance localStorage
+- Settings page refonte complete avec Deck card-style UI
+- Quick toggles (mode invisible, notifications push)
+- Page Likes "Qui m'a like" avec grille profils et overlay premium
+- Animation shimmer sur bouton premium
+- Integration des filtres dans la page Discover
+- Correction bugs TypeScript (Framer Motion variants)
 
 ### 2026-01-20 (v1.0.0) - Production Ready
 - Phase VII complète

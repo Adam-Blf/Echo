@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+// ProfileGridItem - Profile card for grid display
 import { motion } from 'framer-motion'
 import { Crown, Heart } from 'lucide-react'
 import { cn } from '@/lib/utils'

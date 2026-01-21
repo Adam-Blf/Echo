@@ -196,7 +196,7 @@ export function SettingsPage() {
             <div className="flex items-center gap-4">
               <div className="relative">
                 <img
-                  src={profile?.photos?.[0] || 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100'}
+                  src={profile?.photoUrl || 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100'}
                   alt="Profile"
                   className="w-16 h-16 rounded-2xl object-cover"
                 />
@@ -206,7 +206,7 @@ export function SettingsPage() {
               </div>
               <div className="flex-1 min-w-0">
                 <h3 className="text-lg font-bold text-white">{profile?.firstName || 'Utilisateur'}</h3>
-                <p className="text-sm text-white/50 truncate">{profile?.email || 'email@example.com'}</p>
+                <p className="text-sm text-white/50 truncate">Modifier mon profil</p>
               </div>
               <ChevronRight className="w-5 h-5 text-white/30" />
             </div>
