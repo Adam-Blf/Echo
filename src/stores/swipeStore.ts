@@ -2,12 +2,27 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import type { SwipeAction, DiscoveryProfile, Match, SwipeLimits } from '@/types/swipe'
 import { FREE_LIMITS, PREMIUM_LIMITS } from '@/types/swipe'
+import {
+  getDiscoveryProfiles,
+  updateLocation,
+  countNearbyUsers,
+  requestAndUpdateLocation,
+  type DiscoveryFilters,
+} from '@/services/discoveryService'
+import { useFiltersStore } from './filtersStore'
 
 interface SwipeState {
   // Discovery profiles
   profiles: DiscoveryProfile[]
   currentIndex: number
   setProfiles: (profiles: DiscoveryProfile[]) => void
+
+  // Loading states
+  isLoadingProfiles: boolean
+  isLoadingLocation: boolean
+
+  // Nearby count
+  nearbyCount: number
 
   // Swipe limits
   limits: SwipeLimits
@@ -34,6 +49,11 @@ interface SwipeState {
   // Premium
   isPremium: boolean
   setPremium: (isPremium: boolean) => void
+
+  // Discovery with Supabase
+  fetchDiscoveryProfiles: (filters?: DiscoveryFilters) => Promise<void>
+  updateUserLocation: () => Promise<{ success: boolean; error?: string }>
+  refreshNearbyCount: () => Promise<void>
 
   // Actions
   swipe: (action: SwipeAction) => DiscoveryProfile | null
@@ -81,6 +101,13 @@ export const useSwipeStore = create<SwipeState>()(
       profiles: [],
       currentIndex: 0,
       setProfiles: (profiles) => set({ profiles, currentIndex: 0 }),
+
+      // Loading states
+      isLoadingProfiles: false,
+      isLoadingLocation: false,
+
+      // Nearby count
+      nearbyCount: 0,
 
       // Swipe limits
       limits: initialLimits,
@@ -180,6 +207,76 @@ export const useSwipeStore = create<SwipeState>()(
       // Premium
       isPremium: false,
       setPremium: (isPremium) => set({ isPremium }),
+
+      // Fetch discovery profiles with filters
+      fetchDiscoveryProfiles: async (filters) => {
+        set({ isLoadingProfiles: true })
+
+        // Get filters from filtersStore if not provided
+        const filtersState = useFiltersStore.getState()
+        const finalFilters: DiscoveryFilters = {
+          minAge: filters?.minAge ?? filtersState.ageRange[0],
+          maxAge: filters?.maxAge ?? filtersState.ageRange[1],
+          maxDistanceKm: filters?.maxDistanceKm ?? filtersState.maxDistance,
+          verifiedOnly: filters?.verifiedOnly ?? false,
+          limit: filters?.limit ?? 20,
+          offset: filters?.offset ?? 0,
+        }
+
+        const result = await getDiscoveryProfiles(finalFilters)
+
+        if (result.data) {
+          // Transform service DiscoveryProfile to swipe DiscoveryProfile
+          const profiles: DiscoveryProfile[] = result.data.map((p) => ({
+            id: p.profileId,
+            firstName: p.firstName,
+            age: p.age,
+            bio: p.bio || '',
+            interests: p.interests,
+            photoUrl: p.photoUrl || '',
+            echoStatus: p.echoStatus,
+            lastPhotoAt: new Date(p.lastPhotoAt),
+            isValidated: p.isValidated,
+            wingmanQuote: p.wingmanQuote,
+            wingmanQualities: p.wingmanQualities || [],
+            wingmanFlaws: p.wingmanFlaws || [],
+            distance: p.distanceKm,
+          }))
+
+          set({
+            profiles,
+            currentIndex: 0,
+            isLoadingProfiles: false,
+          })
+        } else {
+          console.error('Error fetching profiles:', result.error)
+          set({ isLoadingProfiles: false })
+        }
+      },
+
+      // Update user location
+      updateUserLocation: async () => {
+        set({ isLoadingLocation: true })
+
+        const result = await requestAndUpdateLocation()
+
+        set({ isLoadingLocation: false })
+
+        if (result.error) {
+          return { success: false, error: result.error }
+        }
+
+        // Refresh nearby count after location update
+        await get().refreshNearbyCount()
+
+        return { success: true }
+      },
+
+      // Refresh nearby users count
+      refreshNearbyCount: async () => {
+        const count = await countNearbyUsers(10) // 10km radius
+        set({ nearbyCount: count })
+      },
 
       // Swipe action
       swipe: (action) => {

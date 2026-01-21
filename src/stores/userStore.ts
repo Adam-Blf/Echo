@@ -2,6 +2,13 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import type { UserProfile, EchoStatus } from '@/types/user'
 import { getEchoStatus, getDaysUntilExpiration, isProfileActive } from '@/types/user'
+import {
+  getPremiumStatus,
+  getUserPremiumState,
+  subscribeToPremiumChanges,
+  type PremiumStatus,
+} from '@/services/premiumService'
+import type { SubscriptionPlan } from '@/types/database'
 
 interface UserState {
   // Current user profile
@@ -13,12 +20,26 @@ interface UserState {
   daysUntilExpiration: number
   isActive: boolean
 
+  // Premium status
+  premiumStatus: PremiumStatus | null
+  isPremium: boolean
+  currentPlan: SubscriptionPlan
+
+  // Loading states
+  isLoadingPremium: boolean
+
   // Actions
   setProfile: (profile: UserProfile) => void
   updatePhoto: (photoUrl: string) => void
   updateProfile: (updates: Partial<UserProfile>) => void
   setWingmanValidation: (quote: string, qualities: string[], flaws: string[]) => void
   refreshEchoStatus: () => void
+
+  // Premium actions
+  fetchPremiumStatus: () => Promise<void>
+  syncPremiumState: () => Promise<void>
+  startPremiumSync: () => void
+
   logout: () => void
 }
 
@@ -47,6 +68,12 @@ export const useUserStore = create<UserState>()(
       echoStatus: 'SILENCE',
       daysUntilExpiration: 0,
       isActive: false,
+
+      // Premium
+      premiumStatus: null,
+      isPremium: false,
+      currentPlan: 'free',
+      isLoadingPremium: false,
 
       setProfile: (profile) => {
         const echoStatus = getEchoStatus(profile.lastPhotoAt)
@@ -128,6 +155,49 @@ export const useUserStore = create<UserState>()(
         })
       },
 
+      // Fetch premium status from Supabase
+      fetchPremiumStatus: async () => {
+        set({ isLoadingPremium: true })
+
+        const result = await getPremiumStatus()
+
+        if (result.data) {
+          set({
+            premiumStatus: result.data,
+            isPremium: result.data.isPremium,
+            currentPlan: result.data.currentPlan,
+            isLoadingPremium: false,
+          })
+        } else {
+          set({ isLoadingPremium: false })
+        }
+      },
+
+      // Sync premium state (cached, faster)
+      syncPremiumState: async () => {
+        const result = await getUserPremiumState()
+
+        if (result.data) {
+          set({
+            isPremium: result.data.is_premium,
+            currentPlan: result.data.current_plan,
+          })
+        }
+      },
+
+      // Start realtime premium sync
+      startPremiumSync: () => {
+        const channel = subscribeToPremiumChanges((premiumState) => {
+          set({
+            isPremium: premiumState.is_premium,
+            currentPlan: premiumState.current_plan,
+          })
+        })
+
+        // Store channel for cleanup (could be added to state if needed)
+        return channel
+      },
+
       logout: () => {
         set({
           profile: null,
@@ -135,6 +205,9 @@ export const useUserStore = create<UserState>()(
           echoStatus: 'SILENCE',
           daysUntilExpiration: 0,
           isActive: false,
+          premiumStatus: null,
+          isPremium: false,
+          currentPlan: 'free',
         })
       },
     }),
@@ -143,6 +216,8 @@ export const useUserStore = create<UserState>()(
       partialize: (state) => ({
         profile: state.profile,
         isAuthenticated: state.isAuthenticated,
+        isPremium: state.isPremium,
+        currentPlan: state.currentPlan,
       }),
     }
   )
