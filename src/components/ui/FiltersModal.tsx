@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, RotateCcw, Check, Users, MapPin, Calendar } from 'lucide-react'
 import { useFiltersStore } from '@/stores/filtersStore'
+import { RangeSlider } from './RangeSlider'
 import { cn } from '@/lib/utils'
 
 interface FiltersModalProps {
@@ -17,174 +18,79 @@ const genderOptions: { value: GenderPreference; label: string; icon: string }[] 
   { value: 'everyone', label: 'Tout le monde', icon: '⚥' },
 ]
 
-// Custom double range slider component
-interface RangeSliderProps {
-  min: number
-  max: number
-  value: [number, number]
-  onChange: (value: [number, number]) => void
-  step?: number
-  formatValue?: (value: number) => string
-}
-
-function RangeSlider({ min, max, value, onChange, step = 1, formatValue }: RangeSliderProps) {
-  const [localValue, setLocalValue] = useState(value)
-  const [activeThumb, setActiveThumb] = useState<'min' | 'max' | null>(null)
-
-  useEffect(() => {
-    setLocalValue(value)
-  }, [value])
-
-  const getPercentage = (val: number) => ((val - min) / (max - min)) * 100
-
-  const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newMin = Math.min(Number(e.target.value), localValue[1] - step)
-    const newValue: [number, number] = [newMin, localValue[1]]
-    setLocalValue(newValue)
-    onChange(newValue)
-  }
-
-  const handleMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newMax = Math.max(Number(e.target.value), localValue[0] + step)
-    const newValue: [number, number] = [localValue[0], newMax]
-    setLocalValue(newValue)
-    onChange(newValue)
-  }
-
-  const format = formatValue || ((v) => v.toString())
-
-  return (
-    <div className="relative pt-2 pb-6">
-      {/* Track background */}
-      <div className="relative h-2 bg-white/10 rounded-full">
-        {/* Active track */}
-        <div
-          className="absolute h-full bg-gradient-to-r from-neon-cyan to-neon-purple rounded-full"
-          style={{
-            left: `${getPercentage(localValue[0])}%`,
-            width: `${getPercentage(localValue[1]) - getPercentage(localValue[0])}%`,
-          }}
-        />
-      </div>
-
-      {/* Value labels */}
-      <div className="absolute -top-1 flex items-center justify-between w-full pointer-events-none">
-        <motion.div
-          className="absolute -translate-x-1/2 -translate-y-full"
-          style={{ left: `${getPercentage(localValue[0])}%` }}
-          animate={{ scale: activeThumb === 'min' ? 1.1 : 1 }}
-        >
-          <span className="px-2 py-1 rounded-lg bg-surface-elevated text-xs font-semibold text-white border border-white/10">
-            {format(localValue[0])}
-          </span>
-        </motion.div>
-        <motion.div
-          className="absolute -translate-x-1/2 -translate-y-full"
-          style={{ left: `${getPercentage(localValue[1])}%` }}
-          animate={{ scale: activeThumb === 'max' ? 1.1 : 1 }}
-        >
-          <span className="px-2 py-1 rounded-lg bg-surface-elevated text-xs font-semibold text-white border border-white/10">
-            {format(localValue[1])}
-          </span>
-        </motion.div>
-      </div>
-
-      {/* Hidden range inputs for accessibility */}
-      <input
-        type="range"
-        min={min}
-        max={max}
-        step={step}
-        value={localValue[0]}
-        onChange={handleMinChange}
-        onFocus={() => setActiveThumb('min')}
-        onBlur={() => setActiveThumb(null)}
-        className="absolute w-full h-2 opacity-0 cursor-pointer z-10"
-        style={{ pointerEvents: 'auto' }}
-      />
-      <input
-        type="range"
-        min={min}
-        max={max}
-        step={step}
-        value={localValue[1]}
-        onChange={handleMaxChange}
-        onFocus={() => setActiveThumb('max')}
-        onBlur={() => setActiveThumb(null)}
-        className="absolute w-full h-2 opacity-0 cursor-pointer z-10"
-        style={{ pointerEvents: 'auto' }}
-      />
-
-      {/* Visual thumbs */}
-      <motion.div
-        className="absolute top-0 w-5 h-5 -translate-x-1/2 -translate-y-1/4 rounded-full bg-white shadow-lg border-2 border-neon-cyan cursor-pointer"
-        style={{ left: `${getPercentage(localValue[0])}%` }}
-        whileHover={{ scale: 1.2 }}
-        whileTap={{ scale: 0.9 }}
-      />
-      <motion.div
-        className="absolute top-0 w-5 h-5 -translate-x-1/2 -translate-y-1/4 rounded-full bg-white shadow-lg border-2 border-neon-purple cursor-pointer"
-        style={{ left: `${getPercentage(localValue[1])}%` }}
-        whileHover={{ scale: 1.2 }}
-        whileTap={{ scale: 0.9 }}
-      />
-    </div>
-  )
-}
-
-// Single slider component
+// Single slider component for distance
 interface SingleSliderProps {
   min: number
   max: number
   value: number
   onChange: (value: number) => void
+  unit?: string
   step?: number
-  formatValue?: (value: number) => string
 }
 
-function SingleSlider({ min, max, value, onChange, step = 1, formatValue }: SingleSliderProps) {
+function SingleSlider({ min, max, value, onChange, unit = '', step = 1 }: SingleSliderProps) {
   const getPercentage = (val: number) => ((val - min) / (max - min)) * 100
-  const format = formatValue || ((v) => v.toString())
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(Number(e.target.value))
+  }
 
   return (
-    <div className="relative pt-2 pb-6">
-      {/* Track background */}
-      <div className="relative h-2 bg-white/10 rounded-full">
-        {/* Active track */}
+    <div className="w-full">
+      {/* Value display */}
+      <div className="mb-6 flex justify-between px-1">
+        <div className="flex flex-col items-start">
+          <span className="text-xs text-white/60 uppercase tracking-wide">Distance</span>
+          <span className="text-sm font-semibold text-neon-cyan">
+            {value} {unit}
+          </span>
+        </div>
+      </div>
+
+      {/* Track container */}
+      <div className="relative h-12 w-full">
+        {/* Base track */}
+        <div className="absolute top-1/2 h-1.5 w-full -translate-y-1/2 rounded-full bg-white/10" />
+
+        {/* Gradient fill */}
         <div
-          className="absolute h-full bg-gradient-to-r from-neon-cyan to-neon-purple rounded-full"
-          style={{ width: `${getPercentage(value)}%` }}
+          className="absolute top-1/2 h-1.5 -translate-y-1/2 rounded-full bg-gradient-to-r from-neon-cyan to-neon-purple"
+          style={{
+            left: '0%',
+            width: `${getPercentage(value)}%`,
+            boxShadow: '0 0 10px rgba(0, 245, 255, 0.5), 0 0 20px rgba(191, 0, 255, 0.3)',
+          }}
+        />
+
+        {/* Hidden range input */}
+        <input
+          type="range"
+          min={min}
+          max={max}
+          step={step}
+          value={value}
+          onChange={handleChange}
+          className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+        />
+
+        {/* Visual thumb */}
+        <div
+          className={cn(
+            'absolute top-1/2 h-6 w-6 -translate-x-1/2 -translate-y-1/2 rounded-full',
+            'bg-neon-cyan shadow-lg cursor-pointer transition-all pointer-events-none'
+          )}
+          style={{
+            left: `${getPercentage(value)}%`,
+            boxShadow: '0 0 10px rgba(0, 245, 255, 0.6)',
+          }}
         />
       </div>
 
-      {/* Value label */}
-      <motion.div
-        className="absolute -top-1 -translate-x-1/2 -translate-y-full pointer-events-none"
-        style={{ left: `${getPercentage(value)}%` }}
-      >
-        <span className="px-2 py-1 rounded-lg bg-surface-elevated text-xs font-semibold text-white border border-white/10">
-          {format(value)}
-        </span>
-      </motion.div>
-
-      {/* Range input */}
-      <input
-        type="range"
-        min={min}
-        max={max}
-        step={step}
-        value={value}
-        onChange={(e) => onChange(Number(e.target.value))}
-        className="absolute w-full h-2 opacity-0 cursor-pointer z-10"
-      />
-
-      {/* Visual thumb */}
-      <motion.div
-        className="absolute top-0 w-5 h-5 -translate-x-1/2 -translate-y-1/4 rounded-full bg-white shadow-lg border-2 border-neon-cyan cursor-pointer"
-        style={{ left: `${getPercentage(value)}%` }}
-        whileHover={{ scale: 1.2 }}
-        whileTap={{ scale: 0.9 }}
-      />
+      {/* Range labels */}
+      <div className="mt-4 flex justify-between text-xs text-white/40">
+        <span>{min} {unit}</span>
+        <span>{max} {unit}</span>
+      </div>
     </div>
   )
 }
@@ -271,30 +177,22 @@ export function FiltersModal({ isOpen, onClose }: FiltersModalProps) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
               >
-                <div className="flex items-center gap-3 mb-6">
+                <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-neon-cyan/20 to-neon-purple/20 flex items-center justify-center">
                     <Calendar className="w-5 h-5 text-neon-cyan" />
                   </div>
                   <div>
                     <h4 className="text-white font-semibold">Tranche d'age</h4>
-                    <p className="text-white/40 text-sm">
-                      {localAgeRange[0]} - {localAgeRange[1]} ans
-                    </p>
+                    <p className="text-white/40 text-sm">Selectionnez la plage d'age</p>
                   </div>
                 </div>
-                <div className="px-2">
-                  <RangeSlider
-                    min={18}
-                    max={99}
-                    value={localAgeRange}
-                    onChange={setLocalAgeRange}
-                    formatValue={(v) => `${v}`}
-                  />
-                </div>
-                <div className="flex justify-between text-xs text-white/30 mt-1 px-1">
-                  <span>18 ans</span>
-                  <span>99 ans</span>
-                </div>
+                <RangeSlider
+                  min={18}
+                  max={99}
+                  value={localAgeRange}
+                  onChange={setLocalAgeRange}
+                  unit="ans"
+                />
               </motion.div>
 
               {/* Distance */}
@@ -303,28 +201,22 @@ export function FiltersModal({ isOpen, onClose }: FiltersModalProps) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
               >
-                <div className="flex items-center gap-3 mb-6">
+                <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-neon-cyan/20 to-neon-purple/20 flex items-center justify-center">
                     <MapPin className="w-5 h-5 text-neon-purple" />
                   </div>
                   <div>
                     <h4 className="text-white font-semibold">Distance maximale</h4>
-                    <p className="text-white/40 text-sm">{localDistance} km</p>
+                    <p className="text-white/40 text-sm">Rayon de recherche</p>
                   </div>
                 </div>
-                <div className="px-2">
-                  <SingleSlider
-                    min={1}
-                    max={100}
-                    value={localDistance}
-                    onChange={setLocalDistance}
-                    formatValue={(v) => `${v} km`}
-                  />
-                </div>
-                <div className="flex justify-between text-xs text-white/30 mt-1 px-1">
-                  <span>1 km</span>
-                  <span>100 km</span>
-                </div>
+                <SingleSlider
+                  min={1}
+                  max={100}
+                  value={localDistance}
+                  onChange={setLocalDistance}
+                  unit="km"
+                />
               </motion.div>
 
               {/* Gender Preference */}

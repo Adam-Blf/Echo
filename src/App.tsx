@@ -19,6 +19,7 @@ const SettingsPage = lazy(() => import('@/pages/Settings').then(m => ({ default:
 const AccountSettingsPage = lazy(() => import('@/pages/settingsPages/AccountSettings').then(m => ({ default: m.AccountSettingsPage })))
 const NotificationSettingsPage = lazy(() => import('@/pages/settingsPages/NotificationSettings').then(m => ({ default: m.NotificationSettingsPage })))
 const PrivacySettingsPage = lazy(() => import('@/pages/settingsPages/PrivacySettings').then(m => ({ default: m.PrivacySettingsPage })))
+const ComponentShowcase = lazy(() => import('@/pages/ComponentShowcase').then(m => ({ default: m.ComponentShowcase })))
 
 // Loading skeleton for lazy loaded pages
 function PageLoader() {
@@ -188,6 +189,16 @@ function App() {
 
             {/* Wingman validation page (public - external link) */}
             <Route path="/wingman/:token" element={<WingmanPage />} />
+
+            {/* Component Showcase (dev/design) */}
+            <Route
+              path="/components/showcase"
+              element={
+                <PrivateRoute>
+                  <ComponentShowcase />
+                </PrivateRoute>
+              }
+            />
 
             {/* Catch-all redirect to auth */}
             <Route path="*" element={<Navigate to="/auth" replace />} />
