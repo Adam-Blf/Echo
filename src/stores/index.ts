@@ -1,3 +1,5 @@
 export { useOnboardingStore } from './onboardingStore'
 export { useSwipeStore } from './swipeStore'
 export { useUserStore, initializeDemoProfile } from './userStore'
+export { useSettingsStore } from './settingsStore'
+export type { NotificationSettings, PrivacySettings, BlockedUser } from './settingsStore'

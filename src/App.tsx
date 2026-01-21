@@ -12,8 +12,13 @@ const ProfilePage = lazy(() => import('@/pages/Profile').then(m => ({ default: m
 const OnboardingPage = lazy(() => import('@/pages/Onboarding').then(m => ({ default: m.OnboardingPage })))
 const WingmanPage = lazy(() => import('@/pages/Wingman').then(m => ({ default: m.WingmanPage })))
 const ChatPage = lazy(() => import('@/pages/Chat').then(m => ({ default: m.ChatPage })))
+const EditProfilePage = lazy(() => import('@/pages/EditProfile').then(m => ({ default: m.EditProfilePage })))
 const AuthPage = lazy(() => import('@/pages/Auth').then(m => ({ default: m.AuthPage })))
 const AuthCallbackPage = lazy(() => import('@/pages/AuthCallback').then(m => ({ default: m.AuthCallbackPage })))
+const SettingsPage = lazy(() => import('@/pages/Settings').then(m => ({ default: m.SettingsPage })))
+const AccountSettingsPage = lazy(() => import('@/pages/settingsPages/AccountSettings').then(m => ({ default: m.AccountSettingsPage })))
+const NotificationSettingsPage = lazy(() => import('@/pages/settingsPages/NotificationSettings').then(m => ({ default: m.NotificationSettingsPage })))
+const PrivacySettingsPage = lazy(() => import('@/pages/settingsPages/PrivacySettings').then(m => ({ default: m.PrivacySettingsPage })))
 
 // Loading skeleton for lazy loaded pages
 function PageLoader() {
@@ -133,6 +138,50 @@ function App() {
               element={
                 <PrivateRoute>
                   <ChatPage />
+                </PrivateRoute>
+              }
+            />
+
+            {/* Edit Profile page (protected) */}
+            <Route
+              path="/profile/edit"
+              element={
+                <PrivateRoute>
+                  <EditProfilePage />
+                </PrivateRoute>
+              }
+            />
+
+            {/* Settings pages (protected) */}
+            <Route
+              path="/settings"
+              element={
+                <PrivateRoute>
+                  <SettingsPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/settings/account"
+              element={
+                <PrivateRoute>
+                  <AccountSettingsPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/settings/notifications"
+              element={
+                <PrivateRoute>
+                  <NotificationSettingsPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/settings/privacy"
+              element={
+                <PrivateRoute>
+                  <PrivacySettingsPage />
                 </PrivateRoute>
               }
             />

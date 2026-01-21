@@ -1,12 +1,13 @@
 import { useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Link } from 'react-router-dom'
-import { Settings, Camera, Share2, LogOut, ChevronRight, Shield, Bell, Globe, History } from 'lucide-react'
+import { Link, useNavigate } from 'react-router-dom'
+import { Settings, Camera, Share2, LogOut, ChevronRight, Shield, Bell, Globe, History, Pencil } from 'lucide-react'
 import { useUserStore, initializeDemoProfile } from '@/stores'
 import { StatusBadge, ExpirationBanner } from '@/components/ui'
 import { cn } from '@/lib/utils'
 
 export function ProfilePage() {
+  const navigate = useNavigate()
   const { profile, echoStatus, daysUntilExpiration, isActive, refreshEchoStatus, logout } = useUserStore()
 
   // Initialize demo profile and refresh status on mount
@@ -35,7 +36,10 @@ export function ProfilePage() {
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <h1 className="text-2xl font-bold text-white">Profil</h1>
-        <button className="p-2 rounded-xl bg-white/5 hover:bg-white/10 transition-colors">
+        <button
+          onClick={() => navigate('/settings')}
+          className="p-2 rounded-xl bg-white/5 hover:bg-white/10 transition-colors"
+        >
           <Settings className="w-5 h-5 text-white/70" />
         </button>
       </div>
@@ -172,13 +176,29 @@ export function ProfilePage() {
           />
         </Link>
 
+        {/* Edit Profile Button */}
+        <Link
+          to="/profile/edit"
+          className="w-full flex items-center gap-4 p-4 rounded-2xl bg-gradient-to-r from-neon-purple/10 to-neon-cyan/10 border border-neon-purple/30
+                     hover:from-neon-purple/20 hover:to-neon-cyan/20 hover:border-neon-purple/50 transition-all group"
+        >
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-neon-purple to-neon-cyan flex items-center justify-center">
+            <Pencil className="w-5 h-5 text-white" />
+          </div>
+          <div className="flex-1 text-left">
+            <p className="text-white font-medium">Modifier mon profil</p>
+            <p className="text-white/40 text-sm">Photos, bio, centres d'interet</p>
+          </div>
+          <ChevronRight className="w-5 h-5 text-neon-purple/70 group-hover:text-neon-purple transition-colors" />
+        </Link>
+
         {/* Other actions */}
         {[
           { icon: Share2, label: 'Inviter un Wingman', desc: 'Fais valider ton profil', to: '/wingman/invite' },
           { icon: History, label: 'Historique photos', desc: 'Tes anciens Echos', to: '/history' },
-          { icon: Bell, label: 'Notifications', desc: 'Gérer les alertes', to: '/settings/notifications' },
-          { icon: Globe, label: 'Langue', desc: 'Français', to: '/settings/language' },
-          { icon: Shield, label: 'Confidentialité', desc: 'Paramètres de sécurité', to: '/settings/privacy' },
+          { icon: Bell, label: 'Notifications', desc: 'Gerer les alertes', to: '/settings/notifications' },
+          { icon: Globe, label: 'Langue', desc: 'Francais', to: '/settings/language' },
+          { icon: Shield, label: 'Confidentialite', desc: 'Parametres de securite', to: '/settings/privacy' },
         ].map((item, i) => (
           <Link
             key={i}
