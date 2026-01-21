@@ -1,16 +1,83 @@
 /**
  * Security utilities for Echo PWA
  * These are client-side protections. Real security requires a backend.
+ *
+ * IMPORTANT: Client-side sanitization is defense-in-depth.
+ * The database RLS policies are the primary security layer.
  */
 
-// Simple XSS sanitization for user inputs
+// Comprehensive XSS sanitization for user inputs
+// Covers all OWASP recommended character escapes
 export function sanitizeText(input: string): string {
+  if (!input || typeof input !== 'string') {
+    return ''
+  }
+
   return input
+    // HTML special characters
+    .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#x27;')
     .replace(/\//g, '&#x2F;')
+    // Additional XSS vectors
+    .replace(/`/g, '&#x60;')
+    .replace(/\\/g, '&#x5C;')
+    // Remove null bytes (can bypass filters)
+    .replace(/\0/g, '')
+    // Remove potential script injection patterns
+    .replace(/javascript:/gi, '')
+    .replace(/vbscript:/gi, '')
+    .replace(/data:/gi, '')
+    .replace(/on\w+=/gi, '')
+}
+
+// Strict sanitization for sensitive fields (bio, messages)
+export function sanitizeUserContent(input: string): string {
+  if (!input || typeof input !== 'string') {
+    return ''
+  }
+
+  // First apply basic sanitization
+  let sanitized = sanitizeText(input)
+
+  // Remove any remaining HTML tags
+  sanitized = sanitized.replace(/<[^>]*>/g, '')
+
+  // Normalize whitespace (prevent UI manipulation)
+  sanitized = sanitized
+    .replace(/\s+/g, ' ')
+    .trim()
+
+  return sanitized
+}
+
+// URL sanitization for user-provided links
+export function sanitizeUrl(url: string): string | null {
+  if (!url || typeof url !== 'string') {
+    return null
+  }
+
+  try {
+    const parsed = new URL(url)
+
+    // Only allow http and https protocols
+    if (!['http:', 'https:'].includes(parsed.protocol)) {
+      return null
+    }
+
+    // Block suspicious patterns
+    if (parsed.href.includes('javascript:') ||
+        parsed.href.includes('data:') ||
+        parsed.href.includes('vbscript:')) {
+      return null
+    }
+
+    return parsed.href
+  } catch {
+    return null
+  }
 }
 
 // Validate message length

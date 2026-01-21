@@ -5,6 +5,7 @@ import { ArrowRight, ArrowLeft, Camera, User, Heart, Share2, Sparkles, Check, Ma
 import { useOnboardingStore } from '@/stores'
 import type { OnboardingStep, Gender, Preference, PhotoData } from '@/types/onboarding'
 import { cn, generateUUID } from '@/lib/utils'
+import { sanitizeText, sanitizeUserContent } from '@/lib/security'
 import { useAuth } from '@/contexts/AuthContext'
 import { detectFace } from '@/lib/faceDetection'
 
@@ -221,8 +222,8 @@ export function OnboardingPage() {
     updateFormData({
       email,
       password,
-      firstName,
-      bio
+      firstName: sanitizeText(firstName),
+      bio: sanitizeUserContent(bio)
     })
     nextStep()
   }

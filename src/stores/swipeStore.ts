@@ -4,7 +4,6 @@ import type { SwipeAction, DiscoveryProfile, Match, SwipeLimits } from '@/types/
 import { FREE_LIMITS, PREMIUM_LIMITS } from '@/types/swipe'
 import {
   getDiscoveryProfiles,
-  updateLocation,
   countNearbyUsers,
   requestAndUpdateLocation,
   type DiscoveryFilters,
@@ -236,11 +235,9 @@ export const useSwipeStore = create<SwipeState>()(
             photoUrl: p.photoUrl || '',
             echoStatus: p.echoStatus,
             lastPhotoAt: new Date(p.lastPhotoAt),
-            isValidated: p.isValidated,
-            wingmanQuote: p.wingmanQuote,
-            wingmanQualities: p.wingmanQualities || [],
-            wingmanFlaws: p.wingmanFlaws || [],
-            distance: p.distanceKm,
+            isActive: p.echoStatus === 'ACTIVE' || p.echoStatus === 'EXPIRING',
+            wingmanQuote: p.wingmanQuote ?? undefined,
+            distance: p.distanceKm ?? undefined,
           }))
 
           set({

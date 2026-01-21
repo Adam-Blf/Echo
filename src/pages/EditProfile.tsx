@@ -40,6 +40,7 @@ import {
 import { CSS } from '@dnd-kit/utilities'
 import { useUserStore } from '@/stores'
 import { cn } from '@/lib/utils'
+import { sanitizeText, sanitizeUserContent } from '@/lib/security'
 import { supabase } from '@/lib/supabase'
 
 // Constants
@@ -473,10 +474,10 @@ export function EditProfilePage() {
         }
       }
 
-      // Update profile in store
+      // Update profile in store (with XSS sanitization)
       updateProfile({
-        firstName,
-        bio,
+        firstName: sanitizeText(firstName),
+        bio: sanitizeUserContent(bio),
         interests: selectedInterests,
         photoUrl: photoUrls[0] || ''
       })

@@ -322,10 +322,10 @@ export const countReceivedLikes = async (): Promise<number> => {
 /**
  * Subscribe to premium plan changes in realtime
  */
-export const subscribeToPremiumChanges = (
+export const subscribeToPremiumChanges = async (
   callback: (premiumState: UserPremiumState) => void
 ) => {
-  const { data: { user } } = supabase.auth.getUser()
+  const { data: { user } } = await supabase.auth.getUser()
 
   return supabase
     .channel('premium-changes')
