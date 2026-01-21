@@ -47,6 +47,10 @@ export type SubscriptionStatus =
   | 'incomplete'
   | 'incomplete_expired'
 
+// Profile fields (Migration 005)
+export type GenderType = 'male' | 'female' | 'non-binary'
+export type PreferenceType = 'men' | 'women' | 'everyone'
+
 // =============================================================================
 // SEARCH PREFERENCES
 // =============================================================================
@@ -93,6 +97,10 @@ export interface Database {
           language: 'fr' | 'en'
           is_premium: boolean
           premium_expires_at: string | null
+          // Migration 005 fields
+          gender: GenderType | null
+          preference: PreferenceType | null
+          phone_number: string | null
         }
         Insert: {
           id: string
@@ -117,6 +125,10 @@ export interface Database {
           language?: 'fr' | 'en'
           is_premium?: boolean
           premium_expires_at?: string | null
+          // Migration 005 fields
+          gender?: GenderType | null
+          preference?: PreferenceType | null
+          phone_number?: string | null
         }
         Update: {
           id?: string
@@ -141,6 +153,10 @@ export interface Database {
           language?: 'fr' | 'en'
           is_premium?: boolean
           premium_expires_at?: string | null
+          // Migration 005 fields
+          gender?: GenderType | null
+          preference?: PreferenceType | null
+          phone_number?: string | null
         }
       }
 
@@ -754,6 +770,8 @@ export interface Database {
           wingman_qualities: string[] | null
           wingman_flaws: string[] | null
           distance_km: number | null
+          gender: GenderType | null
+          preference: PreferenceType | null
         }[]
       }
       count_nearby_users: {
@@ -779,6 +797,9 @@ export interface Database {
       report_status: ReportStatus
       subscription_plan: SubscriptionPlan
       subscription_status: SubscriptionStatus
+      // Migration 005 enums
+      gender_type: GenderType
+      preference_type: PreferenceType
     }
   }
 }
