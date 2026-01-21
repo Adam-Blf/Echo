@@ -9,25 +9,52 @@ import { sanitizeText, sanitizeUserContent } from '@/lib/security'
 import { useAuth } from '@/contexts/AuthContext'
 import { detectFace } from '@/lib/faceDetection'
 
-const INTERESTS = [
-  // Loisirs & Divertissement
-  'Musique', 'Cinéma', 'Séries', 'Lecture', 'Gaming', 'Podcast', 'Théâtre', 'Concerts',
-  // Sport & Fitness
-  'Sport', 'Fitness', 'Yoga', 'Running', 'Football', 'Basketball', 'Tennis', 'Natation', 'Musculation', 'Danse',
-  // Créativité
-  'Art', 'Photo', 'Dessin', 'Écriture', 'Musique (jouer)', 'DIY', 'Design',
-  // Lifestyle
-  'Voyage', 'Cuisine', 'Mode', 'Bien-être', 'Méditation', 'Skincare', 'Shopping',
-  // Nature & Animaux
-  'Nature', 'Animaux', 'Jardinage', 'Randonnée', 'Camping', 'Plage',
-  // Tech & Science
-  'Tech', 'Startups', 'Crypto', 'Science', 'Espace', 'IA',
-  // Social
-  'Soirées', 'Brunch', 'Apéro', 'Networking', 'Bénévolat',
-  // Food & Drink
-  'Café', 'Vin', 'Bière', 'Vegan', 'Foodie', 'Sushi',
-  // Culture
-  'Histoire', 'Politique', 'Philo', 'Langues', 'Spiritualité'
+const INTEREST_CATEGORIES = [
+  {
+    name: 'Loisirs',
+    emoji: '🎬',
+    interests: ['Musique', 'Cinéma', 'Séries', 'Lecture', 'Gaming', 'Podcast', 'Théâtre', 'Concerts']
+  },
+  {
+    name: 'Sport',
+    emoji: '⚽',
+    interests: ['Fitness', 'Yoga', 'Running', 'Football', 'Basketball', 'Tennis', 'Natation', 'Musculation', 'Danse']
+  },
+  {
+    name: 'Créativité',
+    emoji: '🎨',
+    interests: ['Art', 'Photo', 'Dessin', 'Écriture', 'Musique (jouer)', 'DIY', 'Design']
+  },
+  {
+    name: 'Lifestyle',
+    emoji: '✨',
+    interests: ['Voyage', 'Cuisine', 'Mode', 'Bien-être', 'Méditation', 'Skincare', 'Shopping']
+  },
+  {
+    name: 'Nature',
+    emoji: '🌿',
+    interests: ['Nature', 'Animaux', 'Jardinage', 'Randonnée', 'Camping', 'Plage']
+  },
+  {
+    name: 'Tech',
+    emoji: '💻',
+    interests: ['Tech', 'Startups', 'Crypto', 'Science', 'Espace', 'IA']
+  },
+  {
+    name: 'Social',
+    emoji: '🎉',
+    interests: ['Soirées', 'Brunch', 'Apéro', 'Networking', 'Bénévolat']
+  },
+  {
+    name: 'Food',
+    emoji: '🍕',
+    interests: ['Café', 'Vin', 'Bière', 'Vegan', 'Foodie', 'Sushi']
+  },
+  {
+    name: 'Culture',
+    emoji: '📚',
+    interests: ['Histoire', 'Politique', 'Philo', 'Langues', 'Spiritualité']
+  }
 ]
 
 const slideVariants = {
@@ -1055,28 +1082,40 @@ export function OnboardingPage() {
                     </div>
                   </div>
 
-                  <div className="flex flex-wrap gap-2">
-                    {INTERESTS.map((interest, i) => {
-                      const isSelected = selectedInterests.includes(interest)
-                      return (
-                        <motion.button
-                          key={interest}
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: i * 0.03 }}
-                          whileTap={{ scale: 0.95 }}
-                          onClick={() => toggleInterest(interest)}
-                          className={cn(
-                            'px-4 py-2.5 rounded-xl text-sm font-medium transition-all border',
-                            isSelected
-                              ? 'bg-gradient-to-r from-orange-500 to-rose-500 text-white border-transparent shadow-lg shadow-orange-500/20'
-                              : 'bg-black/20 text-white/70 border-white/5 hover:border-white/20 hover:bg-black/30'
-                          )}
-                        >
-                          {interest}
-                        </motion.button>
-                      )
-                    })}
+                  <div className="space-y-4 max-h-[50vh] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-white/10">
+                    {INTEREST_CATEGORIES.map((category, catIndex) => (
+                      <motion.div
+                        key={category.name}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: catIndex * 0.05 }}
+                      >
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-lg">{category.emoji}</span>
+                          <span className="text-white/60 text-xs font-medium uppercase tracking-wide">{category.name}</span>
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                          {category.interests.map((interest) => {
+                            const isSelected = selectedInterests.includes(interest)
+                            return (
+                              <motion.button
+                                key={interest}
+                                whileTap={{ scale: 0.95 }}
+                                onClick={() => toggleInterest(interest)}
+                                className={cn(
+                                  'px-3 py-2 rounded-xl text-sm font-medium transition-all border',
+                                  isSelected
+                                    ? 'bg-gradient-to-r from-orange-500 to-rose-500 text-white border-transparent shadow-lg shadow-orange-500/20'
+                                    : 'bg-black/20 text-white/70 border-white/5 hover:border-white/20 hover:bg-black/30'
+                                )}
+                              >
+                                {interest}
+                              </motion.button>
+                            )
+                          })}
+                        </div>
+                      </motion.div>
+                    ))}
                   </div>
                 </motion.div>
 
