@@ -42,6 +42,11 @@ export const onboardingSchema = z.object({
     .max(300, 'Maximum 300 caractères')
     .optional()
     .or(z.literal('')),
+  phoneNumber: z
+    .string()
+    .regex(/^(\+33|0)[1-9](\d{2}){4}$/, 'Numéro invalide')
+    .optional()
+    .or(z.literal('')),
   interests: z
     .array(z.string())
     .min(1, 'Sélectionne au moins un intérêt')

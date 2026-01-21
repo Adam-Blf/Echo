@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowRight, ArrowLeft, Camera, User, Heart, Share2, Sparkles, Check, Mail, Lock, Loader2, Calendar, Users, ChevronDown, Plus, X, ImagePlus } from 'lucide-react'
+import { ArrowRight, ArrowLeft, Camera, User, Heart, Share2, Sparkles, Check, Mail, Lock, Loader2, Calendar, Users, ChevronDown, Plus, X, ImagePlus, Phone } from 'lucide-react'
 import { useOnboardingStore } from '@/stores'
 import type { OnboardingStep, Gender, Preference, PhotoData } from '@/types/onboarding'
 import { cn, generateUUID } from '@/lib/utils'
@@ -10,9 +10,24 @@ import { useAuth } from '@/contexts/AuthContext'
 import { detectFace } from '@/lib/faceDetection'
 
 const INTERESTS = [
-  'Musique', 'Sport', 'Voyage', 'Cinéma', 'Cuisine',
-  'Art', 'Tech', 'Nature', 'Gaming', 'Lecture',
-  'Danse', 'Photo', 'Mode', 'Fitness', 'Animaux'
+  // Loisirs & Divertissement
+  'Musique', 'Cinéma', 'Séries', 'Lecture', 'Gaming', 'Podcast', 'Théâtre', 'Concerts',
+  // Sport & Fitness
+  'Sport', 'Fitness', 'Yoga', 'Running', 'Football', 'Basketball', 'Tennis', 'Natation', 'Musculation', 'Danse',
+  // Créativité
+  'Art', 'Photo', 'Dessin', 'Écriture', 'Musique (jouer)', 'DIY', 'Design',
+  // Lifestyle
+  'Voyage', 'Cuisine', 'Mode', 'Bien-être', 'Méditation', 'Skincare', 'Shopping',
+  // Nature & Animaux
+  'Nature', 'Animaux', 'Jardinage', 'Randonnée', 'Camping', 'Plage',
+  // Tech & Science
+  'Tech', 'Startups', 'Crypto', 'Science', 'Espace', 'IA',
+  // Social
+  'Soirées', 'Brunch', 'Apéro', 'Networking', 'Bénévolat',
+  // Food & Drink
+  'Café', 'Vin', 'Bière', 'Vegan', 'Foodie', 'Sushi',
+  // Culture
+  'Histoire', 'Politique', 'Philo', 'Langues', 'Spiritualité'
 ]
 
 const slideVariants = {
@@ -55,6 +70,7 @@ export function OnboardingPage() {
   // Form local states - pre-fill from OAuth if available
   const [email, setEmail] = useState(formData.email || user?.email || '')
   const [password, setPassword] = useState(formData.password || '')
+  const [phoneNumber, setPhoneNumber] = useState('')
   // Extract first name from Google user metadata
   const googleFirstName = user?.user_metadata?.full_name?.split(' ')[0] || user?.user_metadata?.name?.split(' ')[0] || ''
   const [firstName, setFirstName] = useState(formData.firstName || googleFirstName || '')
@@ -73,6 +89,7 @@ export function OnboardingPage() {
   // Form validation states
   const [emailError, setEmailError] = useState('')
   const [passwordError, setPasswordError] = useState('')
+  const [phoneError, setPhoneError] = useState('')
   const [nameError, setNameError] = useState('')
   const [birthError, setBirthError] = useState('')
 
@@ -217,6 +234,16 @@ export function OnboardingPage() {
       }
     }
 
+    // Validate phone number (optional but if provided, must be valid)
+    const phoneRegex = /^(\+33|0)[1-9](\d{2}){4}$/
+    const cleanPhone = phoneNumber.replace(/\s/g, '')
+    if (cleanPhone && !phoneRegex.test(cleanPhone)) {
+      setPhoneError('Numéro invalide (ex: 0612345678)')
+      hasError = true
+    } else {
+      setPhoneError('')
+    }
+
     const nameRegex = /^[a-zA-ZÀ-ÿ\s-]+$/
     if (!firstName || firstName.length < 2 || !nameRegex.test(firstName)) {
       setNameError('Prénom invalide (2-30 caractères)')
@@ -231,7 +258,8 @@ export function OnboardingPage() {
       email: isOAuthUser ? user?.email || '' : email,
       password,
       firstName: sanitizeText(firstName),
-      bio: sanitizeUserContent(bio)
+      bio: sanitizeUserContent(bio),
+      phoneNumber: cleanPhone || undefined,
     })
     nextStep()
   }
@@ -263,6 +291,7 @@ export function OnboardingPage() {
           interests: selectedInterests,
           gender: formData.gender,
           preference: formData.preference,
+          phone_number: formData.phoneNumber || null,
         })
 
         if (profileError) {
@@ -940,6 +969,24 @@ export function OnboardingPage() {
                         />
                       </div>
                       {nameError && <p className="text-red-400 text-xs mt-1 ml-1">{nameError}</p>}
+                    </div>
+
+                    <div>
+                      <div className={cn(
+                        'flex items-center gap-3 h-14 px-4 rounded-2xl bg-black/30 border transition-all',
+                        phoneError ? 'border-red-500/50' : 'border-white/10 focus-within:border-violet-500/50'
+                      )}>
+                        <Phone className="w-5 h-5 text-white/40" />
+                        <input
+                          type="tel"
+                          value={phoneNumber}
+                          onChange={(e) => setPhoneNumber(e.target.value)}
+                          placeholder="Téléphone (pour retrouver tes amis)"
+                          className="flex-1 bg-transparent text-white placeholder:text-white/30 focus:outline-none"
+                        />
+                      </div>
+                      {phoneError && <p className="text-red-400 text-xs mt-1 ml-1">{phoneError}</p>}
+                      <p className="text-white/30 text-xs mt-1 ml-1">Optionnel • Pour des recommandations basées sur tes contacts</p>
                     </div>
 
                     <div>
