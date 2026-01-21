@@ -1041,16 +1041,16 @@ export function OnboardingPage() {
 
             {/* Interests Step */}
             {step === 'interests' && (
-              <div className="flex-1 flex flex-col">
-                <div className="text-center mb-6">
+              <div className="flex-1 flex flex-col overflow-hidden">
+                <div className="text-center mb-4 flex-shrink-0">
                   <motion.div
                     initial={{ scale: 0 }}
                     animate={{ scale: 1 }}
-                    className="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br from-orange-500 to-rose-500 flex items-center justify-center shadow-lg shadow-orange-500/25"
+                    className="w-14 h-14 mx-auto mb-3 rounded-2xl bg-gradient-to-br from-orange-500 to-rose-500 flex items-center justify-center shadow-lg shadow-orange-500/25"
                   >
-                    <Heart className="w-8 h-8 text-white" />
+                    <Heart className="w-7 h-7 text-white" />
                   </motion.div>
-                  <h1 className="text-2xl font-bold text-white mb-1">
+                  <h1 className="text-xl font-bold text-white mb-1">
                     Tes centres d'intérêt
                   </h1>
                   <p className="text-white/50 text-sm">
@@ -1058,31 +1058,32 @@ export function OnboardingPage() {
                   </p>
                 </div>
 
+                {/* Counter sticky */}
+                <div className="flex items-center justify-between mb-3 px-1 flex-shrink-0">
+                  <span className="text-white/40 text-sm">Sélectionnés</span>
+                  <div className="flex items-center gap-1">
+                    {[...Array(5)].map((_, i) => (
+                      <div
+                        key={i}
+                        className={cn(
+                          'w-2 h-2 rounded-full transition-all',
+                          i < selectedInterests.length
+                            ? 'bg-gradient-to-r from-orange-500 to-rose-500'
+                            : 'bg-white/10'
+                        )}
+                      />
+                    ))}
+                    <span className="ml-2 text-white/60 text-sm font-medium">{selectedInterests.length}/5</span>
+                  </div>
+                </div>
+
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 }}
-                  className="flex-1 bg-white/5 backdrop-blur-xl rounded-3xl p-5 border border-white/10 shadow-2xl mb-6"
+                  className="flex-1 bg-white/5 backdrop-blur-xl rounded-3xl p-4 border border-white/10 shadow-2xl overflow-hidden min-h-0"
                 >
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-white/40 text-sm">Sélectionnés</span>
-                    <div className="flex items-center gap-1">
-                      {[...Array(5)].map((_, i) => (
-                        <div
-                          key={i}
-                          className={cn(
-                            'w-2 h-2 rounded-full transition-all',
-                            i < selectedInterests.length
-                              ? 'bg-gradient-to-r from-orange-500 to-rose-500'
-                              : 'bg-white/10'
-                          )}
-                        />
-                      ))}
-                      <span className="ml-2 text-white/60 text-sm font-medium">{selectedInterests.length}/5</span>
-                    </div>
-                  </div>
-
-                  <div className="space-y-4 max-h-[50vh] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-white/10">
+                  <div className="space-y-4 h-full overflow-y-auto pr-2">
                     {INTEREST_CATEGORIES.map((category, catIndex) => (
                       <motion.div
                         key={category.name}
@@ -1119,35 +1120,38 @@ export function OnboardingPage() {
                   </div>
                 </motion.div>
 
-                {authError && (
-                  <motion.div
+                {/* Button section - always visible */}
+                <div className="flex-shrink-0 pt-4 space-y-3">
+                  {authError && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="p-3 rounded-xl bg-red-500/10 border border-red-500/20"
+                    >
+                      <p className="text-red-400 text-sm text-center">{authError}</p>
+                    </motion.div>
+                  )}
+
+                  <motion.button
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="mb-4 p-3 rounded-xl bg-red-500/10 border border-red-500/20"
+                    transition={{ delay: 0.2 }}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={handleInterestsSubmit}
+                    disabled={selectedInterests.length === 0 || isSubmitting}
+                    className="w-full h-14 rounded-2xl bg-gradient-to-r from-orange-500 to-rose-500 text-white font-semibold shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
-                    <p className="text-red-400 text-sm text-center">{authError}</p>
-                  </motion.div>
-                )}
-
-                <motion.button
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 }}
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={handleInterestsSubmit}
-                  disabled={selectedInterests.length === 0 || isSubmitting}
-                  className="w-full h-14 rounded-2xl bg-gradient-to-r from-orange-500 to-rose-500 text-white font-semibold shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                      Création du compte...
-                    </>
-                  ) : (
-                    'Créer mon compte'
-                  )}
-                </motion.button>
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        Création du compte...
+                      </>
+                    ) : (
+                      'Créer mon compte'
+                    )}
+                  </motion.button>
+                </div>
               </div>
             )}
 
