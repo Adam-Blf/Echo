@@ -141,10 +141,29 @@ function isSkinTone(r: number, g: number, b: number): boolean {
 
 // Main detection function
 export async function detectFace(imageBlob: Blob): Promise<FaceDetectionResult> {
+  // MVP: Be lenient with face detection
+  // Browser Face Detection API is only available in Chrome/Edge
+  // For other browsers, we allow the photo and rely on manual moderation
+
   if (isFaceDetectionSupported()) {
-    return detectWithBrowserAPI(imageBlob)
+    const result = await detectWithBrowserAPI(imageBlob)
+    // Even if browser API fails, allow the photo for MVP
+    if (result.error) {
+      return { hasFace: true, confidence: 0.5 }
+    }
+    return result
   }
-  return detectWithFallback(imageBlob)
+
+  // Fallback: Try skin tone detection but be lenient
+  const fallbackResult = await detectWithFallback(imageBlob)
+
+  // For MVP, if confidence is above 5% (very low threshold), allow it
+  // This prevents blocking users while still catching obvious non-face images
+  if (fallbackResult.confidence > 0.05 || fallbackResult.error) {
+    return { hasFace: true, confidence: fallbackResult.confidence }
+  }
+
+  return fallbackResult
 }
 
 // Export for testing
