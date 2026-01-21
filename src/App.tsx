@@ -19,6 +19,7 @@ const SettingsPage = lazy(() => import('@/pages/Settings').then(m => ({ default:
 const AccountSettingsPage = lazy(() => import('@/pages/settingsPages/AccountSettings').then(m => ({ default: m.AccountSettingsPage })))
 const NotificationSettingsPage = lazy(() => import('@/pages/settingsPages/NotificationSettings').then(m => ({ default: m.NotificationSettingsPage })))
 const PrivacySettingsPage = lazy(() => import('@/pages/settingsPages/PrivacySettings').then(m => ({ default: m.PrivacySettingsPage })))
+const LikesPage = lazy(() => import('@/pages/Likes').then(m => ({ default: m.LikesPage })))
 const ComponentShowcase = lazy(() => import('@/pages/ComponentShowcase').then(m => ({ default: m.ComponentShowcase })))
 
 // Loading skeleton for lazy loaded pages
@@ -183,6 +184,16 @@ function App() {
               element={
                 <PrivateRoute>
                   <PrivacySettingsPage />
+                </PrivateRoute>
+              }
+            />
+
+            {/* Likes page (protected) */}
+            <Route
+              path="/likes"
+              element={
+                <PrivateRoute>
+                  <LikesPage />
                 </PrivateRoute>
               }
             />
