@@ -39,9 +39,12 @@ const MAX_PHOTOS = 5
 
 export function OnboardingPage() {
   const navigate = useNavigate()
-  const { signUp } = useAuth()
+  const { signUp, user, isAuthenticated } = useAuth()
   const { step, setStep, formData, updateFormData, photos, addPhoto, removePhoto, wingmanCode, setWingmanCode } = useOnboardingStore()
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  // Check if user is already authenticated (via OAuth)
+  const isOAuthUser = isAuthenticated && !!user
 
   const [direction, setDirection] = useState(0)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -49,10 +52,12 @@ export function OnboardingPage() {
   const [photoError, setPhotoError] = useState<string | null>(null)
   const [isProcessingPhoto, setIsProcessingPhoto] = useState(false)
 
-  // Form local states
-  const [email, setEmail] = useState(formData.email || '')
+  // Form local states - pre-fill from OAuth if available
+  const [email, setEmail] = useState(formData.email || user?.email || '')
   const [password, setPassword] = useState(formData.password || '')
-  const [firstName, setFirstName] = useState(formData.firstName || '')
+  // Extract first name from Google user metadata
+  const googleFirstName = user?.user_metadata?.full_name?.split(' ')[0] || user?.user_metadata?.name?.split(' ')[0] || ''
+  const [firstName, setFirstName] = useState(formData.firstName || googleFirstName || '')
   const [bio, setBio] = useState(formData.bio || '')
   const [selectedInterests, setSelectedInterests] = useState<string[]>(formData.interests || [])
 
@@ -194,19 +199,22 @@ export function OnboardingPage() {
   const handleInfoSubmit = () => {
     let hasError = false
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    if (!email || !emailRegex.test(email)) {
-      setEmailError('Email invalide')
-      hasError = true
-    } else {
-      setEmailError('')
-    }
+    // Only validate email/password for non-OAuth users
+    if (!isOAuthUser) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+      if (!email || !emailRegex.test(email)) {
+        setEmailError('Email invalide')
+        hasError = true
+      } else {
+        setEmailError('')
+      }
 
-    if (!password || password.length < 6) {
-      setPasswordError('Minimum 6 caractères')
-      hasError = true
-    } else {
-      setPasswordError('')
+      if (!password || password.length < 6) {
+        setPasswordError('Minimum 6 caractères')
+        hasError = true
+      } else {
+        setPasswordError('')
+      }
     }
 
     const nameRegex = /^[a-zA-ZÀ-ÿ\s-]+$/
@@ -220,7 +228,7 @@ export function OnboardingPage() {
     if (hasError) return
 
     updateFormData({
-      email,
+      email: isOAuthUser ? user?.email || '' : email,
       password,
       firstName: sanitizeText(firstName),
       bio: sanitizeUserContent(bio)
@@ -243,17 +251,39 @@ export function OnboardingPage() {
         formData.birthDate.getFullYear()
       ) : 18
 
-      const { error } = await signUp(
-        formData.email || email,
-        formData.password || password,
-        formData.firstName || firstName,
-        age
-      )
+      // If OAuth user, just create profile (user already exists)
+      if (isOAuthUser && user) {
+        const { supabase } = await import('@/lib/supabase')
+        const { error: profileError } = await supabase.from('profiles').upsert({
+          id: user.id,
+          email: user.email,
+          first_name: formData.firstName || firstName,
+          age,
+          bio: formData.bio || bio,
+          interests: selectedInterests,
+          gender: formData.gender,
+          preference: formData.preference,
+        })
 
-      if (error) {
-        setAuthError(error.message)
-        setIsSubmitting(false)
-        return
+        if (profileError) {
+          setAuthError(profileError.message)
+          setIsSubmitting(false)
+          return
+        }
+      } else {
+        // Non-OAuth: create account with email/password
+        const { error } = await signUp(
+          formData.email || email,
+          formData.password || password,
+          formData.firstName || firstName,
+          age
+        )
+
+        if (error) {
+          setAuthError(error.message)
+          setIsSubmitting(false)
+          return
+        }
       }
 
       const code = generateUUID().slice(0, 8).toUpperCase()
@@ -822,7 +852,7 @@ export function OnboardingPage() {
                   animate={{ opacity: 1, y: 0 }}
                   className="text-2xl font-bold text-white mb-2 text-center"
                 >
-                  Crée ton compte
+                  {isOAuthUser ? 'Complète ton profil' : 'Crée ton compte'}
                 </motion.h1>
 
                 <motion.p
@@ -831,7 +861,7 @@ export function OnboardingPage() {
                   transition={{ delay: 0.1 }}
                   className="text-white/50 max-w-xs mb-8 text-center"
                 >
-                  Plus que quelques infos
+                  {isOAuthUser ? 'Dis-nous en plus sur toi' : 'Plus que quelques infos'}
                 </motion.p>
 
                 <motion.div
@@ -841,45 +871,59 @@ export function OnboardingPage() {
                   className="w-full max-w-sm bg-white/5 backdrop-blur-xl rounded-3xl p-5 border border-white/10 shadow-2xl"
                 >
                   <div className="space-y-4">
-                    <div>
-                      <div className={cn(
-                        'flex items-center gap-3 h-14 px-4 rounded-2xl bg-black/30 border transition-all',
-                        emailError ? 'border-red-500/50' : 'border-white/10 focus-within:border-violet-500/50'
-                      )}>
-                        <Mail className="w-5 h-5 text-white/40" />
-                        <input
-                          type="email"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          placeholder="Email"
-                          className="flex-1 bg-transparent text-white placeholder:text-white/30 focus:outline-none"
-                        />
-                      </div>
-                      {emailError && <p className="text-red-400 text-xs mt-1 ml-1">{emailError}</p>}
-                    </div>
+                    {/* Show email/password only for non-OAuth users */}
+                    {!isOAuthUser && (
+                      <>
+                        <div>
+                          <div className={cn(
+                            'flex items-center gap-3 h-14 px-4 rounded-2xl bg-black/30 border transition-all',
+                            emailError ? 'border-red-500/50' : 'border-white/10 focus-within:border-violet-500/50'
+                          )}>
+                            <Mail className="w-5 h-5 text-white/40" />
+                            <input
+                              type="email"
+                              value={email}
+                              onChange={(e) => setEmail(e.target.value)}
+                              placeholder="Email"
+                              className="flex-1 bg-transparent text-white placeholder:text-white/30 focus:outline-none"
+                            />
+                          </div>
+                          {emailError && <p className="text-red-400 text-xs mt-1 ml-1">{emailError}</p>}
+                        </div>
 
-                    <div>
-                      <div className={cn(
-                        'flex items-center gap-3 h-14 px-4 rounded-2xl bg-black/30 border transition-all',
-                        passwordError ? 'border-red-500/50' : 'border-white/10 focus-within:border-violet-500/50'
-                      )}>
-                        <Lock className="w-5 h-5 text-white/40" />
-                        <input
-                          type="password"
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
-                          placeholder="Mot de passe (min. 6)"
-                          className="flex-1 bg-transparent text-white placeholder:text-white/30 focus:outline-none"
-                        />
-                      </div>
-                      {passwordError && <p className="text-red-400 text-xs mt-1 ml-1">{passwordError}</p>}
-                    </div>
+                        <div>
+                          <div className={cn(
+                            'flex items-center gap-3 h-14 px-4 rounded-2xl bg-black/30 border transition-all',
+                            passwordError ? 'border-red-500/50' : 'border-white/10 focus-within:border-violet-500/50'
+                          )}>
+                            <Lock className="w-5 h-5 text-white/40" />
+                            <input
+                              type="password"
+                              value={password}
+                              onChange={(e) => setPassword(e.target.value)}
+                              placeholder="Mot de passe (min. 6)"
+                              className="flex-1 bg-transparent text-white placeholder:text-white/30 focus:outline-none"
+                            />
+                          </div>
+                          {passwordError && <p className="text-red-400 text-xs mt-1 ml-1">{passwordError}</p>}
+                        </div>
 
-                    <div className="flex items-center gap-3 py-1">
-                      <div className="flex-1 h-px bg-white/10" />
-                      <span className="text-white/30 text-xs">PROFIL</span>
-                      <div className="flex-1 h-px bg-white/10" />
-                    </div>
+                        <div className="flex items-center gap-3 py-1">
+                          <div className="flex-1 h-px bg-white/10" />
+                          <span className="text-white/30 text-xs">PROFIL</span>
+                          <div className="flex-1 h-px bg-white/10" />
+                        </div>
+                      </>
+                    )}
+
+                    {/* Show connected email for OAuth users */}
+                    {isOAuthUser && user?.email && (
+                      <div className="flex items-center gap-3 h-14 px-4 rounded-2xl bg-green-500/10 border border-green-500/20">
+                        <Mail className="w-5 h-5 text-green-400" />
+                        <span className="text-white/70 text-sm truncate">{user.email}</span>
+                        <span className="ml-auto text-green-400 text-xs font-medium">Connecté</span>
+                      </div>
+                    )}
 
                     <div>
                       <div className={cn(
