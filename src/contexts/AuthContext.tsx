@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
-import { supabase, signIn, signUp, signOut } from '@/lib/supabase'
+import { supabase, signIn, signUp, signOut, signInWithGoogle, signInWithApple } from '@/lib/supabase'
 import type { User, Session } from '@supabase/supabase-js'
 import type { Profile } from '@/types/database'
 
@@ -8,8 +8,12 @@ interface AuthContextType {
   profile: Profile | null
   session: Session | null
   loading: boolean
+  isAuthenticated: boolean
+  hasCompletedOnboarding: boolean
   signIn: (email: string, password: string) => Promise<{ error: Error | null }>
   signUp: (email: string, password: string, firstName: string, age: number) => Promise<{ error: Error | null }>
+  signInWithGoogle: () => Promise<{ error: Error | null }>
+  signInWithApple: () => Promise<{ error: Error | null }>
   signOut: () => Promise<void>
   refreshProfile: () => Promise<void>
 }
@@ -122,6 +126,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  const handleSignInWithGoogle = async () => {
+    const { error } = await signInWithGoogle()
+    return { error: error ? new Error(error.message) : null }
+  }
+
+  const handleSignInWithApple = async () => {
+    const { error } = await signInWithApple()
+    return { error: error ? new Error(error.message) : null }
+  }
+
+  // Check if user is authenticated
+  const isAuthenticated = !!user && !!session
+
+  // Check if user has completed onboarding (has a profile with required fields)
+  const hasCompletedOnboarding = !!profile && !!profile.first_name
+
   return (
     <AuthContext.Provider
       value={{
@@ -129,8 +149,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         profile,
         session,
         loading,
+        isAuthenticated,
+        hasCompletedOnboarding,
         signIn: handleSignIn,
         signUp: handleSignUp,
+        signInWithGoogle: handleSignInWithGoogle,
+        signInWithApple: handleSignInWithApple,
         signOut: handleSignOut,
         refreshProfile,
       }}
