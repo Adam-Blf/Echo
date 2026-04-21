@@ -1,12 +1,11 @@
 # ECHO - Dating Authentique
 
-![Status](https://img.shields.io/badge/status-production%20ready-brightgreen)
-![Version](https://img.shields.io/badge/version-1.3.0-blue)
-![PWA](https://img.shields.io/badge/PWA-ready-green)
-![Progress](https://img.shields.io/badge/progress-100%25-brightgreen)
-![Supabase](https://img.shields.io/badge/Supabase-connected-3FCF8E)
-![Vercel](https://img.shields.io/badge/Vercel-deployed-black)
-![Security](https://img.shields.io/badge/Security-hardened-orange)
+![Status](https://img.shields.io/badge/status-production-brightgreen)
+![React](https://img.shields.io/badge/React_19-61DAFB?logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3FCF8E?logo=supabase&logoColor=white)
+![Vercel](https://img.shields.io/badge/deploy-Vercel-000?logo=vercel&logoColor=white)
 
 > Rencontres authentiques avec validation par un ami. Fenêtre 48h. Matches éphémères.
 
