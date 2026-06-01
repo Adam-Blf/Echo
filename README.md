@@ -14,6 +14,25 @@
 
 > Rencontres authentiques avec validation par un ami. Fenêtre 48h. Matches éphémères.
 
+## Architecture
+
+```mermaid
+flowchart TB
+    UI["Pages React 19<br/>Onboarding · Discover · Matches · Chat · Premium"]
+    Stores["Stores Zustand<br/>onboarding · swipe · filters · user · settings"]
+    Services["Services métier<br/>discovery · chat · block · premium"]
+    Lib["Lib<br/>faceDetection · security XSS · i18n · supabase client"]
+    Supabase["Supabase<br/>Auth · Postgres + RLS · migrations"]
+    Vercel["Vercel<br/>build Vite · headers CSP · PWA"]
+
+    UI --> Stores
+    UI --> Services
+    UI --> Lib
+    Services --> Supabase
+    Lib --> Supabase
+    Vercel --> UI
+```
+
 ## Concept
 
 ECHO réinvente les applications de dating avec trois principes fondamentaux :
