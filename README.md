@@ -18,12 +18,12 @@
 
 ```mermaid
 flowchart TB
-    UI["Pages React 19<br/>Onboarding · Discover · Matches · Chat · Premium"]
-    Stores["Stores Zustand<br/>onboarding · swipe · filters · user · settings"]
-    Services["Services métier<br/>discovery · chat · block · premium"]
-    Lib["Lib<br/>faceDetection · security XSS · i18n · supabase client"]
-    Supabase["Supabase<br/>Auth · Postgres + RLS · migrations"]
-    Vercel["Vercel<br/>build Vite · headers CSP · PWA"]
+    UI["Pages React 19<br/>Onboarding - Discover - Matches - Chat - Premium"]
+    Stores["Stores Zustand<br/>onboarding - swipe - filters - user - settings"]
+    Services["Services métier<br/>discovery - chat - block - premium"]
+    Lib["Lib<br/>faceDetection - security XSS - i18n - supabase client"]
+    Supabase["Supabase<br/>Auth - Postgres + RLS - migrations"]
+    Vercel["Vercel<br/>build Vite - headers CSP - PWA"]
 
     UI --> Stores
     UI --> Services
@@ -459,7 +459,7 @@ Made with love by Adam Beloucif
 ---
 
 <p align="center">
-  <sub>Par <a href="https://adam.beloucif.com">Adam Beloucif</a> · Data Engineer &amp; Fullstack Developer · <a href="https://github.com/Adam-Blf">GitHub</a> · <a href="https://www.linkedin.com/in/adambeloucif/">LinkedIn</a></sub>
+  <sub>Par <a href="https://adam.beloucif.com">Adam Beloucif</a> - Data Engineer &amp; Fullstack Developer - <a href="https://github.com/Adam-Blf">GitHub</a> - <a href="https://www.linkedin.com/in/adambeloucif/">LinkedIn</a></sub>
 </p>
 
 
