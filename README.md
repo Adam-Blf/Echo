@@ -6,7 +6,6 @@
 [![commits](https://img.shields.io/github/commit-activity/t/Adam-Blf/Echo?color=001329&label=commits&style=flat-square)](https://github.com/Adam-Blf/Echo/commits) [![visites](https://hits.sh/github.com/Adam-Blf/Echo.svg?style=flat-square&label=visites&color=001329)](https://hits.sh/github.com/Adam-Blf/Echo/) [![last commit](https://img.shields.io/github/last-commit/Adam-Blf/Echo?color=D4A437&style=flat-square&label=dernier%20push)](https://github.com/Adam-Blf/Echo/commits) [![top language](https://img.shields.io/github/languages/top/Adam-Blf/Echo?style=flat-square)](https://github.com/Adam-Blf/Echo) [![license](https://img.shields.io/github/license/Adam-Blf/Echo?style=flat-square&color=D4A437)](LICENSE)
 <!-- adam-badges:end -->
 
-
 ![Status](https://img.shields.io/badge/status-production-brightgreen)
 ![React](https://img.shields.io/badge/React_19-61DAFB?logo=react&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
@@ -457,20 +456,12 @@ supabase db push
 
 Made with love by Adam Beloucif
 
-
 ---
 
 <p align="center">
   <sub>Par <a href="https://adam.beloucif.com">Adam Beloucif</a> - Data Engineer &amp; Fullstack Developer - <a href="https://github.com/Adam-Blf">GitHub</a> - <a href="https://www.linkedin.com/in/adambeloucif/">LinkedIn</a></sub>
 </p>
 
-
-## Star History
-
-<a href="https://www.star-history.com/?repos=Adam-Blf%2FEcho&type=date&legend=top-left">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/chart?repos=Adam-Blf/Echo&type=date&theme=dark&legend=top-left" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/chart?repos=Adam-Blf/Echo&type=date&legend=top-left" />
-   <img alt="Star History Chart" src="https://api.star-history.com/chart?repos=Adam-Blf/Echo&type=date&legend=top-left" />
  </picture>
 </a>
