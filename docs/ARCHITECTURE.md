@@ -44,6 +44,17 @@ graph TB
     K --> N
 
     G --> M
+
+    classDef c0 fill:#2563eb,stroke:#1e3a8a,stroke-width:2px,color:#ffffff
+    classDef c1 fill:#7c3aed,stroke:#4c1d95,stroke-width:2px,color:#ffffff
+    classDef c2 fill:#0891b2,stroke:#164e63,stroke-width:2px,color:#ffffff
+    classDef c3 fill:#16a34a,stroke:#14532d,stroke-width:2px,color:#ffffff
+    classDef c4 fill:#d97706,stroke:#78350f,stroke-width:2px,color:#ffffff
+    class A,O c0
+    class B,C,D c1
+    class E,F,G c2
+    class H,I,J,K,M c3
+    class L,N,P c4
 ```
 
 ## Frontend Architecture
@@ -71,6 +82,17 @@ graph TD
     ProtectedRoutes --> SettingsPage
     ProtectedRoutes --> EditProfilePage
     ProtectedRoutes --> LikesPage
+
+    classDef c0 fill:#2563eb,stroke:#1e3a8a,stroke-width:2px,color:#ffffff
+    classDef c1 fill:#7c3aed,stroke:#4c1d95,stroke-width:2px,color:#ffffff
+    classDef c2 fill:#0891b2,stroke:#164e63,stroke-width:2px,color:#ffffff
+    classDef c3 fill:#16a34a,stroke:#14532d,stroke-width:2px,color:#ffffff
+    classDef c4 fill:#d97706,stroke:#78350f,stroke-width:2px,color:#ffffff
+    class App c0
+    class Router c1
+    class SplashScreen,AuthRoutes,ProtectedRoutes c2
+    class AuthPage,AuthCallback,MainLayout,ChatPage,SettingsPage,EditProfilePage,LikesPage c3
+    class BottomNavigation,HomePage,DiscoverPage,MatchesPage,ProfilePage c4
 ```
 
 ### State Management
@@ -93,6 +115,11 @@ graph LR
     end
 
     UI[UI Components]
+
+    classDef c0 fill:#2563eb,stroke:#1e3a8a,stroke-width:2px,color:#ffffff
+    classDef c1 fill:#7c3aed,stroke:#4c1d95,stroke-width:2px,color:#ffffff
+    class A,B,C,D,E,F,G c0
+    class UI c1
 ```
 
 #### Store Details
@@ -126,6 +153,7 @@ graph LR
 ### Authentication Flow
 
 ```mermaid
+%%{init: {'theme':'base','themeVariables':{'actorBkg':'#2563eb','actorBorder':'#1e3a8a','actorTextColor':'#ffffff','actorLineColor':'#64748b','signalColor':'#64748b','signalTextColor':'#64748b','labelBoxBkgColor':'#7c3aed','labelBoxBorderColor':'#4c1d95','labelTextColor':'#ffffff','loopTextColor':'#64748b','noteBkgColor':'#fef3c7','noteBorderColor':'#d97706','noteTextColor':'#1f2937','activationBkgColor':'#0891b2','activationBorderColor':'#164e63','sequenceNumberColor':'#ffffff'}}}%%
 sequenceDiagram
     participant U as User
     participant A as AuthPage
@@ -145,6 +173,7 @@ sequenceDiagram
 ### Discovery Flow
 
 ```mermaid
+%%{init: {'theme':'base','themeVariables':{'actorBkg':'#2563eb','actorBorder':'#1e3a8a','actorTextColor':'#ffffff','actorLineColor':'#64748b','signalColor':'#64748b','signalTextColor':'#64748b','labelBoxBkgColor':'#7c3aed','labelBoxBorderColor':'#4c1d95','labelTextColor':'#ffffff','loopTextColor':'#64748b','noteBkgColor':'#fef3c7','noteBorderColor':'#d97706','noteTextColor':'#1f2937','activationBkgColor':'#0891b2','activationBorderColor':'#164e63','sequenceNumberColor':'#ffffff'}}}%%
 sequenceDiagram
     participant U as User
     participant D as DiscoverPage
@@ -165,6 +194,7 @@ sequenceDiagram
 ### Swipe & Match Flow
 
 ```mermaid
+%%{init: {'theme':'base','themeVariables':{'actorBkg':'#2563eb','actorBorder':'#1e3a8a','actorTextColor':'#ffffff','actorLineColor':'#64748b','signalColor':'#64748b','signalTextColor':'#64748b','labelBoxBkgColor':'#7c3aed','labelBoxBorderColor':'#4c1d95','labelTextColor':'#ffffff','loopTextColor':'#64748b','noteBkgColor':'#fef3c7','noteBorderColor':'#d97706','noteTextColor':'#1f2937','activationBkgColor':'#0891b2','activationBorderColor':'#164e63','sequenceNumberColor':'#ffffff'}}}%%
 sequenceDiagram
     participant U as User
     participant SC as SwipeCard
@@ -191,6 +221,7 @@ sequenceDiagram
 ### Entity Relationship Diagram
 
 ```mermaid
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#2563eb','primaryTextColor':'#ffffff','primaryBorderColor':'#1e3a8a','lineColor':'#64748b','textColor':'#64748b','attributeBackgroundColorOdd':'#dbeafe','attributeBackgroundColorEven':'#eff6ff','tertiaryColor':'#ede9fe'}}}%%
 erDiagram
     PROFILES ||--o{ SWIPES : creates
     PROFILES ||--o{ MATCHES : participates
@@ -345,6 +376,19 @@ graph LR
     C --> D[JWT Token]
     D --> E[API Requests]
     E --> F[RLS Policies]
+
+    classDef c0 fill:#2563eb,stroke:#1e3a8a,stroke-width:2px,color:#ffffff
+    classDef c1 fill:#7c3aed,stroke:#4c1d95,stroke-width:2px,color:#ffffff
+    classDef c2 fill:#0891b2,stroke:#164e63,stroke-width:2px,color:#ffffff
+    classDef c3 fill:#16a34a,stroke:#14532d,stroke-width:2px,color:#ffffff
+    classDef c4 fill:#d97706,stroke:#78350f,stroke-width:2px,color:#ffffff
+    classDef c5 fill:#db2777,stroke:#831843,stroke-width:2px,color:#ffffff
+    class A c0
+    class B c1
+    class C c2
+    class D c3
+    class E c4
+    class F c5
 ```
 
 ### Row Level Security (RLS)
@@ -370,6 +414,15 @@ graph LR
     B --> C{Valid?}
     C -->|Yes| D[Process]
     C -->|No| E[Error Message]
+
+    classDef c0 fill:#2563eb,stroke:#1e3a8a,stroke-width:2px,color:#ffffff
+    classDef c1 fill:#7c3aed,stroke:#4c1d95,stroke-width:2px,color:#ffffff
+    classDef c2 fill:#0891b2,stroke:#164e63,stroke-width:2px,color:#ffffff
+    classDef c3 fill:#16a34a,stroke:#14532d,stroke-width:2px,color:#ffffff
+    class A c0
+    class B c1
+    class C c2
+    class D,E c3
 ```
 
 ## Performance Optimizations
@@ -421,6 +474,15 @@ graph TB
     C --> E[Static Assets]
     C --> F[Fonts]
     D --> G[API Calls]
+
+    classDef c0 fill:#2563eb,stroke:#1e3a8a,stroke-width:2px,color:#ffffff
+    classDef c1 fill:#7c3aed,stroke:#4c1d95,stroke-width:2px,color:#ffffff
+    classDef c2 fill:#0891b2,stroke:#164e63,stroke-width:2px,color:#ffffff
+    classDef c3 fill:#16a34a,stroke:#14532d,stroke-width:2px,color:#ffffff
+    class A c0
+    class B c1
+    class C,D c2
+    class E,F,G c3
 ```
 
 ### Caching Strategy
