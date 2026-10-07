@@ -12,7 +12,7 @@ export default defineConfig({
   reporter: [
     ['html'],
     ['json', { outputFile: 'test-results/results.json' }],
-    ['junit', { outputFile: 'test-results/results.xml' }],
+    ['junit', { outputFile: `test-results/${process.env.PLAYWRIGHT_JUNIT_OUTPUT_NAME ?? 'results.xml'}` }],
     ['list'],
   ],
 

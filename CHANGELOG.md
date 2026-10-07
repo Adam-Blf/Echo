@@ -2,6 +2,14 @@
 
 All notable changes to this project are documented here. Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versions follow [SemVer](https://semver.org/).
 
+## [Unreleased]
+
+### Fixed
+
+- CI: the E2E workflow builds again (unused declarations removed from Onboarding), has the permissions its result publisher needs, and runs on Node 22.
+- CI: only the `@public` E2E tests run until an authenticated session fixture exists (#11).
+- Auth: the password visibility toggle now carries an accessible label.
+
 ## [0.1.0] - 2026-10-07
 
 First tagged release. Latest changes:

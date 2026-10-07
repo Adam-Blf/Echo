@@ -9,7 +9,7 @@ export class AuthPage {
 
   async goto() {
     await this.page.goto(URLS.auth)
-    await this.page.waitForLoadState('networkidle')
+    await expect(this.page.locator('input[type="email"]')).toBeVisible({ timeout: TIMEOUTS.long })
   }
 
   async fillEmail(email: string) {
@@ -21,7 +21,7 @@ export class AuthPage {
   }
 
   async togglePasswordVisibility() {
-    await this.page.click('button[type="button"]:has-text("Eye")')
+    await this.page.getByRole('button', { name: /mot de passe/i }).click()
   }
 
   async clickSubmitButton() {

@@ -41,7 +41,7 @@ jobs:
         run: npm run build
 
       - name: Run E2E tests (${{ matrix.browser }})
-        run: npm run test:e2e -- --project=${{ matrix.browser }}
+        run: npm run test:e2e -- --project=${{ matrix.browser }} --grep @public
         env:
           CI: true
           PLAYWRIGHT_JUNIT_OUTPUT_NAME: results-${{ matrix.browser }}.xml
@@ -94,7 +94,7 @@ jobs:
         run: npm run build
 
       - name: Run mobile E2E tests
-        run: npm run test:e2e:mobile
+        run: npm run test:e2e:mobile -- --grep @public
         env:
           CI: true
 
