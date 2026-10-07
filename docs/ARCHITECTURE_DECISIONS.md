@@ -228,6 +228,7 @@ Fichier: `supabase/migrations/004_add_received_likes.sql`
 ## 5. Diagramme des Relations
 
 ```mermaid
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#2563eb','primaryTextColor':'#ffffff','primaryBorderColor':'#1e3a8a','lineColor':'#64748b','textColor':'#64748b','attributeBackgroundColorOdd':'#dbeafe','attributeBackgroundColorEven':'#eff6ff','tertiaryColor':'#ede9fe'}}}%%
 erDiagram
     AUTH_USERS ||--|| PROFILES : "1:1"
     PROFILES ||--o{ SWIPES : "swiper"
