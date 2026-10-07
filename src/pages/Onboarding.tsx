@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowRight, ArrowLeft, Camera, User, Heart, Share2, Sparkles, Check, Mail, Lock, Loader2, Calendar, Users, ChevronDown, Plus, X, ImagePlus, Phone } from 'lucide-react'
+import { ArrowRight, ArrowLeft, Camera, User, Heart, Share2, Sparkles, Check, Mail, Lock, Loader2, Calendar, Users, Plus, X, ImagePlus, Phone } from 'lucide-react'
 import { useOnboardingStore } from '@/stores'
 import type { OnboardingStep, Gender, Preference, PhotoData } from '@/types/onboarding'
 import { cn, generateUUID } from '@/lib/utils'
@@ -71,11 +71,6 @@ const slideVariants = {
     opacity: 0
   })
 }
-
-const MONTHS = [
-  'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
-  'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
-]
 
 const MAX_PHOTOS = 5
 
@@ -408,10 +403,6 @@ export function OnboardingPage() {
       await navigator.clipboard.writeText(link)
     }
   }
-
-  const currentYear = new Date().getFullYear()
-  const years = Array.from({ length: 63 }, (_, i) => currentYear - 18 - i)
-  const days = Array.from({ length: 31 }, (_, i) => i + 1)
 
   return (
     <div className="min-h-screen bg-surface-dark flex flex-col">

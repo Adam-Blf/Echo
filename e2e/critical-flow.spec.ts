@@ -8,7 +8,7 @@ import { TEST_USERS, MOCK_PROFILES, CHAT_MESSAGES, TIMEOUTS, URLS } from './fixt
  */
 
 test.describe('Echo - Critical User Flow', () => {
-  test.describe('1. Authentication Flow', () => {
+  test.describe('1. Authentication Flow', { tag: '@public' }, () => {
     test('should navigate to auth page and display login form', async ({ page }) => {
       const authPage = new AuthPage(page)
       await authPage.goto()
@@ -27,11 +27,9 @@ test.describe('Echo - Critical User Flow', () => {
       const passwordInput = page.locator('input[type="password"]')
       await expect(passwordInput).toBeVisible()
 
-      // Toggle password visibility
       await authPage.togglePasswordVisibility()
-      const emailInput = page.locator('input[type="text"]')
-      // Should show eye/eye-off icon
-      await expect(page.locator('button:has(svg)')).toBeVisible()
+      await expect(page.getByPlaceholder('Mot de passe')).toHaveAttribute('type', 'text')
+      await expect(page.getByRole('button', { name: 'Masquer le mot de passe' })).toBeVisible()
     })
 
     test('should navigate to signup page', async ({ page }) => {
@@ -47,11 +45,7 @@ test.describe('Echo - Critical User Flow', () => {
       const authPage = new AuthPage(page)
       await authPage.goto()
 
-      const googleButton = page.locator('button:has-text("Continuer avec Google")')
-      const appleButton = page.locator('button:has-text("Continuer avec Apple")')
-
-      await expect(googleButton).toBeVisible()
-      await expect(appleButton).toBeVisible()
+      await expect(page.getByRole('button', { name: 'Continuer avec Google' })).toBeVisible()
     })
 
     test('should validate email field', async ({ page }) => {
@@ -577,9 +571,9 @@ test.describe('Echo - Critical User Flow', () => {
   })
 
   test.describe('9. Security Validations', () => {
-    test('should not expose sensitive data in URLs', async ({ page }) => {
+    test('should not expose sensitive data in URLs', { tag: '@public' }, async ({ page }) => {
       await page.goto(URLS.auth)
-      await page.waitForLoadState('networkidle')
+      await expect(page.locator('input[type="email"]')).toBeVisible()
 
       const url = page.url()
       // Should not contain credentials

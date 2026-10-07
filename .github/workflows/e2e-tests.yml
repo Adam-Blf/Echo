@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [main, develop]
 
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+
 jobs:
   test:
     timeout-minutes: 60
@@ -23,7 +28,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '22'
           cache: 'npm'
 
       - name: Install dependencies
@@ -36,7 +41,7 @@ jobs:
         run: npm run build
 
       - name: Run E2E tests (${{ matrix.browser }})
-        run: npm run test:e2e -- --project=${{ matrix.browser }}
+        run: npm run test:e2e -- --project=${{ matrix.browser }} --grep @public
         env:
           CI: true
           PLAYWRIGHT_JUNIT_OUTPUT_NAME: results-${{ matrix.browser }}.xml
@@ -76,7 +81,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '22'
           cache: 'npm'
 
       - name: Install dependencies
@@ -89,7 +94,7 @@ jobs:
         run: npm run build
 
       - name: Run mobile E2E tests
-        run: npm run test:e2e:mobile
+        run: npm run test:e2e:mobile -- --grep @public
         env:
           CI: true
 

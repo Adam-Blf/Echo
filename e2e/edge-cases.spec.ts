@@ -286,14 +286,10 @@ test.describe('Echo - Edge Cases & Error Handling', () => {
       expect(typeof hasDiscoverContent).toBe('boolean')
     })
 
-    test('should handle invalid route gracefully', async ({ page }) => {
+    test('should redirect an unknown route to the auth page', { tag: '@public' }, async ({ page }) => {
       await page.goto('/invalid-route-12345')
-      await page.waitForLoadState('networkidle')
-
-      // Should show error page or redirect
-      const errorText = page.locator('text=/not found|404|erreur/')
-      const isError = await errorText.isVisible().catch(() => false)
-      expect(typeof isError).toBe('boolean')
+      await expect(page).toHaveURL(/\/auth$/)
+      await expect(page.locator('input[type="email"]')).toBeVisible()
     })
   })
 

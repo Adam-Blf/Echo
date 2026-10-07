@@ -275,13 +275,12 @@ test.describe('Echo - Advanced Scenarios', () => {
       expect(headingCount).toBeGreaterThan(0)
     })
 
-    test('should have accessible form inputs', async ({ page }) => {
+    test('should have accessible form inputs', { tag: '@public' }, async ({ page }) => {
       await page.goto(URLS.auth)
-      await page.waitForLoadState('networkidle')
 
       // Check email input
       const emailInput = page.locator('input[type="email"]')
-      await expect(emailInput).toHaveAttribute('type', 'email')
+      await expect(emailInput).toBeVisible()
 
       // Check password input
       const passwordInput = page.locator('input[type="password"]')
