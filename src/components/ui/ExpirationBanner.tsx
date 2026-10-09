@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Camera, Clock, AlertTriangle } from 'lucide-react'
+import { AlertTriangle, Camera, Clock } from 'reicon-react'
 import { Link } from 'react-router-dom'
 import type { EchoStatus } from '@/types/user'
 import { cn } from '@/lib/utils'

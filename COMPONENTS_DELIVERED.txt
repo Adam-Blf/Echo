@@ -62,7 +62,7 @@ COMPONENT SPECIFICATIONS
    ├─ Size: 167 lines of code
    ├─ Props: title, icon, children, variant, interactive, onClick
    ├─ Variants: default, elevated, danger, premium
-   ├─ Icons: Support for lucide-react icons
+   ├─ Icons: Support for reicon-react icons
    ├─ Features: Hover effects, gradient overlays, accent lines
    └─ Use Cases: Warnings, features, dashboard widgets
 
@@ -320,7 +320,7 @@ Code Examples:
 └─ README.md                            (Main documentation)
 
 External Resources:
-├─ Lucide Icons: https://lucide.dev
+├─ Reicon: https://reicon.dev
 ├─ Framer Motion: https://www.framer.com/motion
 ├─ Tailwind CSS: https://tailwindcss.com
 └─ React Hooks: https://react.dev/reference/react

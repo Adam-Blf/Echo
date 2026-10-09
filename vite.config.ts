@@ -88,7 +88,7 @@ export default defineConfig({
           'vendor-motion': ['framer-motion'],
           'vendor-supabase': ['@supabase/supabase-js'],
           'vendor-forms': ['react-hook-form', '@hookform/resolvers', 'zod'],
-          'vendor-utils': ['zustand', 'lucide-react', 'clsx', 'tailwind-merge'],
+          'vendor-utils': ['zustand', 'reicon-react', 'clsx', 'tailwind-merge'],
         }
       }
     },

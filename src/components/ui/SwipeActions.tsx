@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { X, Heart, Star, RotateCcw } from 'lucide-react'
+import { Heart, RotateLeft, Star, X } from 'reicon-react'
 import { cn } from '@/lib/utils'
 
 interface SwipeActionsProps {
@@ -38,7 +38,7 @@ export function SwipeActions({
               : 'bg-surface-card/50 border border-white/10 text-white/20'
           )}
         >
-          <RotateCcw className="w-5 h-5" />
+          <RotateLeft className="w-5 h-5" />
         </motion.button>
       )}
 

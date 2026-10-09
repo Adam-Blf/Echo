@@ -136,7 +136,7 @@ A versatile card container with multiple style variants and hover effects
 ```typescript
 interface CardSectionProps {
   title?: string                           // Card title
-  icon?: LucideIcon                        // Icon component
+  icon?: IconType                        // Icon component
   children: ReactNode
   variant?: 'default' | 'elevated' | 'danger' | 'premium'
   onClick?: () => void
@@ -149,13 +149,13 @@ interface CardSectionProps {
 
 ```tsx
 import { CardSection } from '@/components/ui'
-import { Settings } from 'lucide-react'
+import { Gear } from 'reicon-react'
 
 export function SettingsCard() {
   return (
     <CardSection
       title="Préférences"
-      icon={Settings}
+      icon={Gear}
       variant="premium"
       interactive
     >

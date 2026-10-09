@@ -259,7 +259,7 @@ onClick?: () => void
 ## Links & Resources
 
 ### External Resources
-- [Lucide Icons](https://lucide.dev) - Icon library
+- [Reicon](https://reicon.dev) - Icon library
 - [Framer Motion](https://www.framer.com/motion) - Animation library
 - [Tailwind CSS](https://tailwindcss.com) - Utility CSS
 - [React Hooks](https://react.dev/reference/react) - React API

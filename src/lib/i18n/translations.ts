@@ -50,7 +50,7 @@ export const translations = {
       title: 'ECHO',
       tagline: 'Rencontres authentiques',
       subtitle: 'Photos en temps réel. Validation par un ami. Matchs éphémères.',
-      cta: 'Commencer',
+      cta: 'Créer mon profil validé par un ami',
       features: {
         realPhoto: 'Photos temps réel',
         realPhotoDesc: 'Pas de vieilles photos, que l\'instant présent',
@@ -283,7 +283,7 @@ export const translations = {
       title: 'ECHO',
       tagline: 'Authentic dating',
       subtitle: 'Real-time photos. Friend validation. Ephemeral matches.',
-      cta: 'Get Started',
+      cta: 'Create my friend-validated profile',
       features: {
         realPhoto: 'Real-time photos',
         realPhotoDesc: 'No old photos, only the present moment',

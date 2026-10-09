@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Zap, AlertTriangle, Moon } from 'lucide-react'
+import { AlertTriangle, Bolt, Moon } from 'reicon-react'
 import type { EchoStatus } from '@/types/user'
 import { cn } from '@/lib/utils'
 
@@ -12,7 +12,7 @@ interface StatusBadgeProps {
 
 const statusConfig = {
   ACTIVE: {
-    icon: Zap,
+    icon: Bolt,
     label: 'Actif',
     bgColor: 'bg-neon-green/20',
     borderColor: 'border-neon-green/50',

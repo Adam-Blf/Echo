@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Mic, Square, Play, Pause, RotateCcw, Check } from 'lucide-react'
+import { Check, Mic, Pause, Play, RotateLeft, Stop as StopIcon } from 'reicon-react'
 import { useAudioRecorder } from '@/hooks/useAudioRecorder'
 import { AudioVisualizer } from './AudioVisualizer'
 import { cn } from '@/lib/utils'
@@ -112,7 +112,7 @@ export function VoiceRecorder({ onRecordingComplete, maxDuration = 60 }: VoiceRe
             onClick={stopRecording}
             className="w-16 h-16 rounded-full bg-red-500 flex items-center justify-center hover:bg-red-600 transition-colors"
           >
-            <Square className="w-7 h-7 text-white" fill="currentColor" />
+            <StopIcon weight="Filled" className="w-7 h-7 text-white" fill="currentColor" />
           </motion.button>
         )}
 
@@ -124,7 +124,7 @@ export function VoiceRecorder({ onRecordingComplete, maxDuration = 60 }: VoiceRe
               onClick={resetRecording}
               className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-white/20 transition-colors"
             >
-              <RotateCcw className="w-5 h-5 text-white/70" />
+              <RotateLeft className="w-5 h-5 text-white/70" />
             </motion.button>
 
             {/* Play/Pause */}

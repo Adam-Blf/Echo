@@ -53,7 +53,7 @@ The app will be available at `http://localhost:5173`
 | **Forms** | React Hook Form + Zod | 7 / 4 |
 | **Routing** | React Router DOM | 7 |
 | **Backend** | Supabase | 2.91 |
-| **Icons** | Lucide React | 0.562 |
+| **Icons** | Reicon React | 1.2.6 |
 | **PWA** | Vite Plugin PWA + Workbox | 1.2 |
 
 ## Documentation Index

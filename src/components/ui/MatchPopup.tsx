@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Heart, MessageCircle, X, Star } from 'lucide-react'
+import { ChatRound, Heart, Star, X } from 'reicon-react'
 import type { Match, DiscoveryProfile } from '@/types/swipe'
 import { vibrate } from '@/lib/utils'
 
@@ -112,7 +112,7 @@ export function MatchPopup({ match, profile, onClose, onMessage }: MatchPopupPro
                     onClick={onMessage}
                     className="flex-1 py-3 rounded-xl bg-gradient-to-r from-neon-cyan to-neon-purple text-white font-semibold hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
                   >
-                    <MessageCircle className="w-5 h-5" />
+                    <ChatRound className="w-5 h-5" />
                     Message
                   </button>
                 </div>

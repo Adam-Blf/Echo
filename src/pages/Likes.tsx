@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowLeft, Heart, Crown, Sparkles, Lock, Unlock, Star, Zap } from 'lucide-react'
+import { ArrowLeft, Bolt, Crown, Heart, Lock, Sparkles, Star, Unlock } from 'reicon-react'
 import { ProfileGridItem } from '@/components/ui'
 import { PaywallModal } from '@/components/ui/PaywallModal'
 import { useSwipeStore } from '@/stores'
@@ -422,7 +422,7 @@ export function LikesPage() {
                   {[
                     { icon: Heart, label: 'Likes illimites', color: 'text-rose-400' },
                     { icon: Crown, label: 'Profils reveles', color: 'text-neon-cyan' },
-                    { icon: Zap, label: 'Match instant', color: 'text-amber-400' },
+                    { icon: Bolt, label: 'Match instant', color: 'text-amber-400' },
                   ].map(({ icon: Icon, label, color }, i) => (
                     <motion.div
                       key={label}

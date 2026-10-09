@@ -1,21 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import {
-  ArrowLeft,
-  Mail,
-  Phone,
-  Lock,
-  Trash2,
-  Download,
-  ChevronRight,
-  Eye,
-  EyeOff,
-  X,
-  AlertTriangle,
-  Check,
-  Loader2,
-} from 'lucide-react'
+import { AlertTriangle, ArrowLeft, Check, ChevronRight, Download, Envelope, Eye, EyeSlash, Loader, Lock, Phone, Trash2, X } from 'reicon-react'
 import { cn } from '@/lib/utils'
 import { useAuth } from '@/contexts/AuthContext'
 import { supabase } from '@/lib/supabase'
@@ -201,7 +187,7 @@ export function AccountSettingsPage() {
 
   const menuItems = [
     {
-      icon: Mail,
+      icon: Envelope,
       label: 'Email',
       value: user?.email || 'Non defini',
       action: () => setShowEmailModal(true),
@@ -379,7 +365,7 @@ export function AccountSettingsPage() {
                 className="w-full h-14 rounded-2xl bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-semibold
                          shadow-lg shadow-blue-500/25 hover:shadow-blue-500/40 transition-all disabled:opacity-50"
               >
-                {isLoading ? <Loader2 className="w-5 h-5 animate-spin mx-auto" /> : 'Mettre a jour'}
+                {isLoading ? <Loader className="w-5 h-5 animate-spin mx-auto" /> : 'Mettre a jour'}
               </button>
             </div>
           </Modal>
@@ -410,7 +396,7 @@ export function AccountSettingsPage() {
                 className="w-full h-14 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-semibold
                          shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 transition-all disabled:opacity-50"
               >
-                {isLoading ? <Loader2 className="w-5 h-5 animate-spin mx-auto" /> : 'Mettre a jour'}
+                {isLoading ? <Loader className="w-5 h-5 animate-spin mx-auto" /> : 'Mettre a jour'}
               </button>
             </div>
           </Modal>
@@ -438,7 +424,7 @@ export function AccountSettingsPage() {
                     onClick={() => setShowCurrentPassword(!showCurrentPassword)}
                     className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/60"
                   >
-                    {showCurrentPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    {showCurrentPassword ? <EyeSlash className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                   </button>
                 </div>
               </div>
@@ -458,7 +444,7 @@ export function AccountSettingsPage() {
                     onClick={() => setShowNewPassword(!showNewPassword)}
                     className="absolute right-4 top-1/2 -translate-y-1/2 text-white/40 hover:text-white/60"
                   >
-                    {showNewPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                    {showNewPassword ? <EyeSlash className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                   </button>
                 </div>
               </div>
@@ -481,7 +467,7 @@ export function AccountSettingsPage() {
                 className="w-full h-14 rounded-2xl bg-gradient-to-r from-violet-500 to-purple-500 text-white font-semibold
                          shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 transition-all disabled:opacity-50"
               >
-                {isLoading ? <Loader2 className="w-5 h-5 animate-spin mx-auto" /> : 'Changer le mot de passe'}
+                {isLoading ? <Loader className="w-5 h-5 animate-spin mx-auto" /> : 'Changer le mot de passe'}
               </button>
             </div>
           </Modal>
@@ -536,7 +522,7 @@ export function AccountSettingsPage() {
                   className="w-full h-12 rounded-xl bg-red-500 text-white font-semibold
                            hover:bg-red-600 transition-colors disabled:opacity-50"
                 >
-                  {isLoading ? <Loader2 className="w-5 h-5 animate-spin mx-auto" /> : 'Supprimer definitivement'}
+                  {isLoading ? <Loader className="w-5 h-5 animate-spin mx-auto" /> : 'Supprimer definitivement'}
                 </button>
                 <button
                   onClick={() => {

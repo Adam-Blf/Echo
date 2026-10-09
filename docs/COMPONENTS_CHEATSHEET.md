@@ -88,11 +88,11 @@ const [enabled, setEnabled] = useState(true)
 **For content containers with optional title/icon**
 
 ```tsx
-import { Settings } from 'lucide-react'
+import { Gear } from 'reicon-react'
 
 <CardSection
   title="Preferences"
-  icon={Settings}
+  icon={Gear}
   variant="elevated"
   interactive
 >
@@ -103,7 +103,7 @@ import { Settings } from 'lucide-react'
 | Prop | Type | Default | Values |
 |------|------|---------|--------|
 | `title` | string | - | Card title |
-| `icon` | LucideIcon | - | Icon from lucide-react |
+| `icon` | IconType | - | Icon from reicon-react |
 | `children` | ReactNode | required | Card content |
 | `variant` | string | 'default' | 'default', 'elevated', 'danger', 'premium' |
 | `interactive` | boolean | false | Enable hover scale |
@@ -444,7 +444,7 @@ expect(screen.getByText('Test')).toBeInTheDocument()
 - Check `min < max`
 
 ### CardSection icon not showing
-- Import icon from `lucide-react`
+- Import icon from `reicon-react`
 - Pass icon component, not instance: `icon={SettingsIcon}` not `icon={<SettingsIcon />}`
 
 ### ProfileGridItem images not loading
@@ -469,7 +469,7 @@ expect(screen.getByText('Test')).toBeInTheDocument()
 
 ## Quick Links
 
-- Lucide Icons: https://lucide.dev
+- Reicon: https://reicon.dev
 - Framer Motion: https://www.framer.com/motion
 - Tailwind CSS: https://tailwindcss.com
 - React Hooks: https://react.dev/reference/react

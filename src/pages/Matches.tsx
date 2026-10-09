@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { MessageCircle, Heart, Infinity, Clock, Sparkles } from 'lucide-react'
+import { ChatRound, Clock, Heart, Infinite, Sparkles } from 'reicon-react'
 import { useSwipeStore } from '@/stores'
 import { CountdownTimer, EchoTimerWave } from '@/components/ui'
 import { cn } from '@/lib/utils'
@@ -77,7 +77,7 @@ export function MatchesPage() {
                 : 'bg-white/5 text-white/50 hover:bg-white/10'
             )}
           >
-            {tab.id === 'resonance' && <Infinity className="w-3 h-3" />}
+            {tab.id === 'resonance' && <Infinite className="w-3 h-3" />}
             {tab.label}
             {tab.count > 0 && (
               <span className={cn(
@@ -149,7 +149,7 @@ export function MatchesPage() {
                           <h3 className="font-semibold text-white">{profile.firstName}</h3>
                           {isResonance && (
                             <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-neon-purple/20 text-neon-purple text-[10px]">
-                              <Infinity className="w-3 h-3" />
+                              <Infinite className="w-3 h-3" />
                               <span>Résonance</span>
                             </div>
                           )}
@@ -194,11 +194,11 @@ export function MatchesPage() {
           >
             <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center mb-4">
               {activeTab === 'resonance' ? (
-                <Infinity className="w-8 h-8 text-white/20" />
+                <Infinite className="w-8 h-8 text-white/20" />
               ) : activeTab === 'expired' ? (
                 <Clock className="w-8 h-8 text-white/20" />
               ) : (
-                <MessageCircle className="w-8 h-8 text-white/20" />
+                <ChatRound className="w-8 h-8 text-white/20" />
               )}
             </div>
             <h2 className="text-lg font-semibold text-white/80 mb-2">

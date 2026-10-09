@@ -8,7 +8,7 @@
  */
 
 import { useState } from 'react'
-import { Filter, Heart, Crown, AlertTriangle } from 'lucide-react'
+import { AlertTriangle, Crown, Filter, Heart } from 'reicon-react'
 import {
   RangeSlider,
   Toggle,

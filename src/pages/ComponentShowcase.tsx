@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Settings, Heart, AlertCircle, Sparkles } from 'lucide-react'
+import { AlertCircle, Gear, Heart, Sparkles } from 'reicon-react'
 import {
   RangeSlider,
   Toggle,
@@ -88,7 +88,7 @@ export function ComponentShowcase() {
             <h2 className="mb-6 text-2xl font-bold text-white">Range Slider</h2>
             <CardSection
               title="Filtre d'âge"
-              icon={Settings}
+              icon={Gear}
               variant="elevated"
             >
               <RangeSlider
@@ -109,7 +109,7 @@ export function ComponentShowcase() {
             <h2 className="mb-6 text-2xl font-bold text-white">&nbsp;</h2>
             <CardSection
               title="Filtre de distance"
-              icon={Settings}
+              icon={Gear}
               variant="elevated"
             >
               <RangeSlider

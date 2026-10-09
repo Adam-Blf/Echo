@@ -1,24 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import {
-  ArrowLeft,
-  User,
-  Bell,
-  Shield,
-  HelpCircle,
-  FileText,
-  Lock,
-  LogOut,
-  ChevronRight,
-  ExternalLink,
-  X,
-  AlertTriangle,
-  Sparkles,
-  Trash2,
-  Eye,
-  EyeOff,
-} from 'lucide-react'
+import { AlertTriangle, ArrowDoorOut, ArrowLeft, Bell, ChevronRight, Eye, EyeSlash, FileText, HelpCircle, Lock, Shield, Sparkles, SquareShare, Trash2, User, X } from 'reicon-react'
 import { CardSection, Toggle, PremiumBanner } from '@/components/ui'
 import { cn } from '@/lib/utils'
 import { useAuth } from '@/contexts/AuthContext'
@@ -159,7 +142,7 @@ export function SettingsPage() {
           )}
         </div>
         {item.external ? (
-          <ExternalLink className="w-4 h-4 text-white/30 group-hover:text-white/50 transition-colors" />
+          <SquareShare className="w-4 h-4 text-white/30 group-hover:text-white/50 transition-colors" />
         ) : (
           <ChevronRight className="w-5 h-5 text-white/30 group-hover:text-white/50 group-hover:translate-x-1 transition-all" />
         )}
@@ -234,7 +217,7 @@ export function SettingsPage() {
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   {privacy.invisibleMode ? (
-                    <EyeOff className="w-5 h-5 text-neon-purple" />
+                    <EyeSlash className="w-5 h-5 text-neon-purple" />
                   ) : (
                     <Eye className="w-5 h-5 text-neon-cyan" />
                   )}
@@ -302,7 +285,7 @@ export function SettingsPage() {
                 onClick={() => setShowLogoutModal(true)}
                 className="w-full flex items-center gap-3 p-3 rounded-xl bg-white/5 hover:bg-red-500/10 transition-colors group"
               >
-                <LogOut className="w-5 h-5 text-red-400 group-hover:scale-110 transition-transform" />
+                <ArrowDoorOut className="w-5 h-5 text-red-400 group-hover:scale-110 transition-transform" />
                 <span className="text-red-400 font-medium">Se deconnecter</span>
               </button>
               <button
@@ -344,7 +327,7 @@ export function SettingsPage() {
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center justify-center w-16 h-16 mx-auto mb-4 rounded-2xl bg-red-500/20">
-                <LogOut className="w-8 h-8 text-red-400" />
+                <ArrowDoorOut className="w-8 h-8 text-red-400" />
               </div>
               <h3 className="text-xl font-bold text-white text-center mb-2">
                 Se deconnecter ?

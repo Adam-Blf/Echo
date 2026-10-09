@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Link, useNavigate } from 'react-router-dom'
-import { Settings, Camera, Share2, LogOut, ChevronRight, Shield, Bell, Globe, History, Pencil } from 'lucide-react'
+import { ArrowDoorOut, Bell, Camera, ChevronRight, Gear, Globe, History, Pen, Share, Shield } from 'reicon-react'
 import { useUserStore, initializeDemoProfile } from '@/stores'
 import { StatusBadge, ExpirationBanner } from '@/components/ui'
 import { cn } from '@/lib/utils'
@@ -40,7 +40,7 @@ export function ProfilePage() {
           onClick={() => navigate('/settings')}
           className="p-2 rounded-xl bg-white/5 hover:bg-white/10 transition-colors"
         >
-          <Settings className="w-5 h-5 text-white/70" />
+          <Gear className="w-5 h-5 text-white/70" />
         </button>
       </div>
 
@@ -183,7 +183,7 @@ export function ProfilePage() {
                      hover:from-neon-purple/20 hover:to-neon-cyan/20 hover:border-neon-purple/50 transition-all group"
         >
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-neon-purple to-neon-cyan flex items-center justify-center">
-            <Pencil className="w-5 h-5 text-white" />
+            <Pen className="w-5 h-5 text-white" />
           </div>
           <div className="flex-1 text-left">
             <p className="text-white font-medium">Modifier mon profil</p>
@@ -194,7 +194,7 @@ export function ProfilePage() {
 
         {/* Other actions */}
         {[
-          { icon: Share2, label: 'Inviter un Wingman', desc: 'Fais valider ton profil', to: '/wingman/invite' },
+          { icon: Share, label: 'Inviter un Wingman', desc: 'Fais valider ton profil', to: '/wingman/invite' },
           { icon: History, label: 'Historique photos', desc: 'Tes anciens Echos', to: '/history' },
           { icon: Bell, label: 'Notifications', desc: 'Gerer les alertes', to: '/settings/notifications' },
           { icon: Globe, label: 'Langue', desc: 'Francais', to: '/settings/language' },
@@ -227,7 +227,7 @@ export function ProfilePage() {
         className="w-full mt-6 flex items-center justify-center gap-2 p-4 rounded-2xl
                    text-red-400 hover:bg-red-500/10 transition-colors"
       >
-        <LogOut className="w-5 h-5" />
+        <ArrowDoorOut className="w-5 h-5" />
         <span>Déconnexion</span>
       </motion.button>
     </div>
