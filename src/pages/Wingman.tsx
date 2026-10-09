@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Check, ChevronRight, X, Sparkles, AlertCircle } from 'lucide-react'
+import { AlertCircle, Check, ChevronRight, Sparkles, X } from 'reicon-react'
 import { VoiceRecorder } from '@/components/ui'
 import { QUALITIES, FLAWS, type WingmanPayload, type UserPreview } from '@/types/wingman'
 import { cn } from '@/lib/utils'
@@ -204,7 +204,7 @@ export function WingmanPage() {
               </div>
 
               <button onClick={nextStep} className="btn-primary w-full">
-                C'est parti !
+                Aider {user.firstName}
               </button>
             </div>
           )}
@@ -442,7 +442,7 @@ export function WingmanPage() {
               />
             ) : (
               <>
-                <span>{step === 'relationship' ? 'Valider' : 'Continuer'}</span>
+                <span>{step === 'relationship' ? `Valider le profil de ${user?.firstName ?? 'mon ami'}` : 'Continuer'}</span>
                 <ChevronRight className="w-5 h-5" />
               </>
             )}

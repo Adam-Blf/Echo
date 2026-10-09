@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowRight, ArrowLeft, Camera, User, Heart, Share2, Sparkles, Check, Mail, Lock, Loader2, Calendar, Users, Plus, X, ImagePlus, Phone } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Calendar, Camera, Check, Envelope, Heart, ImagePlus, Loader, Lock, Phone, Plus, Share, Sparkles, User, Users, X } from 'reicon-react'
 import { useOnboardingStore } from '@/stores'
 import type { OnboardingStep, Gender, Preference, PhotoData } from '@/types/onboarding'
 import { cn, generateUUID } from '@/lib/utils'
@@ -414,7 +414,7 @@ export function OnboardingPage() {
               key={s}
               className={cn(
                 'h-1 flex-1 rounded-full transition-all duration-300',
-                i <= currentIndex ? 'bg-gradient-to-r from-violet-500 to-fuchsia-500' : 'bg-white/10'
+                i <= currentIndex ? 'bg-gradient-to-r from-violet-600 to-fuchsia-700' : 'bg-white/10'
               )}
             />
           ))}
@@ -487,7 +487,7 @@ export function OnboardingPage() {
                     {[
                       { icon: ImagePlus, text: 'Ajoute tes photos', color: 'from-cyan-500 to-blue-500' },
                       { icon: User, text: 'Profil authentique', color: 'from-violet-500 to-purple-500' },
-                      { icon: Share2, text: 'Validé par un ami', color: 'from-fuchsia-500 to-pink-500' },
+                      { icon: Share, text: 'Validé par un ami', color: 'from-fuchsia-500 to-pink-500' },
                     ].map((item, i) => (
                       <motion.div
                         key={i}
@@ -561,7 +561,7 @@ export function OnboardingPage() {
                           className="w-full h-full min-h-[200px] rounded-2xl bg-black/30 border-2 border-dashed border-white/20 flex flex-col items-center justify-center gap-3 hover:border-cyan-500/50 hover:bg-cyan-500/5 transition-all"
                         >
                           {isProcessingPhoto ? (
-                            <Loader2 className="w-10 h-10 text-white/40 animate-spin" />
+                            <Loader className="w-10 h-10 text-white/40 animate-spin" />
                           ) : (
                             <>
                               <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center">
@@ -649,11 +649,11 @@ export function OnboardingPage() {
                   whileTap={{ scale: 0.98 }}
                   onClick={() => fileInputRef.current?.click()}
                   disabled={photos.length >= MAX_PHOTOS || isProcessingPhoto}
-                  className="w-full h-14 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-shadow disabled:opacity-50 flex items-center justify-center gap-2"
+                  className="w-full h-14 rounded-2xl bg-gradient-to-r from-cyan-700 to-blue-600 text-white font-semibold shadow-lg shadow-cyan-500/25 hover:shadow-cyan-500/40 transition-shadow disabled:opacity-50 flex items-center justify-center gap-2"
                 >
                   {isProcessingPhoto ? (
                     <>
-                      <Loader2 className="w-5 h-5 animate-spin" />
+                      <Loader className="w-5 h-5 animate-spin" />
                       Traitement...
                     </>
                   ) : (
@@ -729,7 +729,7 @@ export function OnboardingPage() {
                   whileTap={{ scale: 0.98 }}
                   onClick={handleBirthdateSubmit}
                   disabled={birthDateInput.length !== 10}
-                  className="h-14 px-8 rounded-2xl bg-gradient-to-r from-amber-500 to-orange-500 text-white font-semibold shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 transition-shadow disabled:opacity-50"
+                  className="h-14 px-8 rounded-2xl bg-gradient-to-r from-amber-700 to-orange-700 text-white font-semibold shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 transition-shadow disabled:opacity-50"
                 >
                   Continuer
                 </motion.button>
@@ -935,7 +935,7 @@ export function OnboardingPage() {
                             'flex items-center gap-3 h-14 px-4 rounded-2xl bg-black/30 border transition-all',
                             emailError ? 'border-red-500/50' : 'border-white/10 focus-within:border-violet-500/50'
                           )}>
-                            <Mail className="w-5 h-5 text-white/40" />
+                            <Envelope className="w-5 h-5 text-white/40" />
                             <input
                               type="email"
                               value={email}
@@ -975,7 +975,7 @@ export function OnboardingPage() {
                     {/* Show connected email for OAuth users */}
                     {isOAuthUser && user?.email && (
                       <div className="flex items-center gap-3 h-14 px-4 rounded-2xl bg-green-500/10 border border-green-500/20">
-                        <Mail className="w-5 h-5 text-green-400" />
+                        <Envelope className="w-5 h-5 text-green-400" />
                         <span className="text-white/70 text-sm truncate">{user.email}</span>
                         <span className="ml-auto text-green-400 text-xs font-medium">Connecté</span>
                       </div>
@@ -1074,7 +1074,7 @@ export function OnboardingPage() {
                         className={cn(
                           'w-2 h-2 rounded-full transition-all',
                           i < selectedInterests.length
-                            ? 'bg-gradient-to-r from-orange-500 to-rose-500'
+                            ? 'bg-gradient-to-r from-orange-700 to-rose-600'
                             : 'bg-white/10'
                         )}
                       />
@@ -1112,7 +1112,7 @@ export function OnboardingPage() {
                                 className={cn(
                                   'px-3 py-2 rounded-xl text-sm font-medium transition-all border',
                                   isSelected
-                                    ? 'bg-gradient-to-r from-orange-500 to-rose-500 text-white border-transparent shadow-lg shadow-orange-500/20'
+                                    ? 'bg-gradient-to-r from-orange-700 to-rose-600 text-white border-transparent shadow-lg shadow-orange-500/20'
                                     : 'bg-black/20 text-white/70 border-white/5 hover:border-white/20 hover:bg-black/30'
                                 )}
                               >
@@ -1146,15 +1146,15 @@ export function OnboardingPage() {
                     whileTap={{ scale: 0.98 }}
                     onClick={handleInterestsSubmit}
                     disabled={selectedInterests.length === 0 || isSubmitting}
-                    className="w-full h-14 rounded-2xl bg-gradient-to-r from-orange-500 to-rose-500 text-white font-semibold shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    className="w-full h-14 rounded-2xl bg-gradient-to-r from-orange-700 to-rose-600 text-white font-semibold shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
                     {isSubmitting ? (
                       <>
-                        <Loader2 className="w-5 h-5 animate-spin" />
+                        <Loader className="w-5 h-5 animate-spin" />
                         Création du compte...
                       </>
                     ) : (
-                      'Créer mon compte'
+                      'Créer mon compte et mon code Wingman'
                     )}
                   </motion.button>
                 </div>
@@ -1236,10 +1236,10 @@ export function OnboardingPage() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={shareWingmanLink}
-                    className="w-full h-14 rounded-2xl bg-gradient-to-r from-fuchsia-500 via-purple-500 to-indigo-500 text-white font-semibold shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 transition-shadow flex items-center justify-center gap-2"
+                    className="w-full h-14 rounded-2xl bg-gradient-to-r from-fuchsia-700 via-purple-600 to-indigo-600 text-white font-semibold shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 transition-shadow flex items-center justify-center gap-2"
                   >
-                    <Share2 className="w-5 h-5" />
-                    Envoyer le lien
+                    <Share className="w-5 h-5" />
+                    Demander à un ami de valider
                   </motion.button>
 
                   <button
@@ -1271,9 +1271,9 @@ export function OnboardingPage() {
         {step === 'welcome' && (
           <button
             onClick={nextStep}
-            className="h-14 px-8 rounded-2xl bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white font-semibold shadow-lg shadow-violet-500/25 flex items-center gap-2"
+            className="h-14 px-8 rounded-2xl bg-gradient-to-r from-violet-600 to-fuchsia-700 text-white font-semibold shadow-lg shadow-violet-500/25 flex items-center gap-2"
           >
-            C'est parti
+            Ajouter mes photos
             <ArrowRight className="w-5 h-5" />
           </button>
         )}
@@ -1281,7 +1281,7 @@ export function OnboardingPage() {
         {step === 'photo' && photos.length > 0 && (
           <button
             onClick={nextStep}
-            className="h-14 px-8 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold shadow-lg shadow-cyan-500/25 flex items-center gap-2"
+            className="h-14 px-8 rounded-2xl bg-gradient-to-r from-cyan-700 to-blue-600 text-white font-semibold shadow-lg shadow-cyan-500/25 flex items-center gap-2"
           >
             Continuer
             <ArrowRight className="w-5 h-5" />

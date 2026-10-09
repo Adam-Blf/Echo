@@ -1,18 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
-import {
-  X,
-  Crown,
-  Heart,
-  Eye,
-  RotateCcw,
-  Zap,
-  Star,
-  EyeOff,
-  Infinity,
-  CheckCircle,
-  type LucideIcon,
-} from 'lucide-react'
+import { Bolt, CheckCircle, Crown, Eye, EyeSlash, Heart, Infinite, RotateLeft, Star, X } from 'reicon-react'
+import type { IconType } from '@/components/ui/icons/types'
 import { cn } from '@/lib/utils'
 
 // =============================================================================
@@ -30,7 +19,7 @@ export type PremiumFeatureName =
   | 'priority_likes'
 
 interface FeatureConfig {
-  icon: LucideIcon
+  icon: IconType
   title: string
   description: string
   planRequired: 'echo_plus' | 'echo_unlimited'
@@ -54,13 +43,13 @@ const FEATURE_CONFIGS: Record<PremiumFeatureName, FeatureConfig> = {
     planRequired: 'echo_plus',
   },
   rewind: {
-    icon: RotateCcw,
+    icon: RotateLeft,
     title: 'Rewind',
     description: 'Tu as swipe trop vite ? Reviens en arriere et change d\'avis',
     planRequired: 'echo_unlimited',
   },
   unlimited_swipes: {
-    icon: Infinity,
+    icon: Infinite,
     title: 'Swipes illimites',
     description: 'Plus de limite quotidienne, swipe autant que tu veux',
     planRequired: 'echo_plus',
@@ -72,13 +61,13 @@ const FEATURE_CONFIGS: Record<PremiumFeatureName, FeatureConfig> = {
     planRequired: 'echo_plus',
   },
   invisible_mode: {
-    icon: EyeOff,
+    icon: EyeSlash,
     title: 'Mode invisible',
     description: 'Navigue incognito, seules les personnes que tu likes te voient',
     planRequired: 'echo_plus',
   },
   boost: {
-    icon: Zap,
+    icon: Bolt,
     title: 'Boost de profil',
     description: 'Sois mis en avant et multiplie tes chances de match',
     planRequired: 'echo_plus',
@@ -98,9 +87,9 @@ const FEATURE_CONFIGS: Record<PremiumFeatureName, FeatureConfig> = {
 }
 
 const PREMIUM_HIGHLIGHTS = [
-  { icon: Infinity, label: 'Swipes illimites' },
+  { icon: Infinite, label: 'Swipes illimites' },
   { icon: Eye, label: 'Voir les likes' },
-  { icon: Zap, label: 'Boosts' },
+  { icon: Bolt, label: 'Boosts' },
 ]
 
 // =============================================================================

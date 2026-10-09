@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Sparkles, ArrowRight } from 'lucide-react'
+import { ArrowRight, Sparkles } from 'reicon-react'
 import { Link } from 'react-router-dom'
 
 export function HomePage() {
@@ -77,7 +77,7 @@ export function HomePage() {
           to="/onboarding"
           className="btn-primary flex items-center gap-2 group"
         >
-          <span>Commencer</span>
+          <span>Créer mon profil validé par un ami</span>
           <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
         </Link>
       </motion.div>

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, RotateCcw, Check, Users, MapPin, Calendar } from 'lucide-react'
+import { Calendar, Check, Pin, RotateLeft, Users, X } from 'reicon-react'
 import { useFiltersStore } from '@/stores/filtersStore'
 import { RangeSlider } from './RangeSlider'
 import { cn } from '@/lib/utils'
@@ -157,7 +157,7 @@ export function FiltersModal({ isOpen, onClose }: FiltersModalProps) {
                 onClick={handleReset}
                 className="flex items-center gap-2 px-3 py-2 rounded-xl text-white/60 hover:text-white hover:bg-white/5 transition-colors"
               >
-                <RotateCcw className="w-4 h-4" />
+                <RotateLeft className="w-4 h-4" />
                 <span className="text-sm font-medium">Reset</span>
               </button>
               <h3 className="text-lg font-bold text-white">Filtres</h3>
@@ -203,7 +203,7 @@ export function FiltersModal({ isOpen, onClose }: FiltersModalProps) {
               >
                 <div className="flex items-center gap-3 mb-4">
                   <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-neon-cyan/20 to-neon-purple/20 flex items-center justify-center">
-                    <MapPin className="w-5 h-5 text-neon-purple" />
+                    <Pin className="w-5 h-5 text-neon-purple" />
                   </div>
                   <div>
                     <h4 className="text-white font-semibold">Distance maximale</h4>

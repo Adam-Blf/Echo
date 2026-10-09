@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, Zap, Star, Eye, RotateCcw, Infinity, Crown } from 'lucide-react'
+import { Bolt, Crown, Eye, Infinite, RotateLeft, Star, X } from 'reicon-react'
 
 interface LimitReachedModalProps {
   isOpen: boolean
@@ -25,11 +25,11 @@ export function LimitReachedModal({
   }
 
   const premiumFeatures = [
-    { icon: Infinity, label: 'Swipes illimités', desc: 'Plus de limites quotidiennes' },
+    { icon: Infinite, label: 'Swipes illimités', desc: 'Plus de limites quotidiennes' },
     { icon: Star, label: '5 Super Likes/jour', desc: 'Fais-toi remarquer' },
     { icon: Eye, label: 'Voir qui t\'a liké', desc: 'Gagne du temps' },
-    { icon: RotateCcw, label: 'Rewind', desc: 'Reviens en arrière' },
-    { icon: Zap, label: 'Boosts', desc: 'Sois vu en priorité' },
+    { icon: RotateLeft, label: 'Rewind', desc: 'Reviens en arrière' },
+    { icon: Bolt, label: 'Boosts', desc: 'Sois vu en priorité' },
   ]
 
   return (
@@ -67,7 +67,7 @@ export function LimitReachedModal({
               >
                 <div className="w-full h-full rounded-full bg-surface-dark flex items-center justify-center">
                   {type === 'swipes' ? (
-                    <Zap className="w-10 h-10 text-neon-purple" />
+                    <Bolt className="w-10 h-10 text-neon-purple" />
                   ) : (
                     <Star className="w-10 h-10 text-neon-cyan" />
                   )}

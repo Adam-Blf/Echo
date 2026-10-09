@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Loader2 } from 'lucide-react'
+import { Loader } from 'reicon-react'
 import { supabase } from '@/lib/supabase'
 
 export function AuthCallbackPage() {
@@ -48,7 +48,7 @@ export function AuthCallbackPage() {
   return (
     <div className="min-h-screen bg-surface-dark flex items-center justify-center">
       <div className="flex flex-col items-center gap-4">
-        <Loader2 className="w-12 h-12 text-violet-500 animate-spin" />
+        <Loader className="w-12 h-12 text-violet-500 animate-spin" />
         <p className="text-white/60">Connexion en cours...</p>
       </div>
     </div>

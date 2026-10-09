@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { RefreshCw, X, Check, AlertCircle, Loader2, UserX } from 'lucide-react'
+import { AlertCircle, Check, Loader, Refresh, UserX, X } from 'reicon-react'
 import { useCamera } from '@/hooks/useCamera'
 import { cn } from '@/lib/utils'
 import { detectFace } from '@/lib/faceDetection'
@@ -163,7 +163,7 @@ export function CameraView({ onCapture, onCancel }: CameraViewProps) {
       {/* Loading overlay */}
       {isLoading && (
         <div className="absolute inset-0 flex items-center justify-center bg-black/50">
-          <Loader2 className="w-8 h-8 text-white animate-spin" />
+          <Loader className="w-8 h-8 text-white animate-spin" />
         </div>
       )}
 
@@ -192,7 +192,7 @@ export function CameraView({ onCapture, onCancel }: CameraViewProps) {
             onClick={switchCamera}
             className="p-3 rounded-full bg-black/30 backdrop-blur-sm hover:bg-black/50 transition-colors"
           >
-            <RefreshCw className="w-6 h-6 text-white" />
+            <Refresh className="w-6 h-6 text-white" />
           </button>
         )}
       </div>
@@ -208,7 +208,7 @@ export function CameraView({ onCapture, onCancel }: CameraViewProps) {
               onClick={handleRetry}
               className="p-4 rounded-full bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-colors"
             >
-              <RefreshCw className="w-8 h-8 text-white" />
+              <Refresh className="w-8 h-8 text-white" />
             </motion.button>
 
             {/* Confirm button */}
@@ -248,7 +248,7 @@ export function CameraView({ onCapture, onCancel }: CameraViewProps) {
             >
               <div className="absolute inset-2 rounded-full border-4 border-black/10" />
               {(isCapturing || isDetectingFace) && (
-                <Loader2 className="absolute inset-0 m-auto w-8 h-8 text-black/50 animate-spin" />
+                <Loader className="absolute inset-0 m-auto w-8 h-8 text-black/50 animate-spin" />
               )}
             </motion.button>
           </div>

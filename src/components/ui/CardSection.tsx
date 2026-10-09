@@ -1,13 +1,13 @@
 import type { ReactNode } from 'react'
 import { motion } from 'framer-motion'
-import type { LucideIcon } from 'lucide-react'
+import type { IconType } from '@/components/ui/icons/types'
 import { cn } from '@/lib/utils'
 
 interface CardSectionProps {
   /** Card title */
   title?: string
   /** Icon component to display next to title */
-  icon?: LucideIcon
+  icon?: IconType
   /** Child content */
   children: ReactNode
   /** Card style variant */

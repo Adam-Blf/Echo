@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Globe } from 'lucide-react'
+import { Globe } from 'reicon-react'
 import { useI18n, type Language } from '@/lib/i18n'
 
 const languages: { code: Language; label: string; flag: string }[] = [

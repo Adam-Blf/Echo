@@ -173,13 +173,13 @@ export function SettingsPanelStory() {
 
 ```tsx
 import { CardSection } from '@/components/ui'
-import { Zap } from 'lucide-react'
+import { Bolt } from 'reicon-react'
 
 export function ElevatedCardStory() {
   return (
     <CardSection
       title="Premium Member"
-      icon={Zap}
+      icon={Bolt}
       variant="elevated"
     >
       <p>You have premium access for 15 more days.</p>
@@ -192,7 +192,7 @@ export function ElevatedCardStory() {
 ### Story 2: Danger Card (Warning)
 
 ```tsx
-import { AlertTriangle } from 'lucide-react'
+import { AlertTriangle } from 'reicon-react'
 
 export function DangerCardStory() {
   return (
@@ -210,7 +210,7 @@ export function DangerCardStory() {
 ### Story 3: Premium Card (Interactive)
 
 ```tsx
-import { Crown } from 'lucide-react'
+import { Crown } from 'reicon-react'
 
 export function PremiumCardStory() {
   return (
@@ -408,7 +408,7 @@ export function LimitedTimeBannerStory() {
 ### Story 4: Custom Icon Banner
 
 ```tsx
-import { Heart } from 'lucide-react'
+import { Heart } from 'reicon-react'
 
 export function CustomIconBannerStory() {
   const [visible, setVisible] = useState(true)
@@ -438,7 +438,7 @@ export function CustomIconBannerStory() {
 ```tsx
 import { useState } from 'react'
 import { RangeSlider, Toggle, CardSection } from '@/components/ui'
-import { Filter } from 'lucide-react'
+import { Filter } from 'reicon-react'
 
 export function FilterPanelStory() {
   const [age, setAge] = useState<[number, number]>([22, 35])

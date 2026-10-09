@@ -1,26 +1,9 @@
 import { useState, useRef, useCallback, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import {
-  ArrowLeft,
-  Camera,
-  ImagePlus,
-  X,
-  GripVertical,
-  Save,
-  Check,
-  Loader2,
-  ChevronDown,
-  Briefcase,
-  GraduationCap,
-  Ruler,
-  Cigarette,
-  Wine,
-  Dumbbell,
-  Heart,
-  MapPin,
-  User
-} from 'lucide-react'
+import { ArrowLeft, Briefcase, Camera, Check, ChevronDown, Dumbbell, Floppy2, GraduationCap, Heart, ImagePlus, Loader, Pin, Reorder, Ruler, User, Wineglass, X } from 'reicon-react'
+import { Cigarette } from '@/components/ui/icons/Cigarette'
+import type { IconType } from '@/components/ui/icons/types'
 import {
   DndContext,
   closestCenter,
@@ -136,7 +119,7 @@ function SortablePhoto({ photo, onRemove }: { photo: PhotoItem; onRemove: () => 
         {...listeners}
         className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity cursor-grab active:cursor-grabbing flex items-end justify-center pb-3"
       >
-        <GripVertical className="w-6 h-6 text-white/80" />
+        <Reorder className="w-6 h-6 text-white/80" />
       </div>
 
       {/* Remove button */}
@@ -289,7 +272,7 @@ function Select({
   onChange,
   placeholder = 'Selectionner...'
 }: {
-  icon?: typeof User
+  icon?: IconType
   label: string
   value: string
   options: { value: string; label: string }[]
@@ -521,9 +504,9 @@ export function EditProfilePage() {
             className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-neon-cyan to-neon-purple text-white font-medium disabled:opacity-50"
           >
             {isSaving ? (
-              <Loader2 className="w-4 h-4 animate-spin" />
+              <Loader className="w-4 h-4 animate-spin" />
             ) : (
-              <Save className="w-4 h-4" />
+              <Floppy2 className="w-4 h-4" />
             )}
             <span className="hidden sm:inline">Sauvegarder</span>
           </motion.button>
@@ -716,7 +699,7 @@ export function EditProfilePage() {
           />
 
           <Select
-            icon={Wine}
+            icon={Wineglass}
             label="Alcool"
             value={drinking}
             options={LIFESTYLE_OPTIONS.drinking}
@@ -794,7 +777,7 @@ export function EditProfilePage() {
           className="bg-surface-card rounded-3xl p-5 border border-white/5 space-y-6"
         >
           <h2 className="text-white font-semibold flex items-center gap-2">
-            <MapPin className="w-5 h-5 text-neon-green" />
+            <Pin className="w-5 h-5 text-neon-green" />
             Preferences de recherche
           </h2>
 

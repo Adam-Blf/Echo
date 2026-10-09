@@ -29,7 +29,7 @@ export class AuthPage {
   }
 
   async clickSignUpLink() {
-    await this.page.click('button:has-text("Créer un compte")')
+    await this.page.click('button:has-text("Créer mon profil")')
   }
 
   async clickGoogleButton() {

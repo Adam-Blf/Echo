@@ -1,21 +1,13 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import {
-  ArrowLeft,
-  Eye,
-  EyeOff,
-  MapPin,
-  Circle,
-  Users,
-  UserX,
-  Shield,
-  ChevronRight,
-  X,
-  Trash2,
-} from 'lucide-react'
+import { ArrowLeft, ChevronRight, Eye, EyeSlash, Pin, Record as RecordIcon, Shield, Trash2, UserX, Users, X } from 'reicon-react'
+import type { IconType } from '@/components/ui/icons/types'
 import { cn } from '@/lib/utils'
 import { useSettingsStore, type PrivacySettings, type BlockedUser } from '@/stores/settingsStore'
+
+/** Pastille pleine : l'icone de statut en ligne est un point, pas un anneau. */
+const OnlineDot: IconType = (props) => <RecordIcon weight="Filled" {...props} />
 
 interface ToggleItemProps {
   icon: React.ElementType
@@ -90,21 +82,21 @@ export function PrivacySettingsPage() {
   }> = [
     {
       key: 'invisibleMode',
-      icon: EyeOff,
+      icon: EyeSlash,
       label: 'Mode invisible',
       description: "Tu n'apparaitras pas dans le feed des autres",
       color: 'from-slate-500 to-gray-600',
     },
     {
       key: 'showDistance',
-      icon: MapPin,
+      icon: Pin,
       label: 'Afficher ma distance',
       description: 'Les autres verront a quelle distance tu es',
       color: 'from-blue-500 to-cyan-500',
     },
     {
       key: 'showOnlineStatus',
-      icon: Circle,
+      icon: OnlineDot,
       label: 'Afficher mon statut en ligne',
       description: 'Les autres sauront quand tu es connecte',
       color: 'from-emerald-500 to-green-500',
@@ -146,7 +138,7 @@ export function PrivacySettingsPage() {
             >
               <div className="flex items-start gap-3">
                 <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-500 flex items-center justify-center flex-shrink-0">
-                  <EyeOff className="w-5 h-5 text-white" />
+                  <EyeSlash className="w-5 h-5 text-white" />
                 </div>
                 <div>
                   <p className="text-amber-400 font-medium mb-1">Mode invisible actif</p>

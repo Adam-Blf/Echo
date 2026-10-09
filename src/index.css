@@ -133,8 +133,10 @@
     padding: 0.75rem 1.5rem;
     border-radius: 0.75rem;
     font-weight: 600;
-    color: white;
-    background: linear-gradient(to right, var(--color-neon-cyan), var(--color-neon-purple));
+    /* Encre sombre : le blanc tombait a 1,35:1 sur le cyan. Le violet est eclairci de 10 %
+       pour que l'encre sombre tienne 4,5:1 aussi de ce cote (mesure). */
+    color: var(--color-surface-dark);
+    background: linear-gradient(to right, var(--color-neon-cyan), color-mix(in srgb, var(--color-neon-purple) 90%, white));
     transition: all 0.2s ease-out;
   }
 

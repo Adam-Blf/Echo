@@ -25,7 +25,7 @@
 - [x] **003** - Git init + premier push GitHub
 - [x] **004** - Install Tailwind CSS v4
 - [x] **005** - Config fonts (Inter)
-- [x] **006** - Install lucide-react icons
+- [x] **006** - Install reicon-react icons
 - [x] **007** - Install react-router-dom
 - [x] **008** - Install Zustand state management
 - [x] **009** - Install Framer Motion animations
@@ -226,7 +226,7 @@
 | Animations | Framer Motion |
 | State | Zustand |
 | Forms | React Hook Form + Zod |
-| Icons | Lucide React |
+| Icons | Reicon React |
 | PWA | Vite Plugin PWA |
 | Backend | Supabase (à venir) |
 | Realtime | Supabase Realtime |

@@ -1,6 +1,6 @@
 // ProfileGridItem - Profile card for grid display with premium blur effect
 import { motion, AnimatePresence } from 'framer-motion'
-import { Crown, Heart, Lock, Sparkles } from 'lucide-react'
+import { Crown, Heart, Lock, Sparkles } from 'reicon-react'
 import { cn } from '@/lib/utils'
 
 interface ProfileGridItemProps {

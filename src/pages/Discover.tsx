@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { SlidersHorizontal, Zap } from 'lucide-react'
+import { Bolt, Sliders } from 'reicon-react'
 import { SwipeCard, SwipeActions, MatchPopup, LimitReachedModal, FiltersModal } from '@/components/ui'
 import { useSwipeStore } from '@/stores'
 import type { DiscoveryProfile, SwipeAction } from '@/types/swipe'
@@ -148,7 +148,7 @@ export function DiscoverPage() {
           <h1 className="text-2xl font-bold text-white">Découvrir</h1>
           {!isPremium && (
             <div className="flex items-center gap-1 px-2 py-1 rounded-lg bg-white/5 text-xs text-white/50">
-              <Zap className="w-3 h-3" />
+              <Bolt className="w-3 h-3" />
               <span>{remainingSwipes}</span>
             </div>
           )}
@@ -157,7 +157,7 @@ export function DiscoverPage() {
           onClick={() => setShowFilters(true)}
           className="p-2 rounded-xl bg-white/5 hover:bg-white/10 transition-colors relative"
         >
-          <SlidersHorizontal className="w-5 h-5 text-white/70" />
+          <Sliders className="w-5 h-5 text-white/70" />
           {/* Filter indicator dot */}
           <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-neon-cyan" />
         </button>

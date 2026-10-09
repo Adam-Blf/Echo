@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { Sparkles, Mail, Lock, Loader2, Eye, EyeOff } from 'lucide-react'
+import { Envelope, Eye, EyeSlash, Loader, Lock, Sparkles } from 'reicon-react'
 import { useAuth } from '@/contexts/AuthContext'
 import { cn } from '@/lib/utils'
 
@@ -111,7 +111,7 @@ export function AuthPage() {
             className="w-full h-14 rounded-2xl bg-white text-gray-800 font-semibold flex items-center justify-center gap-3 hover:bg-gray-100 transition-colors disabled:opacity-50"
           >
             {oauthLoading === 'google' ? (
-              <Loader2 className="w-5 h-5 animate-spin" />
+              <Loader className="w-5 h-5 animate-spin" />
             ) : (
               <>
                 <GoogleIcon className="w-5 h-5" />
@@ -135,7 +135,7 @@ export function AuthPage() {
             'flex items-center gap-3 h-14 px-4 rounded-2xl bg-black/30 border transition-all',
             'border-white/10 focus-within:border-violet-500/50'
           )}>
-            <Mail className="w-5 h-5 text-white/40" />
+            <Envelope className="w-5 h-5 text-white/40" />
             <input
               type="email"
               value={email}
@@ -167,7 +167,7 @@ export function AuthPage() {
               aria-pressed={showPassword}
               className="text-white/40 hover:text-white/60 transition-colors"
             >
-              {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+              {showPassword ? <EyeSlash className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
             </button>
           </div>
 
@@ -188,11 +188,11 @@ export function AuthPage() {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             disabled={isLoading}
-            className="w-full h-14 rounded-2xl bg-gradient-to-r from-violet-500 to-fuchsia-500 text-white font-semibold shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 transition-shadow disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full h-14 rounded-2xl bg-gradient-to-r from-violet-600 to-fuchsia-700 text-white font-semibold shadow-lg shadow-violet-500/25 hover:shadow-violet-500/40 transition-shadow disabled:opacity-50 flex items-center justify-center gap-2"
           >
             {isLoading ? (
               <>
-                <Loader2 className="w-5 h-5 animate-spin" />
+                <Loader className="w-5 h-5 animate-spin" />
                 Connexion...
               </>
             ) : (
@@ -215,7 +215,7 @@ export function AuthPage() {
             onClick={goToSignup}
             className="text-violet-400 hover:text-violet-300 font-medium transition-colors"
           >
-            Créer un compte
+            Créer mon profil
           </button>
         </p>
       </motion.div>

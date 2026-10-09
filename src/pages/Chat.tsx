@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowLeft, Send, Camera, MapPin, Infinity, AlertTriangle } from 'lucide-react'
+import { AlertTriangle, ArrowLeft, Camera, Infinite, Pin, Send } from 'reicon-react'
 import { useSwipeStore } from '@/stores'
 import { CountdownTimer, EchoTimerWave } from '@/components/ui'
 import { cn } from '@/lib/utils'
@@ -149,7 +149,7 @@ export function ChatPage() {
           <div>
             <div className="flex items-center gap-2">
               <h2 className="font-semibold text-white">{profile.firstName}</h2>
-              {isResonance && <Infinity className="w-4 h-4 text-neon-purple" />}
+              {isResonance && <Infinite className="w-4 h-4 text-neon-purple" />}
             </div>
             {!isResonance && !isExpired && (
               <CountdownTimer expiresAt={new Date(match.expiresAt)} size="sm" />
@@ -163,7 +163,7 @@ export function ChatPage() {
             className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-neon-purple/10 border border-neon-purple/30
                        text-neon-purple text-sm hover:bg-neon-purple/20 transition-colors"
           >
-            <MapPin className="w-4 h-4" />
+            <Pin className="w-4 h-4" />
             <span>Check-in</span>
           </button>
         )}

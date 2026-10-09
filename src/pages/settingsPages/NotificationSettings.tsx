@@ -1,14 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import {
-  ArrowLeft,
-  Heart,
-  MessageCircle,
-  Sparkles,
-  Clock,
-  Mail,
-  Bell,
-} from 'lucide-react'
+import { ArrowLeft, Bell, ChatRound, Clock, Envelope, Heart, Sparkles } from 'reicon-react'
 import { cn } from '@/lib/utils'
 import { useSettingsStore, type NotificationSettings } from '@/stores/settingsStore'
 
@@ -90,7 +82,7 @@ export function NotificationSettingsPage() {
     },
     {
       key: 'newMessages',
-      icon: MessageCircle,
+      icon: ChatRound,
       label: 'Nouveaux messages',
       description: 'Quand tu recois un message',
       color: 'from-blue-500 to-cyan-500',
@@ -111,7 +103,7 @@ export function NotificationSettingsPage() {
     },
     {
       key: 'marketingEmails',
-      icon: Mail,
+      icon: Envelope,
       label: 'Emails marketing',
       description: 'Offres speciales et nouveautes',
       color: 'from-slate-500 to-gray-500',

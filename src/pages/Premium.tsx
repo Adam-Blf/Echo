@@ -1,20 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import {
-  ArrowLeft,
-  Crown,
-  Check,
-  X,
-  Infinity,
-  Heart,
-  Star,
-  RotateCcw,
-  Eye,
-  EyeOff,
-  Zap,
-  Sparkles,
-} from 'lucide-react'
+import { ArrowLeft, Bolt, Check, Crown, Eye, EyeSlash, Heart, Infinite, RotateLeft, Sparkles, Star, X } from 'reicon-react'
 import { cn } from '@/lib/utils'
 import type { SubscriptionPlan } from '@/types/database'
 
@@ -372,10 +359,10 @@ export function PremiumPage() {
             className="flex justify-center gap-6 mt-8"
           >
             {[
-              { icon: Infinity, label: 'Swipes illimites' },
+              { icon: Infinite, label: 'Swipes illimites' },
               { icon: Eye, label: 'Voir les likes' },
-              { icon: RotateCcw, label: 'Rewind' },
-              { icon: Zap, label: 'Boosts' },
+              { icon: RotateLeft, label: 'Rewind' },
+              { icon: Bolt, label: 'Boosts' },
             ].map(({ icon: Icon, label }) => (
               <div key={label} className="flex flex-col items-center gap-2">
                 <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-white/10 to-white/5 flex items-center justify-center border border-white/10">
@@ -452,9 +439,9 @@ export function PremiumPage() {
           className="flex justify-center gap-8 mt-10"
         >
           {[
-            { icon: EyeOff, label: 'Discret' },
+            { icon: EyeSlash, label: 'Discret' },
             { icon: Heart, label: 'Sans engagement' },
-            { icon: Zap, label: 'Instantane' },
+            { icon: Bolt, label: 'Instantane' },
           ].map(({ icon: Icon, label }) => (
             <div key={label} className="flex items-center gap-2 text-white/40">
               <Icon className="w-4 h-4" />

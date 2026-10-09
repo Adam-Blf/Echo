@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from 'react-router-dom'
-import { Home, Search, MessageCircle, User } from 'lucide-react'
+import { ChatRound, Home, Search, User } from 'reicon-react'
 import { cn } from '@/lib/utils'
 import { motion } from 'framer-motion'
 
@@ -12,7 +12,7 @@ interface NavItem {
 const navItems: NavItem[] = [
   { path: '/', label: 'Accueil', icon: Home },
   { path: '/discover', label: 'Explorer', icon: Search },
-  { path: '/matches', label: 'Matchs', icon: MessageCircle },
+  { path: '/matches', label: 'Matchs', icon: ChatRound },
   { path: '/profile', label: 'Profil', icon: User },
 ]
 
